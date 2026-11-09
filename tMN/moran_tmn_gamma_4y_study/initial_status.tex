@@ -1,0 +1,29 @@
+\clearpage
+\appendix
+\section{Initial execution record: 5 November 2026}
+\textbf{Status.} Protocol authoring, data extraction, initial engine validation and preliminary VAF diagnostics have been executed. Clinical joint inference is pending verified outcome and follow-up data. No missing clinical outcome was coded as a negative.
+
+\textbf{Source and cohort audit.} Scanned 135,806 mutation rows and matched 1,696 longitudinal records to the selected six-gene endpoint inventory: 973 cfDNA, 353 PBL, 320 PBMC and 50 tumor observations. All matched endpoint allele pairs use REF-to-TUMOR orientation. The audit flags 98 duplicate-call rows, 287 values outside the positive diploid mapping, and 320 sample-type naming conflicts. These flag categories can overlap. There are no sample-day metadata conflicts among these matched observations.
+
+The initial patient-level blood-cell diagnostic includes 12 patients with 54 observations: 12 baseline initial conditions and 42 likelihood observations. Exclusions among 67 source patients are 21 without a unique eligible pre-CAR blood-cell baseline, 31 whose baseline-selected marker has no eligible follow-up, 2 with unresolved multiple CAR time origins, and 1 source-positive patient without a diagnosis time. These stricter rules materially narrow the earlier endpoint cohort. The 320 raw PBMC records are labeled PBL in sample metadata; the mutation-table label is retained and compartments are not pooled within a patient.
+
+\textbf{Validation.} Initial invariants passed. An independent constant-rate matrix exponential agrees with the refined shared-state joint log likelihood to 0.0068 log units at a 0.125-day backward-Euler step. One small-$N$ full Moran comparison differs from the hybrid risk by approximately $1.11\times10^{-4}$ in absolute probability. Noiseless synthetic mean-field data recover known shape/scale parameters. This is not a clinical joint parameter-recovery experiment. Adaptive full-$N$ risk tolerance checks also passed. These are initial numerical checks, not broad certification of the hybrid approximation.
+
+\textbf{Preliminary fit.} One reference and eight individually refitted VAF-only scenarios have completed. The reference has
+$\alpha=43.560$, $\theta=0.3708$ days, and peak day $15.78$. The standardized residual sum of squares is $624.78$ across 42 observations, with maximum absolute residual $10.86$ measurement SDs. The shared nonnegative pulse leaves substantial lack of fit; some sensitivity fits also reach the numerical search boundary. Optimizer convergence does not establish biological adequacy or parameter certainty. No clinical outcomes were used and no confidence intervals have been established.
+
+\textbf{Risk calculation demonstration only.} The following are model threshold probabilities under the preliminary VAF fit and fixed reference parameters, starting at day 0 with the indicated VAF. They are \textbf{not clinically calibrated tMN probabilities}, omit competing death, and are not patient-specific estimates. Entries are probabilities on a 0--1 scale, not percentages.
+
+\begin{center}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Baseline VAF & Year 1 & Year 2 & Year 3 & Year 4\\\midrule
+0.5\% & $4.34\times10^{-9}$ & $2.67\times10^{-5}$ & $3.52\times10^{-4}$ & $0.00111$ \\
+1\% & $8.7\times10^{-9}$ & $5.35\times10^{-5}$ & $7.03\times10^{-4}$ & $0.00223$ \\
+5\% & $4.41\times10^{-8}$ & $2.69\times10^{-4}$ & $0.00351$ & $0.011$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Standalone risks use adaptive banded LSODA with explicit absorbed flux and a tenfold tolerance comparison. The maximum absolute difference across these demonstrations is below $3\times10^{-10}$. This numerical agreement does not resolve the clinical data and model assumptions.
+
+\textbf{Remaining clinical requirement.} Verify index infusion, first diagnosis or event-free censor date, death information and ascertainment. The readiness check currently finds no analysis patient with a complete verified clinical record. The shared-state likelihood implementation is available, but the clinical optimizer, full refitted clinical sensitivity study, uncertainty intervals and final clinical 1--4-year estimates have not been run. See the CSV reconciliation table and machine-readable readiness/status reports.

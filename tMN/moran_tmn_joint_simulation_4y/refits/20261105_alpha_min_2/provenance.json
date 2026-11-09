@@ -1,0 +1,23 @@
+{
+  "previous_study": "/Users/4482173/Documents/Projects/IMO_workshop_14/tMN/moran_tmn_joint_simulation_4y",
+  "previous_alpha_bounds": [
+    1.01,
+    50.0
+  ],
+  "new_alpha_bounds": [
+    2.0,
+    50.0
+  ],
+  "theta_bounds_days": [
+    0.25,
+    1460.0
+  ],
+  "scope": "Reference shared-state joint fit only; other fixed parameters unchanged; no sensitivity rerun or simulation rerun",
+  "source_sha256": {
+    "model.py": "04795238ce5c00a58237b1ef480700a079bb46bb2d300d1f7791c7bcfaa2db13",
+    "fitting.py": "7dffc7681b1cac3bbf9455ce38cf4376d33f91d6ad98110dfbe4b19753fe1913",
+    "config.json": "c47797167ecede524bcd8b8bcf9ab49d1fd0c5a50904c723dc5529f1959c2667",
+    "data/cohort.json": "e1487f2bd9b43ec142d280b58c08b60d660b508f685ad3bb847e49e5a3cfb87d",
+    "results/fits/reference.json": "cc2e847a53e1e3e07749cef880cfd518a73241e9b12734ca2b5ae445788a25f0"
+  }
+}

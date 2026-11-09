@@ -1,0 +1,75 @@
+\clearpage\section{Executed results}
+\textbf{Analysis scope.} The source-record joint cohort contains 14 patients, 42 follow-up VAF observations, 2 exact tMN times (days 127 and 589), 1 source-supported day-1460 censor record and 11 unknown clinical outcomes. The latter contribute VAF likelihood only. These are exploratory, source-cohort conditional estimates, not calibrated population incidence.
+
+\subsection{Reference joint fit}
+The reference fit gives $\alpha=1.01$ and $\theta=0.25$ days; the peak occurs at day $0.0025$ with additional fitness $3.8035$. The integrated additional advantage is fixed at 1 day. The joint negative log likelihood is $510.564$, decomposed into VAF $291.916$ and clinical-given-VAF $218.648$. The cap-refinement difference is $3.02e-09$ log units; the tolerance-refinement difference is $2.41e-07$. The optimum reaches a numerical search boundary. Optimizer status: True.
+Both parameters reach their lower search limits. The resulting peak precedes the earliest post-CAR VAF observation (day 1); its precise sub-day timing is not empirically resolved and should not be interpreted as a measured biological peak.
+\begin{center}\includegraphics[width=\textwidth]{results/figures/joint_fit_diagnostics.pdf}\end{center}
+\subsection{Clinical likelihood contributions}
+\begin{center}\begin{tabular}{lrrr}\toprule
+Patient & Outcome & VAF NLL & Clinical-given-VAF NLL\\\midrule
+Patient\_25 & censor & $-3.632\times10^{-17}$ & $1.414\times10^{-8}$ \\
+Patient\_103 & exact & $1.29\times10^{-16}$ & $170.35$ \\
+Patient\_197 & exact & $11.076$ & $48.303$ \\
+\bottomrule\end{tabular}\end{center}
+\begin{samepage}\subsection{Standardized four-year probabilities}
+Both scenarios start with $C/N=0.02$; $D/N$ is stated separately. Numbers are probabilities, not percentages. The $D/N=0.01$ scenario starts one cell below the strict 1\% threshold and therefore describes existing double-hit dynamics.
+\begin{center}\begin{tabular}{lrrrr}\toprule
+Initial $D/N$ & Year 1 & Year 2 & Year 3 & Year 4\\\midrule
+0 & $1.011\times10^{-32}$ & $5.468\times10^{-17}$ & $1.222\times10^{-11}$ & $5.652\times10^{-9}$ \\
+0.01 & $1-1.319\times10^{-9}$ & $1-2.197\times10^{-10}$ & $1-5.224\times10^{-11}$ & $1-1.493\times10^{-11}$ \\
+\bottomrule\end{tabular}\end{center}\end{samepage}
+\subsection{Fixed-parameter sensitivity}
+Every compatible scenario re-estimates the same shared alpha/theta pair using the full joint likelihood. The no-mutation/no-initial-D scenario is structurally incompatible with observed tMN and is recorded as such, without a probability floor. Varying $b$ holds $s_D$ fixed. Full numeric results, including likelihood components and numerical checks, are in the workbook and CSV files.
+Changing the observation SD changes the observation model and its likelihood normalization; do not rank biological assumptions solely by cross-SD NLL. The fixed gamma area is over $[0,\infty)$; the area actually falling inside four years is recorded separately.
+\begin{longtable}{lrrrr}\toprule
+Scenario & $\alpha$ & $\theta$ (days) & Joint NLL & Boundary\\\midrule\endhead
+reference & 1.01 & 0.25 & 510.56 & True \\
+D\_init\_1 & 1.01 & 0.25 & 492.69 & True \\
+D\_init\_10 & 1.01 & 0.25 & 466.65 & True \\
+D\_init\_100 & 1.01 & 0.25 & 389.61 & True \\
+area\_days\_0.3 & 1.01 & 0.25 & 514.17 & True \\
+area\_days\_3 & 1.541 & 0.25 & 501.41 & True \\
+b\_0.00357143 & 50 & 1.87 & 1725.1 & True \\
+b\_0.142857 & 1.01 & 0.25 & 349.43 & True \\
+mu\_0 & \multicolumn{4}{l}{Structurally incompatible} \\
+mu\_0.0001 & 1.01 & 0.25 & 500.28 & True \\
+mu\_1e-05 & 1.01 & 0.25 & 505.86 & True \\
+mu\_1e-07 & 1.01 & 0.25 & 515.18 & True \\
+old\_rates\_fixed\_area & 1.01 & 0.25 & 348.76 & True \\
+s\_D\_0 & 1.01 & 0.25 & 530.69 & True \\
+s\_D\_0.01 & 1.01 & 0.25 & 520.36 & True \\
+s\_D\_0.05 & 1.01 & 0.25 & 484.28 & True \\
+sigma\_vaf\_0.1 & 1.01 & 0.25 & 2107.4 & True \\
+sigma\_vaf\_0.5 & 50 & 1.98 & 303.92 & True \\
+threshold\_fraction\_0.005 & 1.01 & 0.25 & 413.09 & True \\
+threshold\_fraction\_0.02 & 1.01 & 0.25 & 706.59 & True \\
+vaf\_only\_comparator & 1.01 & 0.25 & 291.92 & True \\
+\bottomrule\end{longtable}
+\clearpage\subsection{Uncertainty and validation}
+Profile likelihood results optimize the other parameter at each fixed value. A flat or boundary-limited profile means that a finite two-sided interval is not established by these data. Fixed-parameter scenario variation is not a confidence interval. Initial validation includes fixed-area integrals, an independently exponentiated tiny-event generator, a small-N full Moran comparison and neutral Monte Carlo moment checks. Numerical agreement does not establish the clinical meaning of the threshold or representative sampling.
+\begin{center}\begin{tabular}{lrr}\toprule Profile & Fixed value & $\Delta$ NLL\\\midrule
+alpha\_profile & 1.01 & 0 \\
+alpha\_profile & 2 & 0.3282 \\
+alpha\_profile & 10 & 0.968 \\
+alpha\_profile & 50 & 1.046 \\
+theta\_profile & 0.25 & 0 \\
+theta\_profile & 2 & 1.319 \\
+theta\_profile & 21 & 1.766 \\
+theta\_profile & 1460 & 4.899 \\
+\bottomrule\end{tabular}\end{center}
+\paragraph{Monte Carlo cross-check.} Exact Moran endpoint means and first-passage proportions are compared with the inference approximation at three grid points and both initial-D settings. Rare double-hit means with $D(0)=0$ have heavy sampling tails; an empirical SE from 200 paths can substantially understate uncertainty when large clones are not sampled. The cross-check therefore also supplies the D-mean Monte Carlo SE predicted by the forward distribution. This is distinct from clinical parameter uncertainty. See \texttt{simulation\_crosscheck.csv}.
+\clearpage\section{Exact stochastic Moran trajectories}
+\subsection*{Single mutant C: blue; initial $D/N=0.01$}
+\includegraphics[width=\textwidth]{results/figures/single_mutant_initial_D_0.01.pdf}
+Each panel contains 200 complete random trajectories and their arithmetic mean. Area, not peak height, is held fixed. Trajectories continue after threshold crossing.\clearpage
+\subsection*{Double hit D: red; initial $D/N=0.01$}
+\includegraphics[width=\textwidth]{results/figures/double_hit_initial_D_0.01.pdf}
+Each panel contains 200 complete random trajectories and their arithmetic mean. Area, not peak height, is held fixed. Trajectories continue after threshold crossing.\clearpage
+\subsection*{Single mutant C: blue; initial $D/N=0$}
+\includegraphics[width=\textwidth]{results/figures/single_mutant_initial_D_0.pdf}
+Each panel contains 200 complete random trajectories and their arithmetic mean. Area, not peak height, is held fixed. Trajectories continue after threshold crossing.\clearpage
+\subsection*{Double hit D: red; initial $D/N=0$}
+\includegraphics[width=\textwidth]{results/figures/double_hit_initial_D_0.pdf}
+Each panel contains 200 complete random trajectories and their arithmetic mean. Area, not peak height, is held fixed. Trajectories continue after threshold crossing.\clearpage
+\includegraphics[width=\textwidth]{results/figures/joint_optimum_trajectories.pdf}

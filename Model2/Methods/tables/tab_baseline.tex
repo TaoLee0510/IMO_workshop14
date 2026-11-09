@@ -1,0 +1,17 @@
+\begin{table}[!htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\caption{Individual baselines. $s_v$: pooled within-patient SD of the log set-point values (data, fixed); $n_{iv}$: number of set-point values of a patient (median, range); these rows enter only through the prior. The set-point drift $\tau_v$ starts at 0.3, is shrunk with $\nu=4$ towards it and is bounded below by 0.02.}
+\label{tab:baseline}
+\begin{tabular}{lrrr}
+\toprule
+Lineage & $s_v$ & $n_{iv}$ & Set-point rows \\
+\midrule
+ANC & 0.352 & 4 (1--8) & 145 \\
+PLT & 0.184 & 4 (1--8) & 151 \\
+AMC & 0.46 & 4 (1--8) & 145 \\
+ALC & 0.321 & 4 (1--8) & 145 \\
+\bottomrule
+\end{tabular}
+\end{table}

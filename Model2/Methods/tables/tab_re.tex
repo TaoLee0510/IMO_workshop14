@@ -1,0 +1,21 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Individual parameters (random effects). $\psi_{ik}=g_k^{-1}(\eta_{ik})$ with $\eta_{ik}=\mu_k+\boldsymbol\beta_k^\top\mathbf{x}_{ik}+\omega_k z_{ik}$, $z_{ik}\sim N(0,1)$. Centre: $g_k^{-1}(\mu_k)$ before round 0; $\omega_k$: prior spread on the working scale (the estimate is shrunk towards it, Section~\ref{sec:its}). The $\theta_{aP}$ centre is kept from Model1 and the $\rho_T$ centre is calibrated (Section~\ref{sec:calibration}). Each patient also has one baseline deviation per lineage (Section~\ref{sec:baseline}).}
+\label{tab:re}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{5.4cm}lll>{\raggedright\arraybackslash}p{3.2cm}}
+\toprule
+Symbol & Code & Meaning & Scale $g_k$ & Centre & $\omega_k$ & Covariates $\mathbf{x}$ \\
+\midrule
+$r_S$ & \texttt{r\_s} & HSC self-renewal (regrowth) rate; reserve, Q1 & log & 0.08 & 0.5 & prior lines, prior ASCT, age \\
+$f_0$ & \texttt{f0} & Pre-treatment clone fraction of the HSC pool, Q1 & logit & 0.02 & 1.5 & age, prior lines, prior ASCT, log RDW, MCV \\
+$\theta_{aS}$ & \texttt{th\_as} & HSC injury per unit chemotherapy exposure (a), Q2 & log & 0.12 & 0.8 & -- \\
+$\theta_{aP}$ & \texttt{th\_ap} & MPP injury per unit exposure (all four components; chain precursors at $\kappa_c\theta_{aP}$) & log & 2.71 & 0.5 & -- \\
+$\theta_{bS}$ & \texttt{th\_bs} & HSC injury per unit lagged ferritin driver (ferritin route of b), Q2 & log & 0.02 & 1 & -- \\
+$\rho_T$ & \texttt{rho} & CAR T antigen-driven expansion rate (all Model2 models) & log & 0.811 & 0.5 & -- \\
+$\mathrm{Slope}$ & \texttt{slope} & MF: drug effect per unit exposure & log & 1.5 & 0.5 & -- \\
+$s_{\mathrm{MTT}}$ & \texttt{mtt\_scale} & MF: individual scaling of all MTTs & log & 1 & 0.2 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}

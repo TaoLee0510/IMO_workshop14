@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GreenLight · CAR T decision support</title>
+<meta name="description" content="GreenLight — adaptive CAR T decision support by Team Green. Demo: per-patient models that learn as data arrive and rank treatment plans.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app"><div class="boot">Loading GreenLight…</div></div>
+
+<!-- data (embedded so the demo runs from file://) -->
+<script src="data/demo_patients.js"></script>
+<!-- core -->
+<script src="js/core/util.js"></script>
+<script src="js/core/ode.js"></script>
+<script src="js/core/schema.js"></script>
+<script src="js/core/registry.js"></script>
+<script src="js/core/smc.js"></script>
+<script src="js/core/i18n.js"></script>
+<script src="js/i18n/dict.js"></script>
+<script src="js/i18n/help_dict.js"></script>
+<script src="js/core/help.js"></script>
+<script src="js/core/figure.js"></script>
+<script src="js/core/plans.js"></script>
+<script src="js/core/orchestrator.js"></script>
+<script src="js/core/store.js"></script>
+<!-- model modules (each registers itself; add more here or via Integration → remote module) -->
+<script src="js/modules/marrow.js"></script>
+<script src="js/modules/tumor_immune.js"></script>
+<script src="js/modules/remote.js"></script>
+<!-- data adapters -->
+<script src="js/adapters/data_demo.js"></script>
+<script src="js/adapters/data_csv.js"></script>
+<script src="js/adapters/data_rest.js"></script>
+<!-- ui -->
+<script src="js/charts/charts.js"></script>
+<script src="js/app.js"></script>
+<script src="js/ui/timeline.js"></script>
+<script src="js/ui/roster.js"></script>
+<script src="js/ui/twin.js"></script>
+<script src="js/ui/planner.js"></script>
+<script src="js/ui/history.js"></script>
+<script src="js/ui/integration.js"></script>
+<script>window.addEventListener('DOMContentLoaded', () => GL.app.init());</script>
+</body>
+</html>

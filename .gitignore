@@ -1,0 +1,87 @@
+# ---- Data and results: never on git (both cases, so it holds on Linux/HPC too) ----
+# data/ also covers */GreenLight/data (real-patient payloads)
+Data/
+data/
+Results/
+results/
+
+# ---- Media and Office files ----
+*.mp4
+*.gif
+*.pptx
+*.pdf
+*.jpg
+*.jpeg
+
+# ---- Real-data notes ----
+/ICAHT_xlsx_data_errors.md
+
+# ---- Build / run products ----
+.rcpp_cache/
+Aim4/Code/Archive.zip
+Aim2/Code/fit1.rds
+__MACOSX/
+
+# ---- LaTeX intermediates ----
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+# ---- tMN: generated outputs, bundles, data tables, binaries ----
+# *.inspect.ndjson are tool debug dumps (one is 270 MB, over GitHub's 100 MB limit)
+*.inspect.ndjson
+tMN/outputs/
+tMN/**/outputs/
+tMN/**/output/
+tMN/*.zip
+tMN/**/*.zip
+tMN/*.xlsx
+tMN/**/*.xlsx
+tMN/**/bin/
+*.dylib
+*.bin
+
+# ---- OS / editor / tools ----
+# node_modules without a trailing slash: in tMN these are symlinks, not folders
+.DS_Store
+.claude/
+node_modules
+__pycache__/
+.Rhistory
+.RData
+.Rproj.user/
+
+# ---- Notes and plans ----
+/Taoli_IMO14_approach_script.md
+/IMO14_question_presentation_script.md
+*_plan.md
+
+# ---- Files containing Chinese characters (scan of 2026-11-09) ----
+# GreenLight language support (js/core/i18n.js, js/i18n/*) is kept on purpose;
+# .git/hooks/pre-commit blocks any other staged file with Chinese characters.
+Aim2/CH_cytopenia_literature_summary.md
+Aim2/Code/BUILD_STATUS.md
+Aim2/Code/README.md
+Aim3/Code/BUILD_STATUS.md
+Aim3/Data_review.md
+*/GreenLight/README.md
+Model2/GreenLight/BUILD_STATUS.md
+Model3/GreenLight/BUILD_STATUS.md
+# screenshots of the Chinese / Japanese UI
+*_zh-CN.png
+*_zh-CN_*.png
+*_ja.png
+*_ja_*.png
+
+# ---- Screenshots showing real (ICAHT) patients ----
+*real_cohort*.png
+*_real_P*.png
+Aim4/shots/16_roster_dark.png
+Aim4/shots/13_integration_marrow_model.png
+Aim4/GreenLight/docs/screenshots/13_integration_marrow_switch.png

@@ -1,0 +1,43 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Controls of the round-0 and DE-ITS estimation, from the configuration file and the cluster scripts.}
+\label{tab:de}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{4.8cm}}
+\toprule
+Stage & Control & Value \\
+\midrule
+Round 0 & Prior SD multiplier (search box unchanged; only fits without a warm start) & 4 \\
+E step & DEoptim strategy & 2 (DE/local-to-best/1/bin) \\
+ & Population size NP & 220 \\
+ & Differential weight $F$ / crossover CR & 0.8 / 0.9 \\
+ & Generations per chunk / convergence window & 50 / 100 \\
+ & Best-value improvement over the window & $<$ $10^{-6}$$\,(|f|+1)$ \\
+ & Population objective spread (90\% quantile $-$ min) & $<$ $10^{-3}$ \\
+ & Safety cap (generations) & 3000 (Model2: 20000) \\
+ & Polish & L-BFGS-B, $\le500$ iterations \\
+ & Cores per patient (one Slurm array task each) & 22 \\
+M step & Structural NP & $\max(60,\ 10\times$ dimension) \\
+ & Population objective spread & $<$ $10^{-3}$ per patient \\
+ & Safety cap (generations) & 3000 (Model2: 20000) \\
+ & Polish & L-BFGS-B, $\le100$ iterations \\
+ & $\omega$ shrinkage $\nu$ / cap & 4 / 2.5 \\
+ & Cores & 60 \\
+Outer loop & Max.\ change of the population vector & $<$ 0.01 \\
+ & Relative change of $\sum_i\ell_i$ & $<$ $10^{-4}$ \\
+ & Consecutive rounds required & 2 \\
+ & Damping factor / minimum & 0.5 / 0.25 \\
+ & Over-relaxation: after / growth / maximum & 3 rounds (change $>$ 0.002) / 1.5 / 10 \\
+ & Over-relaxation off after a rise of $\sum_i\ell_i$ / max.\ extrapolation & 3 / 0.5 \\
+ & Stationarity window / material drift & 10 rounds / 0.02 (and $>2$ SE) \\
+ & Averaging phase: change of the mean & $<$ 0.01 on 2 rounds \\
+ & Safety cap (rounds) & 120 \\
+Marginal likelihood & Importance draws, stage 1 / stage 2 & 2000 / 4000 \\
+ & Proposal: multivariate $t$, df / covariance scale & 4 / 1.5 \\
+ & Minimum ESS for the IS value (else Laplace) & 30 \\
+MCMC (F2) & Chains / iterations / burn-in / thinning & 2 / 1500 / 500 / 2 \\
+ & Extension until $\max\hat R<$ & 1.05 (by 1500, up to 9000 iterations) \\
+\bottomrule
+\end{tabular}
+\end{table}

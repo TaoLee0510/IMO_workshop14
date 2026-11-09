@@ -1,0 +1,40 @@
+\documentclass[11pt]{article}
+\usepackage[margin=.8in]{geometry}\usepackage[T1]{fontenc}\usepackage{lmodern,microtype}
+\usepackage{amsmath,booktabs,graphicx,pdflscape}\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\setlength{\emergencystretch}{2em}
+\title{Four-year joint refit and fixed-parameter sensitivity\\Reference C-to-D probability $\mu=0.01$}
+\author{Model, completed results and patient analyses}\date{5 November 2026}
+\begin{document}\maketitle
+\section{Reference model and unchanged cohort}
+The reference now fixes $\mu=0.01$ per C division and $D_{\rm init}=0$ at the measured baseline. Mutation applies before and after CAR. All pre-CAR fitnesses are 1. After CAR, $f_W=1$, $f_C=1+g(t;\alpha,\theta)$, and $f_D=f_C+s_D$. The Gamma density integrates to 1 on $[0,\infty)$ for every shape and scale; its peak is derived.
+\[
+g(t;\alpha,\theta)=\frac{t^{\alpha-1}e^{-t/\theta}}{\Gamma(\alpha)\theta^\alpha},\qquad t\geq0,\qquad
+\int_0^\infty g(t;\alpha,\theta)\,dt=1.
+\]
+Alpha is the shape and theta is the scale in days. Time is supplied numerically in days, and fitness uses the numerical density value with a fixed multiplier of 1. The legacy code field \texttt{area\_days} names that multiplier; it does not mean that the normalized density integral is one day. Mu is an effective second-hit probability, not a nucleotide mutation rate.
+Fix $N=100000$, $b=1/28$ per day, $s_D=0.02$, the strict threshold $D/N>0.01$ (1001 cells), zero diagnosis delay, and observation SD 0.25 on the $\operatorname{logit}(2VAF)$ scale.
+Refit one cohort-wide $\alpha\in[2,50]$ and $\theta\in[1,1460]$ days with the same shared-state VAF/tMN joint likelihood.
+The frozen cohort has 14 patients, 42 follow-up VAF observations, exact events at days 127 and 589, one censor record at day 1460, and 11 unknown outcomes. Unknown outcomes are not negatives.
+\section{Joint likelihood}
+The founder marker is retained after conversion from C to D, so the latent VAF is $(C+D)/(2N)$. Follow-up measurements have Gaussian error on the $\operatorname{logit}(2VAF)$ scale. The shared-state forward recursion weights the D distribution at every VAF measurement, then evaluates first-passage boundary flux at an exact tMN time or surviving probability at a censoring time. Patients with unknown clinical outcomes contribute VAF likelihood only. Baselines initialize the process and are not counted again as follow-up observations. The reported VAF and clinical-given-VAF terms decompose this joint likelihood; they are not independent marginal fits.
+\section{Initial states}
+Preserve total founder burden $C_i+D_i=2N\,VAF_{i,0}$ at the measured baseline. Subtract the chosen initial D count from that total to initialize C; W makes up N. Use the original continuous initial fraction in the hybrid inference and integer rounding for full stochastic simulations.
+The smallest baseline founder has approximately 544 cells. The common D grid is therefore capped at 500 cells. Evolve negative baseline dates neutrally with mutation to event-free CAR day 0.
+\section{Sensitivity design}
+\begin{center}\begin{tabular}{lp{.75\linewidth}}\toprule Parameter & Levels\\\midrule
+$\mu$ & $0,10^{-6},10^{-5},10^{-4},0.001,0.003,0.01,0.03,0.1$\\
+$D_{\rm init}$ & $0,1,3,10,30,100,300,500$ cells\\
+$b$ & $1/280,1/84,1/28,1/7$ per day\\
+$s_D$ & $0,0.01,0.02,0.05,0.1$\\\bottomrule\end{tabular}\end{center}
+The complete mu-by-D grid contains 72 scenarios. The zero-mutation/zero-D corner is structurally incompatible with positive tMN events and is recorded without a probability floor. The b and s sensitivities vary one parameter at a time at reference mu and D, adding seven scenarios. Thus 79 scenarios imply 78 compatible joint fits. All compatible scenarios re-estimate alpha and theta; neither is held at the reference estimate.
+The levels are model-sensitivity choices, not biological confidence intervals. Slow turnover endpoints have precedent in \href{https://pmc.ncbi.nlm.nih.gov/articles/PMC8109274/}{Heyde et al., Cell (2021)}; $1/7$ is a fast-turnover stress case.
+\section{Numerical validation before batch fitting}
+At higher mu the D distribution need not be rare. Preserve the existing deterministic-q/stochastic-D inference model and use a conservative moment-based proposal for each unknown-outcome numerical state cap. The proposal only chooses the finite-N chain's reflecting truncation; the actual likelihood still evolves its state probabilities. Compare larger caps and solver tolerances on log likelihood; check the reference against the full D=0,...,N chain.
+Exponential tilting is an invertible numerical change of variables. Its initial scale must account for immigration as well as initial D to prevent high-mu moment overflow. Rescale the killed chain more frequently in high-mu stress cases. Verify event densities independently by sparse matrix exponentiation for low and high immigration and seeded D.
+Use multiple optimizer starts and retain all evaluations, bounds, convergence status, numerical checks and source hashes. Reuse a checkpoint only when parameters, cohort, bounds and inference source agree.
+\section{Predictions, figures and delivery}
+For each fitted scenario calculate each patient's year 1--4 first-passage probabilities from the own baseline, conditional on event-free CAR day 0. Subsequent individual VAF and eventual outcome do not set baseline-initialized forecasts.
+Produce joint likelihood, fitted alpha/theta and patient risk heatmaps over mu and D, together with b and s comparisons. Update the new-reference patient VAF, tMN and trajectory figures, using 200 full Moran paths per patient (2800 total). Compare full Moran process means and event proportions with the inference approximation.
+Write code first, then this English TeX protocol, then compute. Preserve the previous study and export English PDF/TeX, XLSX/CSV, code, seeds and raw reference trajectories. All predictions are conditional on fixed scenarios; the aggregate threshold is not a clinically calibrated diagnosis model.
+\IfFileExists{executed_results.tex}{\input{executed_results.tex}}{}
+\end{document}

@@ -1,0 +1,21 @@
+\begin{table}[!htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\caption{Search box of the individual parameters (natural scale). The box is the support of each patient's parameters: the prior is truncated to it, the differential-evolution search, the importance sampling and the MCMC stay inside it, and fitted values on a bound are reported. Round 0 (used only by fits that do not start from another fit) widens the prior but keeps this box. Baseline deviations $d_{iv}$ have the box $\pm\max(1,\ 4\,s_{iv})$, with $s_{iv}$ the prior SD of Eq.~\ref{eq:baseprior}.}
+\label{tab:box}
+\begin{tabular}{llrrr}
+\toprule
+Parameter & Scale & Lower & Upper & Prior centre \\
+\midrule
+$r_S$ & log & 0.003 & 1 & 0.08 \\
+$\theta_{aP}$ & log & 0.2 & 30 & 2.71 \\
+$\theta_{aS}$ & log & 0.001 & 3 & 0.12 \\
+$\theta_{bS}$ & log & 0.0001 & 2 & 0.02 \\
+$f_0$ & logit & 0.001 & 0.95 & 0.02 \\
+$\rho_T$ & log & 0.1 & 3 & 0.811 \\
+Slope (MF) & log & 0.05 & 30 & 1.5 \\
+$s_{\mathrm{MTT}}$ (MF) & log & 0.3 & 3 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}

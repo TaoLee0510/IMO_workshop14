@@ -1,0 +1,4 @@
+patient_id,sample_day,gene,protein_change,vaf,depth
+P088,64,PPM1D,p.R458*,0.408,1879
+P030,73,PPM1D,p.R458*,0.3571,1652
+P292,60,TP53,p.R248Q,0.2522,1680

@@ -1,0 +1,4 @@
+patient_id,sample_day,sample_type,indication
+P333,75,BM,persistent cytopenia work-up
+P202,85,BM,persistent cytopenia work-up
+P247,77,BM,persistent cytopenia work-up

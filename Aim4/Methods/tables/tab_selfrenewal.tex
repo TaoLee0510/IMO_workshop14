@@ -1,0 +1,20 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{The seven self-renewing cell types of the lineage tree. $k_X$: exit rate (differentiation and death, d$^{-1}$); $\sigma_X$: self-renewal rate (d$^{-1}$, $\sigma_X<k_X$); $\sigma_X/k_X$: share of the compartment's production that comes from self-renewal at steady state; $1/(k_X-\sigma_X)$: effective residence time of a cell and its self-renewed progeny (d). The feedback factor $G_X$ senses the blood counts of the compartment's own progeny; $e_{\mathrm{sr}}$: whether inflammation suppresses the self-renewal. All rates are fixed in the primary analysis; sensitivity analyses scale every $\sigma_X$ by 0.5 and 1.5 (capped at $0.95\,k_X$) and switch off all feedback except the MPP's.}
+\label{tab:selfrenewal}
+\begin{tabular}{llllll>{\raggedright\arraybackslash}p{2.1cm}c>{\raggedright\arraybackslash}p{2.3cm}}
+\toprule
+Cell & Self-renewal rate & $k_X$ & $\sigma_X$ & $\sigma_X/k_X$ & $1/(k_X-\sigma_X)$ & Feedback signal & $e_{\mathrm{sr}}$ & Source \\
+\midrule
+HSC & $r_S$ (\texttt{r\_s}) & -- & 0.08 & -- & -- & niche $(1-S)$; MPP depletion & -- & random effect \\
+MPP & $\sigma_{\mathrm{MPP}}$ (\texttt{sr\_mpp}) & 0.3 & 0.21 & 0.7 & 11.1 & ANC, AMC, PLT & yes & v1.1 ($k_M$, $\phi k_M$) \\
+CMP & $\sigma_{\mathrm{CMP}}$ (\texttt{sr\_cmp}) & 2 & 0.75 & 0.38 & 0.8 & ANC, AMC, PLT & yes & calibrated (K1) \\
+GMP & $\sigma_{\mathrm{GMP}}$ (\texttt{sr\_gmp}) & 2 & 0.75 & 0.38 & 0.8 & ANC, AMC & yes & calibrated (K1) \\
+MEP & $\sigma_{\mathrm{MEP}}$ (\texttt{sr\_mep}) & 2 & 0.75 & 0.38 & 0.8 & PLT & yes & calibrated (K1) \\
+CLP & $\sigma_{\mathrm{CLP}}$ (\texttt{sr\_clp}) & 1 & 0.5 & 0.5 & 2 & ALC & no & assumption \\
+Lymphocytes ($L$) & $\sigma_{L}$ (\texttt{sr\_ly}) & 0.05 & 0.04 & 0.8 & 100 & ALC & no & assumption \\
+\bottomrule
+\end{tabular}
+\end{table}

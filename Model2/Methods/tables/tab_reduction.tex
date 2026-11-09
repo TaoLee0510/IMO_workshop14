@@ -1,0 +1,28 @@
+\begin{table}[!htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural (population) parameters of Aim4 v1.3, Model1 v1.0 and Model2 by module. Aim4: \texttt{Aim4/Code/config.R} of 4 November 2026; Model1 and Model2: their \texttt{Code/config.R}. Change: Model2 minus Aim4.}
+\label{tab:reduction}
+\begin{tabular}{>{\raggedright\arraybackslash}p{7.2cm}rrrr}
+\toprule
+Module & Aim4 v1.3 & Model1 & Model2 & Change \\
+\midrule
+HSC and clone ($\alpha$, $r_a$, $r_b$, $\delta$, $\eta$, $\theta_{zS}$) & 6 & 5 & 5 & $-1$ \\
+Progenitor exit and self-renewal rates & 12 & 2 & 2 & $-10$ \\
+Self-renewal feedback ($G_{\max}$, exponent, switches) & 8 & 2 & 2 & $-6$ \\
+Feedback at the chain entry ($\gamma_\ell$) & 3 & 0 & 0 & $-3$ \\
+Maturation transit times & 3 & 3 & 3 & 0 \\
+Blood turnover & 4 & 4 & 4 & 0 \\
+Marrow inflammation & 8 & 4 & 4 & $-4$ \\
+Lymphodepletion $\theta_{aL}$ & 1 & 1 & 1 & 0 \\
+Chemotherapy exposure & 4 & 4 & 4 & 0 \\
+Supportive care (G-CSF, TPO-RA) & 4 & 4 & 4 & 0 \\
+CAR T--target module & 8 & 8 & 8 & 0 \\
+Division bookkeeping (output only) & 3 & 0 & 0 & $-3$ \\
+Chemotherapy kill of chain precursors and monocytes ($\kappa_c$, $\theta_{aM}$) & 0 & 0 & 2 & $+2$ \\
+\midrule
+\textbf{Total} & 64 & 37 & 39 & $-25$ ($-39\%$) \\
+\bottomrule
+\end{tabular}
+\end{table}

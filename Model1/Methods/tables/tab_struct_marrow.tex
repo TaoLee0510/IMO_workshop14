@@ -1,0 +1,22 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural parameters of the stem cells (clone traits), the four MPP components and the lymphocytes. Values are prior centres for estimated parameters.}
+\label{tab:struct_marrow}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.4cm}}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role & Source \\
+\midrule
+$r_a$ & \texttt{r\_a} & Clone sensitivity to chemotherapy relative to normal HSC & -- & 1 (no clone) & clone type & clone scenario \\
+$r_b$ & \texttt{r\_b} & Clone sensitivity to the CAR T phase relative to normal HSC & -- & 1 (no clone) & clone type & clone scenario \\
+$\delta$ & \texttt{delta} & Output of clonal HSC relative to normal HSC & -- & 1 (no clone) & clone type & clone scenario \\
+$k_P$ & \texttt{k\_p} & Exit rate of every MPP component (differentiation and death) & d$^{-1}$ & 0.3 & fixed & Aim4 MPP ($k_{\mathrm{MPP}}$) \\
+$\sigma_P$ & \texttt{sr\_p} & Self-renewal rate of every MPP component at steady state ($\sigma_P<k_P$) & d$^{-1}$ & 0.21 & fixed & Aim4 MPP ($\sigma_{\mathrm{MPP}}$) \\
+$G_{\max}$ & \texttt{gmax} & Upper bound of the count feedback factor & -- & 3 & fixed & Aim4 \\
+$\gamma$ & \texttt{gamma} & Exponent of the count feedback (shared by the three myeloid components) & -- & 0.5 & estimated & Aim4 $\gamma_M$ (prior centre) \\
+$c_L$ & \texttt{c\_l} & Turnover of blood lymphocytes & d$^{-1}$ & 0.156 & fixed & calibrated (K1): ALC course \\
+$\theta_{aL}$ & \texttt{th\_al} & Lymphodepletion of blood lymphocytes per unit exposure & d$^{-1}$ & 0.921 & fixed & calibrated (K1): real ALC \\
+\bottomrule
+\end{tabular}
+\end{table}

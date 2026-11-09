@@ -1,0 +1,24 @@
+{
+  "patients": 14,
+  "VAF_followup_observations": 42,
+  "exact_events": 2,
+  "four_year_censor_records": 1,
+  "unknown_outcomes": 11,
+  "clinical_policy": "Use the user-confirmed source times, not blanket manual verification flags.",
+  "source_assumptions": [
+    "Listed tMN time is first diagnosis from the relevant index CAR infusion.",
+    "Patient_25 first diagnosis at day 1561 supports survival through day 1460."
+  ],
+  "excluded_clinical_cases": {
+    "Patient_127": "no eligible pre-CAR blood-cell initial state",
+    "Patient_18": "unresolved CAR time origin and no eligible initial state",
+    "Patient_69": "unresolved multiple CAR origins",
+    "Patient_275": "diagnosis time missing; postdiagnosis VAF cannot be identified"
+  },
+  "source_sha256": {
+    "41588_2026_2795_MOESM7_ESM.xlsx": "fc180b433b8390b398c12dccad2bd610a37f688215765c111489eceb99d92d17",
+    "41588_2026_2795_MOESM9_ESM.xlsx": "500283e51efc9df98c58f5b2e98799c2d99879e58f5a31e4f6bf61b3bbda1cb1",
+    "analysis_longitudinal.csv": "3a2f3f1f7cec5726040091306d432dd83448cbaa8177ffb264ccd1e6751e8a4a",
+    "index_marker_inventory.csv": "2a70c5bb75e2954e056c23517428effdf1bbe6c4de032eab48ffd68d77d7c9a5"
+  }
+}

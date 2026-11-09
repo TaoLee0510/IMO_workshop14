@@ -1,0 +1,1748 @@
+{
+  "completed": {
+    "status": "complete",
+    "finished_at": "2026-11-05T16:12:00.378438-05:00",
+    "patients": 14,
+    "simulations": 2800,
+    "figure_sets": 66,
+    "report_pages": 27,
+    "workbook_sheets": 8,
+    "alpha": 15.847971759301144,
+    "theta_days": 1.0,
+    "gamma_PDF_integral": 1.0,
+    "validation_status": "passed",
+    "outputs_use_English_labels": true
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2066,
+      "sha256": "08da063cb7ccf1e49d914efb4f88de472fda15c4a819d4b41538dd52196af849"
+    },
+    {
+      "path": "analysis_manifest.json",
+      "bytes": 733,
+      "sha256": "544aa53ae1a711eff435014636326f8e0ea9dc8f8c5c79ae88ac915dddaea3f2"
+    },
+    {
+      "path": "bin/patient_simulator",
+      "bytes": 39248,
+      "sha256": "d50e63ab2ad4aab2340fc2a6949e85a3b15d15c81bf745f40efe385571972554"
+    },
+    {
+      "path": "build_report.py",
+      "bytes": 7590,
+      "sha256": "92897812f03d9624e33d031ab90fda3d690b33da718dac08050825cbdf4850b2"
+    },
+    {
+      "path": "build_workbook.mjs",
+      "bytes": 5894,
+      "sha256": "1214595aad1a4691c6c79467ee191e8bdc5882e80d70c7b6c22d7e0e0878bf12"
+    },
+    {
+      "path": "common.py",
+      "bytes": 2291,
+      "sha256": "624a6802c8b3b0542a9da563c36d86efaa4860a2d9a987c02ee3270b11ba4ece"
+    },
+    {
+      "path": "compute.py",
+      "bytes": 11735,
+      "sha256": "72976da3021a29e48410d8fedc4f05db0d972d538107f6a5fb0c01ee8778e33c"
+    },
+    {
+      "path": "figures/fit_diagnostics.pdf",
+      "bytes": 25634,
+      "sha256": "c715145aa33fa0203630ce1eebca14920e66a38afd9aef546ece0826c0dd5a1d"
+    },
+    {
+      "path": "figures/fit_diagnostics.png",
+      "bytes": 171706,
+      "sha256": "cf8cba0d924c5614c4d8991e54b058dfe52cda3f26b2b4ef076c46f7275ff210"
+    },
+    {
+      "path": "figures/gamma_and_fitness.pdf",
+      "bytes": 45510,
+      "sha256": "c679dd80a2d787bb3aeb39937cdf143b9fafe83a93ed20f07ec95643138f211d"
+    },
+    {
+      "path": "figures/gamma_and_fitness.png",
+      "bytes": 118885,
+      "sha256": "1b8e44172af645793d3afbcb3c0c9380cb10d442a6ba7d819d0c3ffbccc606d0"
+    },
+    {
+      "path": "figures/likelihood_profiles.pdf",
+      "bytes": 15696,
+      "sha256": "c0907d0aa8a17d0dc4f36858c85cfa625ffcd9ee105f15ba5f8e6026678b76b7"
+    },
+    {
+      "path": "figures/likelihood_profiles.png",
+      "bytes": 80427,
+      "sha256": "46de168b98775b03f32ac8cbd7fa63db184d61b0f651159ed412f2770e3010a0"
+    },
+    {
+      "path": "figures/likelihood_surface.pdf",
+      "bytes": 21834,
+      "sha256": "69c550d152684cba7e993de377056409d24238a3c09f88cc1a406e73e9fd058d"
+    },
+    {
+      "path": "figures/likelihood_surface.png",
+      "bytes": 107598,
+      "sha256": "f0c32c7db2111718cddbd2c117059a9286630aa2d4b7238528f5372a57cda728"
+    },
+    {
+      "path": "figures/one_year_tMN_heatmap.pdf",
+      "bytes": 27606,
+      "sha256": "50b60761370a5e052361e2d98ff5a61a272ac2422768d8e91a9afdab875e560a"
+    },
+    {
+      "path": "figures/one_year_tMN_heatmap.png",
+      "bytes": 231504,
+      "sha256": "8d188b019f0ddf714c6ade2428cd0df2ebd956f3632c3556bca04cd5a3ab521f"
+    },
+    {
+      "path": "figures/overview_C.pdf",
+      "bytes": 605565,
+      "sha256": "545d7a235bca6fc5c06e8326a537ef6525be4f7360fe78f16f8bef9b6fcc15b6"
+    },
+    {
+      "path": "figures/overview_C.png",
+      "bytes": 1574984,
+      "sha256": "e529436807d89237866cee35d8035b0ffca24f1ca58bc223701a070b2235951b"
+    },
+    {
+      "path": "figures/overview_D.pdf",
+      "bytes": 194786,
+      "sha256": "ee25c91810ed123992ff1cf1ec787ac7f622dc1e2038010f4c56b4421889738a"
+    },
+    {
+      "path": "figures/overview_D.png",
+      "bytes": 485790,
+      "sha256": "5a59d290ab843c1a42e846d1993aacfc0685b79f1ec8813046873af35bcac168"
+    },
+    {
+      "path": "figures/overview_VAF.pdf",
+      "bytes": 50782,
+      "sha256": "90aeec2e461c865fd712be22e7d9d23d1ff98e1c8213d735b047a2dc7ae69593"
+    },
+    {
+      "path": "figures/overview_VAF.png",
+      "bytes": 266577,
+      "sha256": "42580cc5a88c831e3103154297efc69139e0d0447d9de3c4ea97c23872d54cde"
+    },
+    {
+      "path": "figures/overview_tMN.pdf",
+      "bytes": 28286,
+      "sha256": "e8b4423bcacdc8d029f92d28901b50cb748616e4395314dd5074e051201f43ed"
+    },
+    {
+      "path": "figures/overview_tMN.png",
+      "bytes": 254628,
+      "sha256": "d7deb69ef332e4cf49dbb8332e65c148e0ca437314fe1a28d283930955da9218"
+    },
+    {
+      "path": "figures/patients/Patient_102_VAF.pdf",
+      "bytes": 24330,
+      "sha256": "60a7357ba50e1873194d46e66f3f3d44bcfaa3ea7a9d1a873b7ca133fe6a08c7"
+    },
+    {
+      "path": "figures/patients/Patient_102_VAF.png",
+      "bytes": 81227,
+      "sha256": "28332bb9b16813b38dbe0ce8534a699a5bbf039e75170134e40bf40eee2f0c57"
+    },
+    {
+      "path": "figures/patients/Patient_102_dashboard.pdf",
+      "bytes": 137082,
+      "sha256": "cff027279aabdfb6f84265530b5fdd52428118941f4bfcf3bbff03c982cd6b4c"
+    },
+    {
+      "path": "figures/patients/Patient_102_dashboard.png",
+      "bytes": 462754,
+      "sha256": "5e818eafa015f74da4cb99e3f248907fd1f73adb56abf417e45a9bd9b01e48c1"
+    },
+    {
+      "path": "figures/patients/Patient_102_tMN.pdf",
+      "bytes": 19401,
+      "sha256": "1b8137bdca6773f7b4ac70fbb1172f027d4f36b6adb174b69a656228b3a2cf5b"
+    },
+    {
+      "path": "figures/patients/Patient_102_tMN.png",
+      "bytes": 71054,
+      "sha256": "81a88292304ad3745bd16512a456251e7b0b5928047c60bcbcacb78aca5e5cb5"
+    },
+    {
+      "path": "figures/patients/Patient_102_trajectories.pdf",
+      "bytes": 140955,
+      "sha256": "5bbb5175d367e6933b834d70c9ee68c5a7ecc5376d174d7d114824aa0429cf9f"
+    },
+    {
+      "path": "figures/patients/Patient_102_trajectories.png",
+      "bytes": 402604,
+      "sha256": "526c2f24c80cc7687be3a0c9adcda9e0e019b5413aa514c1b533e8812ee9c1ce"
+    },
+    {
+      "path": "figures/patients/Patient_103_VAF.pdf",
+      "bytes": 22816,
+      "sha256": "ad5c5ebbaab6ff6a64b35398aaa224b2a5fac4609fa01a51f98b193b4879836c"
+    },
+    {
+      "path": "figures/patients/Patient_103_VAF.png",
+      "bytes": 82181,
+      "sha256": "bfdeaa1484ec367cf68568d21a5f2d4bb2087c7c93b17cf79bf9c7134cb3606d"
+    },
+    {
+      "path": "figures/patients/Patient_103_dashboard.pdf",
+      "bytes": 182356,
+      "sha256": "a17d3e873c013c461a49a89bfaba2ae3efbabb0d796449bd25f39d7b36932c99"
+    },
+    {
+      "path": "figures/patients/Patient_103_dashboard.png",
+      "bytes": 566853,
+      "sha256": "91dcda1e47c0f109947cfe6275d21c64e7584c870c76ddad1f5bf92aaf998902"
+    },
+    {
+      "path": "figures/patients/Patient_103_tMN.pdf",
+      "bytes": 19499,
+      "sha256": "31c52ab87b5a4551827349b529d92a671653c29ce6b50f3a213141915d7818e5"
+    },
+    {
+      "path": "figures/patients/Patient_103_tMN.png",
+      "bytes": 80228,
+      "sha256": "665e3f80853a298a8375f125edcffc04742ed195c0df6b82266f088fa5ac023a"
+    },
+    {
+      "path": "figures/patients/Patient_103_trajectories.pdf",
+      "bytes": 216287,
+      "sha256": "bf96fbb3b1c1c2187e87ba175b876f84f9a132a7f5ede5ba909a1f3fad108228"
+    },
+    {
+      "path": "figures/patients/Patient_103_trajectories.png",
+      "bytes": 588020,
+      "sha256": "7b48f224166fb62f749af693c1529f49150a8b5336b22a84bc991da908d18601"
+    },
+    {
+      "path": "figures/patients/Patient_123_VAF.pdf",
+      "bytes": 22840,
+      "sha256": "3bf93616213dfc77d4bcf3fd99268c0ce9fd463933d468d29e81c303c6fc9207"
+    },
+    {
+      "path": "figures/patients/Patient_123_VAF.png",
+      "bytes": 71534,
+      "sha256": "d082dc0326c91309723447c922d48d338655b93b14f3e59578abdcf95ce54aff"
+    },
+    {
+      "path": "figures/patients/Patient_123_dashboard.pdf",
+      "bytes": 136740,
+      "sha256": "5b4f11a2853b8e887bd7e8e200d4649b7a2bdde7aa6907f179df573a9c67ee8a"
+    },
+    {
+      "path": "figures/patients/Patient_123_dashboard.png",
+      "bytes": 410423,
+      "sha256": "3844e73f602cd85b710c602eb78ee0b1519b4968d4350238dc83714809ab9948"
+    },
+    {
+      "path": "figures/patients/Patient_123_tMN.pdf",
+      "bytes": 19066,
+      "sha256": "e6f469e58f8944f2d2dd56ae17406ebd391bc2b895274a69dad45fd03b0fe628"
+    },
+    {
+      "path": "figures/patients/Patient_123_tMN.png",
+      "bytes": 73018,
+      "sha256": "ea7f56903630317fc4d228e2f8a2780bbb4540af6f2ebc9c60334e1f003e1364"
+    },
+    {
+      "path": "figures/patients/Patient_123_trajectories.pdf",
+      "bytes": 138500,
+      "sha256": "000148854ae94253722b41c8002b5500140e417fb5fac2948b48cb5405af0af9"
+    },
+    {
+      "path": "figures/patients/Patient_123_trajectories.png",
+      "bytes": 372075,
+      "sha256": "849e95e594ef408e991d29a903305b6ca15123a69ee3395bf1f9589216c6629d"
+    },
+    {
+      "path": "figures/patients/Patient_180_VAF.pdf",
+      "bytes": 25587,
+      "sha256": "f999f58fc09c7beee02531d6d60f762b875aa6b3cc093c40276d51200506beb6"
+    },
+    {
+      "path": "figures/patients/Patient_180_VAF.png",
+      "bytes": 82463,
+      "sha256": "26e93ab7ea017c1311f22e57647449ab7abd1853ecce47fb14a1cdbef7876b29"
+    },
+    {
+      "path": "figures/patients/Patient_180_dashboard.pdf",
+      "bytes": 171751,
+      "sha256": "986946c8f2fc8f7faaeaa03e32e58161b6969966cf32063fbed601a8bd34893a"
+    },
+    {
+      "path": "figures/patients/Patient_180_dashboard.png",
+      "bytes": 535847,
+      "sha256": "a3cb83b140aeed307df8bb2e0b3b55b0c538e54e945ebcb5082eb4795429c5d7"
+    },
+    {
+      "path": "figures/patients/Patient_180_tMN.pdf",
+      "bytes": 19647,
+      "sha256": "28009762cb97b56c76654d42137c5614f69353f0b90643b60dcd559b7d4e837a"
+    },
+    {
+      "path": "figures/patients/Patient_180_tMN.png",
+      "bytes": 69205,
+      "sha256": "a2e5e33df4b27f5048de5fe6b4a04f439a9710601dd4c42411b61a7a19878252"
+    },
+    {
+      "path": "figures/patients/Patient_180_trajectories.pdf",
+      "bytes": 185488,
+      "sha256": "e56be278242d87ae7455cc42c34a65a976508c4316bcb8aaa5d4dabf74d9e574"
+    },
+    {
+      "path": "figures/patients/Patient_180_trajectories.png",
+      "bytes": 507346,
+      "sha256": "1738642754432876edcdc9123a37b8e022dfbfe23637313dd6fea9eb37ede420"
+    },
+    {
+      "path": "figures/patients/Patient_197_VAF.pdf",
+      "bytes": 23060,
+      "sha256": "6af8d754e925718c8eb8a5ed8c3d8b7a9c32e7cee769134bb6a44b6ef6e2303f"
+    },
+    {
+      "path": "figures/patients/Patient_197_VAF.png",
+      "bytes": 78029,
+      "sha256": "4a275948d9311cf6b795148176850d4b94d8a8bc5d415394a6e5a4fe3d79d1fa"
+    },
+    {
+      "path": "figures/patients/Patient_197_dashboard.pdf",
+      "bytes": 155108,
+      "sha256": "a975c92c9166dd9f74fc63a9a51aaef01c2cd3be7751e9883eb0c5db92b13000"
+    },
+    {
+      "path": "figures/patients/Patient_197_dashboard.png",
+      "bytes": 511946,
+      "sha256": "cc291ded3bd34f33dad79d70a977094ecce081d7dd93a4fc0890421bfcc82fc4"
+    },
+    {
+      "path": "figures/patients/Patient_197_tMN.pdf",
+      "bytes": 19654,
+      "sha256": "b33e1f56227de1a0b809759ff6b724a125d68aa4fb59a7a409b437041b9418d2"
+    },
+    {
+      "path": "figures/patients/Patient_197_tMN.png",
+      "bytes": 72984,
+      "sha256": "a477ed41ca5780e6eab3b5b0f88440353545750949f219ecb5413cd919546ac5"
+    },
+    {
+      "path": "figures/patients/Patient_197_trajectories.pdf",
+      "bytes": 167606,
+      "sha256": "5f404b91b57addf061c60501ef419851f17dfe6bfe86baa3366abdc0f843d29a"
+    },
+    {
+      "path": "figures/patients/Patient_197_trajectories.png",
+      "bytes": 469359,
+      "sha256": "692bd696aae07abc25ab2de91292507b6f0930d5b5d38a254ef737074517d63f"
+    },
+    {
+      "path": "figures/patients/Patient_235_VAF.pdf",
+      "bytes": 23850,
+      "sha256": "5332637c3a27d15c6dcc82676aea6e4b5aca2befc85add1346e530d0eb509de6"
+    },
+    {
+      "path": "figures/patients/Patient_235_VAF.png",
+      "bytes": 75181,
+      "sha256": "486cd8aff793f20da1a33a5e12d0327a35df2cc54736e7882f4c6be4db3404eb"
+    },
+    {
+      "path": "figures/patients/Patient_235_dashboard.pdf",
+      "bytes": 102401,
+      "sha256": "314dba1ae83d56e40708b5de605f69142e561b6c6d7136ddd51097f87bc8df61"
+    },
+    {
+      "path": "figures/patients/Patient_235_dashboard.png",
+      "bytes": 314291,
+      "sha256": "ec163120ce592e3a7acb36b2e2f84b4cf0a4e5e7f7d91601288ac4da359c04f3"
+    },
+    {
+      "path": "figures/patients/Patient_235_tMN.pdf",
+      "bytes": 18422,
+      "sha256": "05f92ad0731f2446ce1a383609235750366e334d24797c3dbfd40cb40a67e440"
+    },
+    {
+      "path": "figures/patients/Patient_235_tMN.png",
+      "bytes": 70127,
+      "sha256": "825cb2db626a9a9c460fe59cc8dd0c68b665adc6617652ecb65642395ab607ee"
+    },
+    {
+      "path": "figures/patients/Patient_235_trajectories.pdf",
+      "bytes": 109217,
+      "sha256": "0e48802d5dd4123a6563f951f5913b9225a113df6e9b7b3df45530cd89df35c9"
+    },
+    {
+      "path": "figures/patients/Patient_235_trajectories.png",
+      "bytes": 281359,
+      "sha256": "23432bc89c2afdfe032babaef855314c03d832e0b87d84ce20ccea1b525b3026"
+    },
+    {
+      "path": "figures/patients/Patient_238_VAF.pdf",
+      "bytes": 24013,
+      "sha256": "13a6992d3c0758fd40cc599ca24824ee0f2647804481ba81adad92e95cb536bc"
+    },
+    {
+      "path": "figures/patients/Patient_238_VAF.png",
+      "bytes": 74066,
+      "sha256": "db8a9732d76e59e02329a41938430ee41572d7da6c1143e2d2d3a75c773c7048"
+    },
+    {
+      "path": "figures/patients/Patient_238_dashboard.pdf",
+      "bytes": 147591,
+      "sha256": "8f7faf488a7e138cae39e18ab507709c43618032e150a3005a2f7e4272cd97b3"
+    },
+    {
+      "path": "figures/patients/Patient_238_dashboard.png",
+      "bytes": 429090,
+      "sha256": "f4717d47a8c1f4152c761747620c25a7e5ccc134d2e6a0036a03af2af3b132cd"
+    },
+    {
+      "path": "figures/patients/Patient_238_tMN.pdf",
+      "bytes": 19280,
+      "sha256": "c12ffce18e3401c324e90ea63336f332e1215e981cbad28a8766c1774fb5d585"
+    },
+    {
+      "path": "figures/patients/Patient_238_tMN.png",
+      "bytes": 71848,
+      "sha256": "a840cca4a7dc0421349bc766b740d88bc617bb14af8c56de80604af58ad8e933"
+    },
+    {
+      "path": "figures/patients/Patient_238_trajectories.pdf",
+      "bytes": 146058,
+      "sha256": "e5a3fd29db114ed4acd6d83859e360aaeef6848d80e47f53ce933740be5b28b9"
+    },
+    {
+      "path": "figures/patients/Patient_238_trajectories.png",
+      "bytes": 394588,
+      "sha256": "f870071e8287f8759318b09e05a7c7c1f2b536727920014c201e70e731600606"
+    },
+    {
+      "path": "figures/patients/Patient_25_VAF.pdf",
+      "bytes": 22680,
+      "sha256": "7d65b64c2bb2a0c1ebace7a7035a9e58e9fd3b5215aff59b083d06fd1ad84eee"
+    },
+    {
+      "path": "figures/patients/Patient_25_VAF.png",
+      "bytes": 82251,
+      "sha256": "db35f4b83edbef5fd78f216144c41c31a95b73297e0ee0cfd2a702a1e63fd680"
+    },
+    {
+      "path": "figures/patients/Patient_25_dashboard.pdf",
+      "bytes": 145429,
+      "sha256": "1f28f660e8fa8fbbb7c49f64ba214369347f4fd1add20130bded6dfdb825d9b5"
+    },
+    {
+      "path": "figures/patients/Patient_25_dashboard.png",
+      "bytes": 488080,
+      "sha256": "662ee1a72dc255823e9c66ee1139855184a6a531705d74596be6e66c50daf367"
+    },
+    {
+      "path": "figures/patients/Patient_25_tMN.pdf",
+      "bytes": 19767,
+      "sha256": "ca56c9b4d35f124423aea0fd586f370b73368d5cd0131d826cad90691a54ffa2"
+    },
+    {
+      "path": "figures/patients/Patient_25_tMN.png",
+      "bytes": 75215,
+      "sha256": "78101dc2fa58851e50402767238b07ea7e84c2743b1ca494a9c417cc548c5670"
+    },
+    {
+      "path": "figures/patients/Patient_25_trajectories.pdf",
+      "bytes": 149299,
+      "sha256": "81408b81d8df9aaeb7f6bd191a1e972d5ccb0cc66208c85e570471ef51c0fffd"
+    },
+    {
+      "path": "figures/patients/Patient_25_trajectories.png",
+      "bytes": 415772,
+      "sha256": "72ee15a76708c98719d6c0c8f00b0e6f9766d16b19320d524255ebcb27540e9e"
+    },
+    {
+      "path": "figures/patients/Patient_316_VAF.pdf",
+      "bytes": 24503,
+      "sha256": "c9bbfae2102f32228141874d205d71008c3cd4f636391dc23af4142c0827a18f"
+    },
+    {
+      "path": "figures/patients/Patient_316_VAF.png",
+      "bytes": 79042,
+      "sha256": "ecc759055ecea519f38e4ef39cb757f2244b7e53d5a5493af69851e811bc8e5c"
+    },
+    {
+      "path": "figures/patients/Patient_316_dashboard.pdf",
+      "bytes": 138062,
+      "sha256": "e27c55fd6d6a480466441148b9be16bb0c260202e5668f48513debbe4768e6e3"
+    },
+    {
+      "path": "figures/patients/Patient_316_dashboard.png",
+      "bytes": 404123,
+      "sha256": "8ab994a739d940d85d6732ff5b7207be35953f08602a66e0b556f6573230ddec"
+    },
+    {
+      "path": "figures/patients/Patient_316_tMN.pdf",
+      "bytes": 19352,
+      "sha256": "91000c69ce9eb634676be71fa7ca414716a8f73f2c473cfe648dee7ba3180b20"
+    },
+    {
+      "path": "figures/patients/Patient_316_tMN.png",
+      "bytes": 67050,
+      "sha256": "09920dfaba7a8837fc9f879f7c0548db4c4a836e89c4b24ffa38978e1c6d8695"
+    },
+    {
+      "path": "figures/patients/Patient_316_trajectories.pdf",
+      "bytes": 138085,
+      "sha256": "cd65018697268f5997b22c48803f5e0e87db96d845ce18d0e662c5d6126497cd"
+    },
+    {
+      "path": "figures/patients/Patient_316_trajectories.png",
+      "bytes": 363517,
+      "sha256": "7ba413cdf4db5a4e2180f5310ae6ac6353074ba16b5835205573b64155122121"
+    },
+    {
+      "path": "figures/patients/Patient_318_VAF.pdf",
+      "bytes": 24238,
+      "sha256": "9aac205dd6ca496617d8e510469a95345f5b6763623fee8614ccb360d02a9ef6"
+    },
+    {
+      "path": "figures/patients/Patient_318_VAF.png",
+      "bytes": 78499,
+      "sha256": "e36fec958d000c946168eeb319387222a25c76b602c53c1b8f270480fd5fe505"
+    },
+    {
+      "path": "figures/patients/Patient_318_dashboard.pdf",
+      "bytes": 97559,
+      "sha256": "d6f61809136f070464ef277435fc7b9db9e5835fcc8de6e4e6c917244dbf3ed1"
+    },
+    {
+      "path": "figures/patients/Patient_318_dashboard.png",
+      "bytes": 318823,
+      "sha256": "0f53d65fe390a29c3bb2c0c1e8419a0c27006cea29c368db38066f30b1f6651b"
+    },
+    {
+      "path": "figures/patients/Patient_318_tMN.pdf",
+      "bytes": 19625,
+      "sha256": "87ae00e30fba2a30e776cb333b19e8d1a38c7f11ea32ff4d138ae1b1c8e01059"
+    },
+    {
+      "path": "figures/patients/Patient_318_tMN.png",
+      "bytes": 70446,
+      "sha256": "bf90e44b31b9b0b96e658188285a68e7e68e8ea3110530aa54abb19603b48653"
+    },
+    {
+      "path": "figures/patients/Patient_318_trajectories.pdf",
+      "bytes": 100108,
+      "sha256": "41d158c6e67efcd237248d5e11242b92c1efc4ceb848e77714c6fc2a9eb472a5"
+    },
+    {
+      "path": "figures/patients/Patient_318_trajectories.png",
+      "bytes": 280961,
+      "sha256": "3d69e2062231b11ef343b01f3fc4c31679bc772d53dfce6d2bcca0586539047b"
+    },
+    {
+      "path": "figures/patients/Patient_321_VAF.pdf",
+      "bytes": 23924,
+      "sha256": "945949e79cf139f74baaaaf3fded71bf48ae91c67c2c29138177ceac87ddaf9a"
+    },
+    {
+      "path": "figures/patients/Patient_321_VAF.png",
+      "bytes": 73249,
+      "sha256": "ffb0deeb4c974b2eca68bc86879dfc3445c756c3595512d4774b74e89e6590a6"
+    },
+    {
+      "path": "figures/patients/Patient_321_dashboard.pdf",
+      "bytes": 133144,
+      "sha256": "fb20e456f902d04030f6106a5c9b72383579fa5e2e93ff5fdbd487216756c2ff"
+    },
+    {
+      "path": "figures/patients/Patient_321_dashboard.png",
+      "bytes": 396486,
+      "sha256": "e81508860154e5b9299309013e4e9014029f5f9711b6e3f434033d391c4e3699"
+    },
+    {
+      "path": "figures/patients/Patient_321_tMN.pdf",
+      "bytes": 18603,
+      "sha256": "63c71ead8a2d1bd1c815a3a89cd5142bd81bd944f178c9c2a87b9b1c436c4e89"
+    },
+    {
+      "path": "figures/patients/Patient_321_tMN.png",
+      "bytes": 66955,
+      "sha256": "886ec724398fd809153e0ffeb4c244b03e229952fa7264e69d7d30a2867a3895"
+    },
+    {
+      "path": "figures/patients/Patient_321_trajectories.pdf",
+      "bytes": 135578,
+      "sha256": "72ac8f2cb79935a66a9c57c88ddde5a1d8bc527b8226480531382eed7b9cc881"
+    },
+    {
+      "path": "figures/patients/Patient_321_trajectories.png",
+      "bytes": 365149,
+      "sha256": "f9c34f3a7a4f65b84012568294ce2a3f65a49535f569ef1980fabadba6256e30"
+    },
+    {
+      "path": "figures/patients/Patient_356_VAF.pdf",
+      "bytes": 24049,
+      "sha256": "d9d3a1929b39a10405b2961a42fcf66c40c493f2628286a056ab4a68aeac3fc9"
+    },
+    {
+      "path": "figures/patients/Patient_356_VAF.png",
+      "bytes": 73514,
+      "sha256": "1d568562eafb808b3356c5d3c4bd85dd1550a4a3767d9c581b5524176c3dccd4"
+    },
+    {
+      "path": "figures/patients/Patient_356_dashboard.pdf",
+      "bytes": 138570,
+      "sha256": "0d975dc85a11d695f688513c9b0452d3ec511f3ec3b26980f94b62e3393f7bb6"
+    },
+    {
+      "path": "figures/patients/Patient_356_dashboard.png",
+      "bytes": 441782,
+      "sha256": "20daf584fa4fb0a6e365c6e8af32744ed3d2ef36706d5849cae4c69e3a557400"
+    },
+    {
+      "path": "figures/patients/Patient_356_tMN.pdf",
+      "bytes": 19417,
+      "sha256": "499b7ff001b9d81406890ca04c396146f0f0128d609ed0227ae8a0a06bf3972a"
+    },
+    {
+      "path": "figures/patients/Patient_356_tMN.png",
+      "bytes": 72384,
+      "sha256": "5fe9b11bc84e4bd6b05c942243d666f503f519b12a583a1ecd218d989fa2b46e"
+    },
+    {
+      "path": "figures/patients/Patient_356_trajectories.pdf",
+      "bytes": 142606,
+      "sha256": "bb86a73673012204628ff3f65b3633fff5b7f2e5001092a2200c4f02aae9aed9"
+    },
+    {
+      "path": "figures/patients/Patient_356_trajectories.png",
+      "bytes": 380469,
+      "sha256": "332169d8f2395bc87eff496b1b28ad33e802f550eb773dc38f89d745d49d3d6e"
+    },
+    {
+      "path": "figures/patients/Patient_445_VAF.pdf",
+      "bytes": 23936,
+      "sha256": "27aad441e1ae25f9e54eb58a65794d662c7332e970af0ba67e91aac1c0222e9e"
+    },
+    {
+      "path": "figures/patients/Patient_445_VAF.png",
+      "bytes": 79536,
+      "sha256": "1eb26b24799795501ec84c194b34eda7e5e5ca01ae016cf4ffbd4b6e8fb0853a"
+    },
+    {
+      "path": "figures/patients/Patient_445_dashboard.pdf",
+      "bytes": 194923,
+      "sha256": "2b0aa10ae270434f2bc88dbe4b30136d418deb9f0aabb4948e68edc3fc1b48f6"
+    },
+    {
+      "path": "figures/patients/Patient_445_dashboard.png",
+      "bytes": 594726,
+      "sha256": "b9a214dfb2f46717f7d31be31f109f063d98ba1f44467a5c8ce7eb4d4b59d4df"
+    },
+    {
+      "path": "figures/patients/Patient_445_tMN.pdf",
+      "bytes": 19719,
+      "sha256": "bdd5c6964ca438e3966f0837dbe00efa4df215fc186297927656c0f0371c4141"
+    },
+    {
+      "path": "figures/patients/Patient_445_tMN.png",
+      "bytes": 70827,
+      "sha256": "e21cb71a1c88653582f46e6c8231d5419531cd52aeb848ec308fb663194ce81f"
+    },
+    {
+      "path": "figures/patients/Patient_445_trajectories.pdf",
+      "bytes": 217105,
+      "sha256": "617ccf94dae3e363872d260ee705b489ad074364869a0fdf5de091f3ab7be78e"
+    },
+    {
+      "path": "figures/patients/Patient_445_trajectories.png",
+      "bytes": 574500,
+      "sha256": "24765235d646dcdb39a2a3006fc3d6818b74634b805558b78c5d5cbe8a2ad5b3"
+    },
+    {
+      "path": "figures/patients/Patient_44_VAF.pdf",
+      "bytes": 23667,
+      "sha256": "e18ac192f0db55612ff934a073b9ef0c8d1cf062a26809515a94a8abcf6ebca9"
+    },
+    {
+      "path": "figures/patients/Patient_44_VAF.png",
+      "bytes": 78441,
+      "sha256": "56e278ecdcc1e71ecdd1c4354d63368bc48767ad75694abc5e544e9bc74540b1"
+    },
+    {
+      "path": "figures/patients/Patient_44_dashboard.pdf",
+      "bytes": 138856,
+      "sha256": "e777604a9bb447eebcc1cfb46696512c034286ec4ce289a8fde8eb771afe8cd8"
+    },
+    {
+      "path": "figures/patients/Patient_44_dashboard.png",
+      "bytes": 457168,
+      "sha256": "3b953f86026fb76a2859706868b5668875e5135be225576c5c2a022fcf151212"
+    },
+    {
+      "path": "figures/patients/Patient_44_tMN.pdf",
+      "bytes": 19160,
+      "sha256": "9aee084b9c83b136f54be9d296f37df70e8edae396e0f1a6086cb2d75ee522e9"
+    },
+    {
+      "path": "figures/patients/Patient_44_tMN.png",
+      "bytes": 68252,
+      "sha256": "771c7bd2cab961c60180b8aef56a8184327a1124acfe6a7b5375c340d35bc7ba"
+    },
+    {
+      "path": "figures/patients/Patient_44_trajectories.pdf",
+      "bytes": 148691,
+      "sha256": "16993101ee785f0c3ff81e2f06a1105d94219238e20a0c8189167926246d9e79"
+    },
+    {
+      "path": "figures/patients/Patient_44_trajectories.png",
+      "bytes": 413441,
+      "sha256": "9e3bc602dd68737a5d804875c1be499c3dc7d8e4dd103f021d2fc9da62b4d1d1"
+    },
+    {
+      "path": "figures/residuals_by_patient.pdf",
+      "bytes": 19592,
+      "sha256": "5f4edc87fa60ff77b5e4a63093078ad5a7944880065be8941c7be8a418c4e04f"
+    },
+    {
+      "path": "figures/residuals_by_patient.png",
+      "bytes": 55826,
+      "sha256": "9eb6a962217a5a550acf675bfbbd750a2db0a5250cd12f42774c1bd3a9be4102"
+    },
+    {
+      "path": "inputs/cohort.json",
+      "bytes": 9342,
+      "sha256": "e1487f2bd9b43ec142d280b58c08b60d660b508f685ad3bb847e49e5a3cfb87d"
+    },
+    {
+      "path": "inputs/cohort_audit.json",
+      "bytes": 1187,
+      "sha256": "a50868b97394889b6054283d608a76a8f86a241614911f0d8562b294cf7fba07"
+    },
+    {
+      "path": "inputs/fit.json",
+      "bytes": 13426,
+      "sha256": "ac48f12e7a10d70c68dcc1f04fe8356610cd1e0c4c357cc5894a6f20edf4ffc4"
+    },
+    {
+      "path": "inputs/fit_config.json",
+      "bytes": 2691,
+      "sha256": "0ad40867dc802e06184cbf396becef0d874a0c940f20e97f12399439e328993c"
+    },
+    {
+      "path": "model.py",
+      "bytes": 13659,
+      "sha256": "04795238ce5c00a58237b1ef480700a079bb46bb2d300d1f7791c7bcfaa2db13"
+    },
+    {
+      "path": "output/pdf/Patient_specific_Moran_analysis.pdf",
+      "bytes": 3186277,
+      "sha256": "6e4a467a48bde42fa922a06ac6e5195e7fe3fa1a52ec198b716738ffb94d9ee7"
+    },
+    {
+      "path": "outputs/20261105_patient_analysis/Patient_specific_Moran_results.xlsx",
+      "bytes": 43035,
+      "sha256": "a55aa8384e8b4a25c06dac64b52f9decc79be061b6982355002c3f4a6b7d8450"
+    },
+    {
+      "path": "patient_simulator.cpp",
+      "bytes": 5049,
+      "sha256": "a6245b6aee86f13d8cbe0e287ad903d80996d707ecb9e71d1c169f90e60c872a"
+    },
+    {
+      "path": "plot_figures.py",
+      "bytes": 16095,
+      "sha256": "c6181caf4907b39281d4bcf99e844c09d269b54dea7e95d4a09b0b8ed4cf07ac"
+    },
+    {
+      "path": "report.tex",
+      "bytes": 6286,
+      "sha256": "3b6df68f2329971d94a77eeb7c4b3a641cc7c63e182ab0a7bcd1ac9ddfabd069"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 76,
+      "sha256": "5795a9a857156e6b7da7bdc5b406bc01f168cc8a35d21ba126275fc566bdac54"
+    },
+    {
+      "path": "results/VAF_diagnostics.csv",
+      "bytes": 8651,
+      "sha256": "be807a8d26ead6bf2e13a4570e1bc3aa3744e22f0e6a9ad9a7c8298a0557f8eb"
+    },
+    {
+      "path": "results/completion.json",
+      "bytes": 340,
+      "sha256": "094d913f170288ecdaafe0e9f55db82aac0d8476a28e12da938219f25b3e90f2"
+    },
+    {
+      "path": "results/delivery_validation.json",
+      "bytes": 1710,
+      "sha256": "f055c1c117c8ace69f8e1ebfd710e6d0209965a6ec12cf2d7c858b71c6301c58"
+    },
+    {
+      "path": "results/diagnostic_summary.json",
+      "bytes": 354,
+      "sha256": "ad8481ed5b6216feda07bb775befe3b212204a74561b461dc010547835686d69"
+    },
+    {
+      "path": "results/gamma_check.json",
+      "bytes": 181,
+      "sha256": "b04110c33e9901abe5e9edab72d262183bbce9344c05de5dbc7ff1fe694993e3"
+    },
+    {
+      "path": "results/initial_states.csv",
+      "bytes": 1730,
+      "sha256": "3cb8db684175df9cba94edad577396b16ca55ba6de88ff54b94069e81ed8a83b"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_12_0.json",
+      "bytes": 261,
+      "sha256": "b41f42b581992212eb4970ee429bed97247cef2ad6db8d088e24f0231018862e"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_15p8479718_0.json",
+      "bytes": 272,
+      "sha256": "2f0ae3d63292c84495c7beea5bd9411139e71d40e39b91812716c3c4ed581176"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_20_0.json",
+      "bytes": 260,
+      "sha256": "c1a38b8876a54625a8d84389edbb102dcd69553cd5168346e8bdc9e2eb674dcd"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_2_0.json",
+      "bytes": 260,
+      "sha256": "1f188bc9e217a0f785fe3f9950886be94f91be6fc5bbc270946c3b7d6254d347"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_30_0.json",
+      "bytes": 260,
+      "sha256": "a0ff78915713b57edcccfba94dc0344e8a23b30d9962abfa07734d66241714ef"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_4_0.json",
+      "bytes": 273,
+      "sha256": "bed2426ab3d09f4f53188e144b3d0dbbe4e161c9afa6678abdfa41cf6c8c25b6"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_50_0.json",
+      "bytes": 259,
+      "sha256": "be976d74d7957f4836c3fbdb31fe83832e83d1b24ba49d6aa2452ca430cf4391"
+    },
+    {
+      "path": "results/likelihood/alpha_profile_8_0.json",
+      "bytes": 271,
+      "sha256": "294a8d6f15041acb9f42112f960692325b8859ff79a3c6d639a17ad4762cee70"
+    },
+    {
+      "path": "results/likelihood/surface_12_1.json",
+      "bytes": 132,
+      "sha256": "c116654d8b4ad975bc9e093d2d9d8556be01f8a5cf4fe00d3a9a0bda622c3d32"
+    },
+    {
+      "path": "results/likelihood/surface_12_14.json",
+      "bytes": 131,
+      "sha256": "bb86e1362078da02a2ade7cc2d2ad3f8b86e008bb7a71fa4d49e97baa2f4c962"
+    },
+    {
+      "path": "results/likelihood/surface_12_1460.json",
+      "bytes": 134,
+      "sha256": "e6733a06504b48f0ad0faef0fe7061eabf486cf8ee04715dd99adf4fa6172822"
+    },
+    {
+      "path": "results/likelihood/surface_12_1p5.json",
+      "bytes": 133,
+      "sha256": "6f6078b0f6eb3e9090cf4acf044f01170a7a8da66fb63b88e44c055bf0f82233"
+    },
+    {
+      "path": "results/likelihood/surface_12_2.json",
+      "bytes": 130,
+      "sha256": "565e3eb508d646846bd7dfe33b26270e0f150a1388a58d15ebc9399402395653"
+    },
+    {
+      "path": "results/likelihood/surface_12_30.json",
+      "bytes": 131,
+      "sha256": "4e619b7fb76620d79809e2b1e768a6855f338e6c3005b8a61b2413e891fe94d9"
+    },
+    {
+      "path": "results/likelihood/surface_12_365.json",
+      "bytes": 133,
+      "sha256": "feb6a17b5b024a1d88781c8360499fcea7afcc1bdb2af1477f2f1bdc1768349d"
+    },
+    {
+      "path": "results/likelihood/surface_12_4.json",
+      "bytes": 131,
+      "sha256": "84021ab075cec627a47d20cac007207e99d4aa3108d08b4c9e4b63bef780d72d"
+    },
+    {
+      "path": "results/likelihood/surface_12_7.json",
+      "bytes": 131,
+      "sha256": "34e4aa814b5ec4c1986ac76cd8ea0232a4af98d6e67b9dbdc3dd90b8e1b0b168"
+    },
+    {
+      "path": "results/likelihood/surface_12_90.json",
+      "bytes": 131,
+      "sha256": "7c776c818b07ee75cee04d26aed5d0867a1091c51c514eb70cb9a37c0b490934"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_1.json",
+      "bytes": 129,
+      "sha256": "aa6602d7bc94b84280fd289ab428d0eb17f35eb38acbb3f0ae95dcbb3e6ee7c9"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_14.json",
+      "bytes": 145,
+      "sha256": "24541914fec93f5ac5bcda57023912dae5e09205aef218994f403d82b39e5918"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_1460.json",
+      "bytes": 147,
+      "sha256": "36bd861d0901cff55f6b036ff08026d7e803abe155febd3dd2019d19c6038d6d"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_1p5.json",
+      "bytes": 145,
+      "sha256": "c24f5dcf7f319d5dd213c2cd895615eb22935bdb2fa85e992cfd04654786a5a4"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_2.json",
+      "bytes": 145,
+      "sha256": "2d55a6acb57a9ee985da6177099516d08984205974baaada304dc72b15d8afd8"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_30.json",
+      "bytes": 144,
+      "sha256": "1bdb039abe99149b55fd47d90a1451a9a3beaf8808d578fbac6b7b354ebe50ea"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_365.json",
+      "bytes": 147,
+      "sha256": "8341691493d469c3f12a1f954c1533e637d0e2a14ad1b8160f432d12a1ff53a5"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_4.json",
+      "bytes": 144,
+      "sha256": "faa1d4abb06eaad81a6191f7fa2ea9678ed8f00065eb40f61ab34e537bd90a49"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_7.json",
+      "bytes": 145,
+      "sha256": "5f4470fe53d6d2bee88c5cafe9e0d5355150c3ec9db8f8ea21e3778606f32c66"
+    },
+    {
+      "path": "results/likelihood/surface_15p8479718_90.json",
+      "bytes": 146,
+      "sha256": "9eb87ca20a741772608434d00a48b107088650978e73d52b11c943e757832be9"
+    },
+    {
+      "path": "results/likelihood/surface_20_1.json",
+      "bytes": 131,
+      "sha256": "068032cc33534318b2039bcd4e78c9eed48aa2d921821cf3814ce5aca6f05a4c"
+    },
+    {
+      "path": "results/likelihood/surface_20_14.json",
+      "bytes": 131,
+      "sha256": "576053cf6a7c7fcd807ee4bb9a4d03e1ff1bf4d25179cd42b85fd9b9fcc5bfe9"
+    },
+    {
+      "path": "results/likelihood/surface_20_1460.json",
+      "bytes": 134,
+      "sha256": "4a74118fb216dab1eafaa1461a0f209f23b965d43f8f3825e90045fe7e754846"
+    },
+    {
+      "path": "results/likelihood/surface_20_1p5.json",
+      "bytes": 130,
+      "sha256": "d1a44e7a37c008796be2615904fa990c0ce15d21b861d430a9f0919cc8ccafd7"
+    },
+    {
+      "path": "results/likelihood/surface_20_2.json",
+      "bytes": 131,
+      "sha256": "d89cb929769348125a06396e38d3c18809e6bca967119105274ca68be7f04d0b"
+    },
+    {
+      "path": "results/likelihood/surface_20_30.json",
+      "bytes": 130,
+      "sha256": "118e0995a1b187972f042bc6bc9bdb8ac3f394f967c0b2840e91b46a66bbf744"
+    },
+    {
+      "path": "results/likelihood/surface_20_365.json",
+      "bytes": 133,
+      "sha256": "d11f8505e59e47a3e16e0bbc7615c97b204b89992a69825f00989ab0481dd83a"
+    },
+    {
+      "path": "results/likelihood/surface_20_4.json",
+      "bytes": 132,
+      "sha256": "b3ab00c553a31c0bf5099049bb3851cf0aa4e2ada70d7f79dd9138e80ea06bc3"
+    },
+    {
+      "path": "results/likelihood/surface_20_7.json",
+      "bytes": 130,
+      "sha256": "67ecdd120e8cba1bb3d500f897ebd92637a5b32c5317a2082fc0095f70d244d9"
+    },
+    {
+      "path": "results/likelihood/surface_20_90.json",
+      "bytes": 132,
+      "sha256": "a94f56c872043b8de1696a6d5dbba1fe1504cfca43ae4b569770828c7b900ba2"
+    },
+    {
+      "path": "results/likelihood/surface_2_1.json",
+      "bytes": 132,
+      "sha256": "d934a68024f982876339ad26a7d1d402f4273d3b45da98d5d013b741102f0940"
+    },
+    {
+      "path": "results/likelihood/surface_2_14.json",
+      "bytes": 131,
+      "sha256": "e73e8101c02afa6a6f3f03842578135254993b86e704f0d3230cf6b81ebbd926"
+    },
+    {
+      "path": "results/likelihood/surface_2_1460.json",
+      "bytes": 132,
+      "sha256": "4fd357513b0e1c8d02152f7be6da93c164135ebc60bad13af2057081eacbfe22"
+    },
+    {
+      "path": "results/likelihood/surface_2_1p5.json",
+      "bytes": 131,
+      "sha256": "f961109f49bf8f228e7b908ff0a1875368d9e37bf64bf63b324f4616dd177f36"
+    },
+    {
+      "path": "results/likelihood/surface_2_2.json",
+      "bytes": 130,
+      "sha256": "31f3aeecf2225495c70529fba0a0f3914921c84a7d6e4b38e0b52e8d4e628700"
+    },
+    {
+      "path": "results/likelihood/surface_2_30.json",
+      "bytes": 131,
+      "sha256": "b75c497ead6368abac44c1d1b7938f15dcbcc32e7f571da443776a472b763841"
+    },
+    {
+      "path": "results/likelihood/surface_2_365.json",
+      "bytes": 130,
+      "sha256": "fe365a607220c692b72643383d42ba311f3be430d622e11947450426768c5158"
+    },
+    {
+      "path": "results/likelihood/surface_2_4.json",
+      "bytes": 130,
+      "sha256": "e854fb14e69cb771dd608d9c6b325135fadaa3172edcfbf2a9251ec0e7838b69"
+    },
+    {
+      "path": "results/likelihood/surface_2_7.json",
+      "bytes": 130,
+      "sha256": "3c29e4c96ce7c2c5279e75b1def258836f04ad51f06577421ecc1e17ee3702af"
+    },
+    {
+      "path": "results/likelihood/surface_2_90.json",
+      "bytes": 131,
+      "sha256": "3b694b427dd954e81340b9c956627c949b8efc69412a0e8b5c3ca58103a062f9"
+    },
+    {
+      "path": "results/likelihood/surface_30_1.json",
+      "bytes": 131,
+      "sha256": "84f3e87db6c353025357582c9b3b6527024befda1bd3e5200b454e470002b88c"
+    },
+    {
+      "path": "results/likelihood/surface_30_14.json",
+      "bytes": 131,
+      "sha256": "7f095d5cf55ef87f5bc7b43b546fa175f935809cf6796637dbf4c951b53dd4b2"
+    },
+    {
+      "path": "results/likelihood/surface_30_1460.json",
+      "bytes": 134,
+      "sha256": "525c240b545028d5e42eb1ecef4d7fde8edc563033771fefc0d1ccef7ec62130"
+    },
+    {
+      "path": "results/likelihood/surface_30_1p5.json",
+      "bytes": 131,
+      "sha256": "b97deaf515b56c14b20f6f26e16924a0382f584e63ea35ded79c0daa3408150d"
+    },
+    {
+      "path": "results/likelihood/surface_30_2.json",
+      "bytes": 131,
+      "sha256": "05384e36c996841e15ade86ee8a8c7364435387d0472a4deb1eb639a2508a028"
+    },
+    {
+      "path": "results/likelihood/surface_30_30.json",
+      "bytes": 131,
+      "sha256": "509f09a6235f4110fb9aec878795f628b77371c9b698aa35e56703470587396c"
+    },
+    {
+      "path": "results/likelihood/surface_30_365.json",
+      "bytes": 133,
+      "sha256": "95720cfbe3862ea3e6fe9490d83ee4762fdd474669ea40341a87d4ec32818a86"
+    },
+    {
+      "path": "results/likelihood/surface_30_4.json",
+      "bytes": 131,
+      "sha256": "e4ef98eb1989721350a0eb723f3ed702a9385392cde342a85a7ad0a74258f1d0"
+    },
+    {
+      "path": "results/likelihood/surface_30_7.json",
+      "bytes": 130,
+      "sha256": "3b67067f8454e0ee503f8abb5f0557ebd56cd0d3572dd52fe405bd3b25108d46"
+    },
+    {
+      "path": "results/likelihood/surface_30_90.json",
+      "bytes": 131,
+      "sha256": "ee2251716c3f64e000093bf89487f5b94b51dbe620afdc9f1aa02a96110a57b6"
+    },
+    {
+      "path": "results/likelihood/surface_40_1.json",
+      "bytes": 130,
+      "sha256": "e273c27ee9c254071949e2ec92e92f4b0608136940a6b533d5fbabea8facf11b"
+    },
+    {
+      "path": "results/likelihood/surface_40_14.json",
+      "bytes": 131,
+      "sha256": "488fb1ac319efecf8a8e04d0f658d9588b978013e8477840ec13212e5418924e"
+    },
+    {
+      "path": "results/likelihood/surface_40_1460.json",
+      "bytes": 134,
+      "sha256": "61a9c925d731fbf0205f02be7385601a0f4521cf4c64152fede3557285b5b71a"
+    },
+    {
+      "path": "results/likelihood/surface_40_1p5.json",
+      "bytes": 131,
+      "sha256": "4e0d5cbac63c6f7dd9764602b8ec1b86379b9e2e968aee9a8a6b654c988da4aa"
+    },
+    {
+      "path": "results/likelihood/surface_40_2.json",
+      "bytes": 132,
+      "sha256": "3acebacf0293988325b7a3b9024f2b46d48d5b2a6947e763bf028f90a1c28ab3"
+    },
+    {
+      "path": "results/likelihood/surface_40_30.json",
+      "bytes": 132,
+      "sha256": "1bd1aa4741b3dba95c5e79f8375158f7cc0346bbe720128582780d3dc25b9cd0"
+    },
+    {
+      "path": "results/likelihood/surface_40_365.json",
+      "bytes": 133,
+      "sha256": "4cabc8928c21141e0e1be5e87ecff354f69847698388a4a72c660b09973f5d3b"
+    },
+    {
+      "path": "results/likelihood/surface_40_4.json",
+      "bytes": 130,
+      "sha256": "6c1706094af445fd510d7aa0b1b09c664a6c9f021ccb37a1c49aed69a2fad530"
+    },
+    {
+      "path": "results/likelihood/surface_40_7.json",
+      "bytes": 130,
+      "sha256": "5526d25eb349af1bd627931d320b4de53e9ea7e287e6daad9eb18e41c75fa34c"
+    },
+    {
+      "path": "results/likelihood/surface_40_90.json",
+      "bytes": 132,
+      "sha256": "6990a2d5c4dc6309a73c8f462644a3d6591c04a174fef6c2d1e8f546a00740e2"
+    },
+    {
+      "path": "results/likelihood/surface_4_1.json",
+      "bytes": 131,
+      "sha256": "20505aec7faa72a7a2a2355e6b58d6165c9e88e4a2a47c89eba84feeebc495b5"
+    },
+    {
+      "path": "results/likelihood/surface_4_14.json",
+      "bytes": 131,
+      "sha256": "c45fdb919cb7e9b862a97ba9647dc0a44462df60baee52b16e1b1a5ff467dc3b"
+    },
+    {
+      "path": "results/likelihood/surface_4_1460.json",
+      "bytes": 133,
+      "sha256": "4fd2fc85ee501a8e621ade61ffc13877510914ad37a37f0966a61ff0f954d348"
+    },
+    {
+      "path": "results/likelihood/surface_4_1p5.json",
+      "bytes": 132,
+      "sha256": "16e3e6103a2329fed6789dddeb2059badc346d9fa090283f33a49cdc6ff649b9"
+    },
+    {
+      "path": "results/likelihood/surface_4_2.json",
+      "bytes": 131,
+      "sha256": "c1da4941ed45e890f94bb088bbd7c8819838cca14115929cb9059ea1206d0c7c"
+    },
+    {
+      "path": "results/likelihood/surface_4_30.json",
+      "bytes": 130,
+      "sha256": "ecdf218b6357ae4f3e2342affd01a65fa47eb4fbcc02dd51b3a055ca0b6e8486"
+    },
+    {
+      "path": "results/likelihood/surface_4_365.json",
+      "bytes": 131,
+      "sha256": "968d9695ec9c19ed2c7ca2cd9d5bc8cf7fc524b9ab83e46eb8c64425f1449e4b"
+    },
+    {
+      "path": "results/likelihood/surface_4_4.json",
+      "bytes": 130,
+      "sha256": "0c4779d0c484fa4f44b03c761699a4d41c236c9e5e8bb3fabd55a8f28a46c9c2"
+    },
+    {
+      "path": "results/likelihood/surface_4_7.json",
+      "bytes": 130,
+      "sha256": "4f507ca50f54e43b13c90aac1d4dba6083e672799395d51a6e98f5ffcb6b69d5"
+    },
+    {
+      "path": "results/likelihood/surface_4_90.json",
+      "bytes": 130,
+      "sha256": "5ddabe087e0150865815ba8676d6b10fd714b335221328cd1db7734be335b353"
+    },
+    {
+      "path": "results/likelihood/surface_50_1.json",
+      "bytes": 130,
+      "sha256": "3aded3c6cf771ed807a30e72e0fa8578c319aac0d7da7677bf188a3506e98b3e"
+    },
+    {
+      "path": "results/likelihood/surface_50_14.json",
+      "bytes": 130,
+      "sha256": "99699befe8a901bff82831c4ee3d82d23f6c415a026c7be9d30adda6e2574d3b"
+    },
+    {
+      "path": "results/likelihood/surface_50_1460.json",
+      "bytes": 134,
+      "sha256": "a533943e0309acf4c74f0780cb92e4cc01896cbae900edfdeab8dd92d9220e5f"
+    },
+    {
+      "path": "results/likelihood/surface_50_1p5.json",
+      "bytes": 130,
+      "sha256": "dca36ed71db26271099b358e47021a556112094c8a7383d9f0c6ba03d8a4d9b0"
+    },
+    {
+      "path": "results/likelihood/surface_50_2.json",
+      "bytes": 131,
+      "sha256": "d6d7eef719ecac366a6f8a203393203d168eaa07c37ba43686da06d11e1aad5c"
+    },
+    {
+      "path": "results/likelihood/surface_50_30.json",
+      "bytes": 132,
+      "sha256": "89a375ef91ef2476bdd5bbe3f7eab3ae2dfdf8460e1e07ce563983e2054935ab"
+    },
+    {
+      "path": "results/likelihood/surface_50_365.json",
+      "bytes": 133,
+      "sha256": "29c770cd10084e0805210e9fef490fe658c21b9bdc41a708acdefd00be8239c6"
+    },
+    {
+      "path": "results/likelihood/surface_50_4.json",
+      "bytes": 130,
+      "sha256": "65618da8e360a0243beb4451fef8f75ec88a46767dd9a8f526db78748dea6f38"
+    },
+    {
+      "path": "results/likelihood/surface_50_7.json",
+      "bytes": 129,
+      "sha256": "47077f3a22b61e0eaec7241294786ea751e4f66064877b7da96ace38d0fb7da9"
+    },
+    {
+      "path": "results/likelihood/surface_50_90.json",
+      "bytes": 131,
+      "sha256": "86f3d7f3a008c462cb400b6f9bf599f941b6cb8ee9f57f3cb53c7820a91ccb79"
+    },
+    {
+      "path": "results/likelihood/surface_8_1.json",
+      "bytes": 131,
+      "sha256": "d33f4aedac41002a282a60e581db45318c58a56a095dd5f9de3e1b2a9045cfa1"
+    },
+    {
+      "path": "results/likelihood/surface_8_14.json",
+      "bytes": 131,
+      "sha256": "08f22e2a0d0d12b00c23883fca4b42be616986b8aac537b0cc40dff5359360a8"
+    },
+    {
+      "path": "results/likelihood/surface_8_1460.json",
+      "bytes": 133,
+      "sha256": "21757c646d453c43ddbe66752dd825ac2c59667eb94a4165d30b366df1f3537b"
+    },
+    {
+      "path": "results/likelihood/surface_8_1p5.json",
+      "bytes": 132,
+      "sha256": "237d380ff54c25f8e8a40f4a86270c442f5b7e57b17fb4d6f987a383d0592da5"
+    },
+    {
+      "path": "results/likelihood/surface_8_2.json",
+      "bytes": 131,
+      "sha256": "c298acc6d3dd3973a809b88a31962aa43751fcfc0e4fce342f2d6e99ececf8fd"
+    },
+    {
+      "path": "results/likelihood/surface_8_30.json",
+      "bytes": 130,
+      "sha256": "ca5685a24dbc3fc2034af2eff396f9f21a0a9d22d783503aa6677e404d2a8886"
+    },
+    {
+      "path": "results/likelihood/surface_8_365.json",
+      "bytes": 132,
+      "sha256": "b84decf93f0b2b0091c0ade75793194a465f909a9754f9d31359557952193807"
+    },
+    {
+      "path": "results/likelihood/surface_8_4.json",
+      "bytes": 130,
+      "sha256": "6a3740a303367482bd44f03b8100fe72baa6fe3a6ae999017b3563fe49ba3891"
+    },
+    {
+      "path": "results/likelihood/surface_8_7.json",
+      "bytes": 130,
+      "sha256": "945cb76adb7ac7d640e2c1d19427154cd38f8f5eac3cc4c13c599c93c95e149e"
+    },
+    {
+      "path": "results/likelihood/surface_8_90.json",
+      "bytes": 130,
+      "sha256": "4bd5429524c9235fb5289f9d19e5d15e1ca83b035ac49aa2dfa811034d9672df"
+    },
+    {
+      "path": "results/likelihood/theta_profile_1460_0.json",
+      "bytes": 279,
+      "sha256": "c77c16b0026845908f73b1445039cbc1a319ffd795c8f98898b7e0416811f491"
+    },
+    {
+      "path": "results/likelihood/theta_profile_1_0.json",
+      "bytes": 257,
+      "sha256": "883ccdaa8ed851b36c944d7622be89960ab7da6258d32d744112161b49c9ea3b"
+    },
+    {
+      "path": "results/likelihood/theta_profile_1p5_0.json",
+      "bytes": 274,
+      "sha256": "3bf69fe48fa147735f7ec3022b673f080938bf6fe704852d76beecb31936d734"
+    },
+    {
+      "path": "results/likelihood/theta_profile_2_0.json",
+      "bytes": 273,
+      "sha256": "93a2ddeec11a6787d94e5394d3145ca0a46f32879f618779eaab3c7fcbdf7db3"
+    },
+    {
+      "path": "results/likelihood/theta_profile_30_0.json",
+      "bytes": 260,
+      "sha256": "3a2afe2cf98e9f29876b55afcd324a9c69f5f5933bdd39472cf66ec8be9f01b7"
+    },
+    {
+      "path": "results/likelihood/theta_profile_365_0.json",
+      "bytes": 277,
+      "sha256": "a6a15ad01852d51490ecd53db3a4d67a64fd225303b21fd2ae1a48136b4a0eed"
+    },
+    {
+      "path": "results/likelihood/theta_profile_7_0.json",
+      "bytes": 258,
+      "sha256": "a9b8d75cf356cb52c81f5ff04e0f5414b16a938ff9b86506656e359860975284"
+    },
+    {
+      "path": "results/likelihood_diagnostic_summary.json",
+      "bytes": 507,
+      "sha256": "22f674b0f88291c9c3faf37add18281ef08f2a4ca3e07b9a86584e13f3954119"
+    },
+    {
+      "path": "results/likelihood_profiles.csv",
+      "bytes": 2079,
+      "sha256": "7eb79939a2c32c3ad8fe252129d3dbed7c8ee6f6d221798466b01d91357daae4"
+    },
+    {
+      "path": "results/likelihood_surface.csv",
+      "bytes": 5137,
+      "sha256": "722af55f02420c1f36597d01ce926e8edfd98f4dfa494480407b3094b64328f6"
+    },
+    {
+      "path": "results/patient_risks.csv",
+      "bytes": 3058,
+      "sha256": "d18018e17f17bdb8077525e854a8352fd0f26e8b2e6e5b9891a448999405336c"
+    },
+    {
+      "path": "results/patients/Patient_102_VAF.json",
+      "bytes": 10292,
+      "sha256": "29513a664d153c5898ed84aa41dc0ef634a0de2aa407fbe34be6e6c70cbe3c6b"
+    },
+    {
+      "path": "results/patients/Patient_102_risks.json",
+      "bytes": 6077,
+      "sha256": "e593d8d48c6eefe6ce30ac1842228977d4d41a2dea7977e74bde4ec65bd14c98"
+    },
+    {
+      "path": "results/patients/Patient_103_VAF.json",
+      "bytes": 5286,
+      "sha256": "c247cd40a5c5549c12105b758e75dedaee80c51f4782f529d5e06dfc22d42d2f"
+    },
+    {
+      "path": "results/patients/Patient_103_risks.json",
+      "bytes": 6084,
+      "sha256": "d4e6eca397c9a292f8a74cd551974466d305a09e8d3a07f6fece4fdc00cafe95"
+    },
+    {
+      "path": "results/patients/Patient_123_VAF.json",
+      "bytes": 9387,
+      "sha256": "d1ce0b6f48c94dc4b8ce85870b85168cec574dbdc68d81cedd1de731b8e9741c"
+    },
+    {
+      "path": "results/patients/Patient_123_risks.json",
+      "bytes": 6083,
+      "sha256": "0837b0ce9bd54aed30130aae8d1fbfd5116367b9a276385290a38738a9b7e96e"
+    },
+    {
+      "path": "results/patients/Patient_180_VAF.json",
+      "bytes": 12158,
+      "sha256": "12e364ab2a0603287fe0362b399e4ffca249895551d0aad89fbebfed4f4da9c3"
+    },
+    {
+      "path": "results/patients/Patient_180_risks.json",
+      "bytes": 6074,
+      "sha256": "480dbf9c6d2939f4276a03830a47ed5da6804b4d87878bf73a2a47c1dcecc947"
+    },
+    {
+      "path": "results/patients/Patient_197_VAF.json",
+      "bytes": 7170,
+      "sha256": "171d21a17a30e3f59a4d05a1f8f15384e03f7801fe2fce7823ae47da4f646bd1"
+    },
+    {
+      "path": "results/patients/Patient_197_risks.json",
+      "bytes": 6076,
+      "sha256": "9347ac8631460d9449a63555c375daea09de4405e9495138bb9af265a8e75c92"
+    },
+    {
+      "path": "results/patients/Patient_235_VAF.json",
+      "bytes": 12360,
+      "sha256": "a01095e36acd088296023b6bec2e408447b1412215e84b6a89c11e82e58eab4b"
+    },
+    {
+      "path": "results/patients/Patient_235_risks.json",
+      "bytes": 6078,
+      "sha256": "da39639f3ae28273942b98c4cce85880f3fdd4421dc6213df647dc8b9e470e56"
+    },
+    {
+      "path": "results/patients/Patient_238_VAF.json",
+      "bytes": 12709,
+      "sha256": "dde8e68b475a7a252a0024392956c8bbb149aa8dc03d832c3edc6b30dafdef67"
+    },
+    {
+      "path": "results/patients/Patient_238_risks.json",
+      "bytes": 6076,
+      "sha256": "ec8f21e75535f577c91812900b1788a1d3f495250ccbe78745732d60841ac0d8"
+    },
+    {
+      "path": "results/patients/Patient_25_VAF.json",
+      "bytes": 8598,
+      "sha256": "3f91aed17bfa12f2d642f55ce4ac7713978f937b0e686c6c89bd2814f1ec0680"
+    },
+    {
+      "path": "results/patients/Patient_25_risks.json",
+      "bytes": 6050,
+      "sha256": "5dc13641a532c48dfaa220b7b972087b2ac2b686f0bed9beca533aca964f859f"
+    },
+    {
+      "path": "results/patients/Patient_316_VAF.json",
+      "bytes": 14011,
+      "sha256": "e9454aba871df63b1dc7f690b0abe026a0e6ad3872d90b970f2bf056368def6c"
+    },
+    {
+      "path": "results/patients/Patient_316_risks.json",
+      "bytes": 6082,
+      "sha256": "4671de3cf87dccf58108a8bf348e56132f2316c7e85e45f6b75358e9d48e65f9"
+    },
+    {
+      "path": "results/patients/Patient_318_VAF.json",
+      "bytes": 12275,
+      "sha256": "60874adabdbcfad36ca4a2e27ccd77c78444decdb23def4f8ef82a95e9d5a620"
+    },
+    {
+      "path": "results/patients/Patient_318_risks.json",
+      "bytes": 6071,
+      "sha256": "4402041127ffcebc56de55e0dd8b3a176d99521c6c0c176c828ad0a9e029f924"
+    },
+    {
+      "path": "results/patients/Patient_321_VAF.json",
+      "bytes": 10218,
+      "sha256": "631a2e7026481d05e8c6378ee4b9ddc9da0dbb10b58ef4bae5ddf95086b5f800"
+    },
+    {
+      "path": "results/patients/Patient_321_risks.json",
+      "bytes": 6073,
+      "sha256": "7014a5361490c9b9ccc230a8c4c6602da104f873bf9a7cb60df48031fcb2c98f"
+    },
+    {
+      "path": "results/patients/Patient_356_VAF.json",
+      "bytes": 12569,
+      "sha256": "313fbc72860b6331cce2ed05433621cf1786b69898ebfd12f1d4d524dddaa311"
+    },
+    {
+      "path": "results/patients/Patient_356_risks.json",
+      "bytes": 6076,
+      "sha256": "1c30112bc66899dc635690f7c226d69ac43606ac8f3ae9ee5341748ac75e7f9d"
+    },
+    {
+      "path": "results/patients/Patient_445_VAF.json",
+      "bytes": 11171,
+      "sha256": "d944a0fc636ef2f1a3828c8250a14d130c2690d532c6810e80e6fd3b68c1438b"
+    },
+    {
+      "path": "results/patients/Patient_445_risks.json",
+      "bytes": 6079,
+      "sha256": "744de787a8d587259a21373ec528e30ce4c88d2b9fe1212f27685e7aeb47c939"
+    },
+    {
+      "path": "results/patients/Patient_44_VAF.json",
+      "bytes": 10282,
+      "sha256": "01ab50841d7a6d5b5cba00ff72dd72ab2b0b54f7731fcbddc4557c4b2777ed69"
+    },
+    {
+      "path": "results/patients/Patient_44_risks.json",
+      "bytes": 6040,
+      "sha256": "89e9261c13ab6c231cd54ccb145798610f924869039659b4a70673f0f317126d"
+    },
+    {
+      "path": "results/risk_curves.csv",
+      "bytes": 28245,
+      "sha256": "c71187c70bc30002c332a09043369aaf604ac849a89053d16c2ad7fc5e127f2a"
+    },
+    {
+      "path": "results/risk_precision.json",
+      "bytes": 2155,
+      "sha256": "8a44a4046198bbd1f4b9648099b628802d4b35cfcc35793aca2fc5555868cd2d"
+    },
+    {
+      "path": "results/simulation_summary.csv",
+      "bytes": 3120,
+      "sha256": "ee92290b30d509ff5a686f466992113ac9954bf4802842b9d7a9d35e623f9ecc"
+    },
+    {
+      "path": "results/trajectories/Patient_102.csv",
+      "bytes": 11473,
+      "sha256": "6d0b1c52d667de5184e316e6b19808d7457bc91ab6792bfa82096841900d780a"
+    },
+    {
+      "path": "results/trajectories/Patient_102.json",
+      "bytes": 1294,
+      "sha256": "b4b8c7e0e8b68abd42e97f824ee4463de9094696430072886561e701b86e4004"
+    },
+    {
+      "path": "results/trajectories/Patient_102.npz",
+      "bytes": 722725,
+      "sha256": "6029876431d24d2964c98c20d85deaa2487138e4ae12bd2804d40b17470e970e"
+    },
+    {
+      "path": "results/trajectories/Patient_103.csv",
+      "bytes": 10695,
+      "sha256": "d7b51a0e3a48bbcf794e619415e7935fbe0ff04b7d27e1cc24f8118f2d4125cc"
+    },
+    {
+      "path": "results/trajectories/Patient_103.json",
+      "bytes": 1237,
+      "sha256": "c72e21826c3ccafa1d31b80e3825af77904380841209d2a271e39a3b89c48951"
+    },
+    {
+      "path": "results/trajectories/Patient_103.npz",
+      "bytes": 536824,
+      "sha256": "defa9cd633dd1d4b7b0ffc137dddbf8d20622fb07a7339d6a0fe1aff1b786a56"
+    },
+    {
+      "path": "results/trajectories/Patient_123.csv",
+      "bytes": 11474,
+      "sha256": "b5b5a3ec825c46508eae4337e4aafc4b9fe45cb4f710952aa8a978827e1527e3"
+    },
+    {
+      "path": "results/trajectories/Patient_123.json",
+      "bytes": 1218,
+      "sha256": "0d4be75f7c57cf58fc81760e95a4ea9c2c84a4578c3eb32ae4fdfc9f56363297"
+    },
+    {
+      "path": "results/trajectories/Patient_123.npz",
+      "bytes": 788131,
+      "sha256": "871111af2829b9cb162d735ce118bb31a47370c3973a373bb1e737ce7f7f6e63"
+    },
+    {
+      "path": "results/trajectories/Patient_180.csv",
+      "bytes": 11434,
+      "sha256": "9b1f76fa26d9b774c37449f6d0da497cfc2a331d633c8770ad344318534cfc6e"
+    },
+    {
+      "path": "results/trajectories/Patient_180.json",
+      "bytes": 1467,
+      "sha256": "89b77fa64ae031107bad20a45a80d038b877829ade957e9e345d55ea9bf096f3"
+    },
+    {
+      "path": "results/trajectories/Patient_180.npz",
+      "bytes": 618969,
+      "sha256": "865a276933e43b9d82a3719096e9b6f696b4abebebf29229ed127fe324e9fb91"
+    },
+    {
+      "path": "results/trajectories/Patient_197.csv",
+      "bytes": 11470,
+      "sha256": "dc88ef6135c8fac1256d73da3692c77a70d2eaf80c82d001f8f218d113a2b93b"
+    },
+    {
+      "path": "results/trajectories/Patient_197.json",
+      "bytes": 1308,
+      "sha256": "ff50991f501e92a1955e3c0a5b69246360d4acae2e8004fe183bf4063a18dc34"
+    },
+    {
+      "path": "results/trajectories/Patient_197.npz",
+      "bytes": 650490,
+      "sha256": "6f9af6948851b101d67b91acdd6573df22aafc26d7be79ca8c11a9e804f1853a"
+    },
+    {
+      "path": "results/trajectories/Patient_235.csv",
+      "bytes": 11914,
+      "sha256": "95c17dcbd4b4c5fad3066b9e21a0abbcdb00b29d2edd0401b7fed9ffa6c73d0a"
+    },
+    {
+      "path": "results/trajectories/Patient_235.json",
+      "bytes": 1515,
+      "sha256": "0af3ea6a58e26bc4d2897aa71fe9d0314c08e4dcdc4d7c90d3cad7d950288fa1"
+    },
+    {
+      "path": "results/trajectories/Patient_235.npz",
+      "bytes": 835362,
+      "sha256": "a18f2d2108c5c924f4901692977a63d8bc5efd51c8aa18807adcc98c19460c9b"
+    },
+    {
+      "path": "results/trajectories/Patient_238.csv",
+      "bytes": 11457,
+      "sha256": "0400642c414699bb3b5bea9c8a5f9db213ba2ea6bb8011e18209c3c476868ce4"
+    },
+    {
+      "path": "results/trajectories/Patient_238.json",
+      "bytes": 1530,
+      "sha256": "3590173122df6b7bae0ed47761124bee1cd7907ec656dc68395a30568d123479"
+    },
+    {
+      "path": "results/trajectories/Patient_238.npz",
+      "bytes": 760644,
+      "sha256": "44f66f4bdcaa495e1f7b1b2a81797b62b260aed7ac1fa3dd9131b6e17b4187fa"
+    },
+    {
+      "path": "results/trajectories/Patient_25.csv",
+      "bytes": 11471,
+      "sha256": "eda015223cf1343bceb0269a1373a61511430e41329ce162b981ec11fea7277d"
+    },
+    {
+      "path": "results/trajectories/Patient_25.json",
+      "bytes": 1272,
+      "sha256": "8377f18c6fcbf68c506eb1b7741854aa9f32bec644674175c9410f4e30ce4018"
+    },
+    {
+      "path": "results/trajectories/Patient_25.npz",
+      "bytes": 713249,
+      "sha256": "550ab8a6ca3edfac6c37a8a201e6fe3f17e47a882f5cf6a953c750435f3f5b00"
+    },
+    {
+      "path": "results/trajectories/Patient_316.csv",
+      "bytes": 12274,
+      "sha256": "771a0a67d328838e27745c9c506e6c588835322469b0261eddaf9551e84c8c3b"
+    },
+    {
+      "path": "results/trajectories/Patient_316.json",
+      "bytes": 1676,
+      "sha256": "27a954b4b7b1d323066d648d276f2e7e579631a1814c3c718f47789a08dbccfe"
+    },
+    {
+      "path": "results/trajectories/Patient_316.npz",
+      "bytes": 871800,
+      "sha256": "44f2def4d1d4ea4c5ef8a9574df017693d2763ce16ad73f98a5376d9e34be870"
+    },
+    {
+      "path": "results/trajectories/Patient_318.csv",
+      "bytes": 12290,
+      "sha256": "2bb219e186e5f661b1507d4dc5c1d350f951a9d1a171bdf6b89464f96d610568"
+    },
+    {
+      "path": "results/trajectories/Patient_318.json",
+      "bytes": 1522,
+      "sha256": "b8a3c8656355ad8b2579f5c37e0a764c15e9137bed31319eccf1a94909065269"
+    },
+    {
+      "path": "results/trajectories/Patient_318.npz",
+      "bytes": 996337,
+      "sha256": "cb09412fff0b92d8a7029647d00c056ad1fa38692968786de3988cee3072ccc4"
+    },
+    {
+      "path": "results/trajectories/Patient_321.csv",
+      "bytes": 11497,
+      "sha256": "12dd49fb62a6a80b449fc4ef560b9f302ec2a8ec4ab9bd702263cc076aa28dcb"
+    },
+    {
+      "path": "results/trajectories/Patient_321.json",
+      "bytes": 1289,
+      "sha256": "6abea3810697ecf620392c2e0167af59744ae5e48fa52ac4e1a9fabfe4eb9980"
+    },
+    {
+      "path": "results/trajectories/Patient_321.npz",
+      "bytes": 803176,
+      "sha256": "b1407e1d6c12d7dcee949c132431f4b21e3e89335b4d24b0dbc657100d18a97b"
+    },
+    {
+      "path": "results/trajectories/Patient_356.csv",
+      "bytes": 11476,
+      "sha256": "ecc85457687964275c6aff62ad677d6b9cdc1186dcc4be61dc237e7aa3725d9a"
+    },
+    {
+      "path": "results/trajectories/Patient_356.json",
+      "bytes": 1517,
+      "sha256": "3406f04bcaf0b5ee5b708d05abfc89eb813a5255bae7130fb65ad9a830b4c506"
+    },
+    {
+      "path": "results/trajectories/Patient_356.npz",
+      "bytes": 780178,
+      "sha256": "9d9ec2dc42f743dd34d7281ef5e7282851c3cbb22aa4e457bad5cc5e19dd770e"
+    },
+    {
+      "path": "results/trajectories/Patient_44.csv",
+      "bytes": 11464,
+      "sha256": "138f8e62ffb1a9e14d203e8855e8756a3ba4729aa54020c6be8455a68490ecd4"
+    },
+    {
+      "path": "results/trajectories/Patient_44.json",
+      "bytes": 1289,
+      "sha256": "537a30b0f5b9a6e245bc48076a8b5915173019426512c0b2ca950589899cd0e1"
+    },
+    {
+      "path": "results/trajectories/Patient_44.npz",
+      "bytes": 709047,
+      "sha256": "9e99f83545f72e0ef3acd494b372a79bbe38002c93f61e814d77940df73338fa"
+    },
+    {
+      "path": "results/trajectories/Patient_445.csv",
+      "bytes": 10704,
+      "sha256": "7e75970fede9d3b9bf317ddd3637b9b827c4010f002ed75ca3670abf5e2544c1"
+    },
+    {
+      "path": "results/trajectories/Patient_445.json",
+      "bytes": 1368,
+      "sha256": "393e8098be36b94788e30bdd550cff5c8df3a71ed26ca4fa2dcf1af7d7aa29c5"
+    },
+    {
+      "path": "results/trajectories/Patient_445.npz",
+      "bytes": 546422,
+      "sha256": "a8228ac02d8414f03047e6d63a43474ac2d0c2c3997ae00426babd52d2f529bb"
+    },
+    {
+      "path": "results/trajectory_daily_summary.csv",
+      "bytes": 1461510,
+      "sha256": "110f20da428b9e4bfbefb3cb8a9bbdba93b51eb7732752ab3e235703b6d16532"
+    },
+    {
+      "path": "results/trajectory_yearly_summary.csv",
+      "bytes": 4950,
+      "sha256": "473f0a15538c97220dd4c5bc9d801cb0ff0822f9a3466ff5d468edb76bd7da6d"
+    },
+    {
+      "path": "results/validation.json",
+      "bytes": 420,
+      "sha256": "caf8d6cec3f2b5c1216a2477fe7e817e30fa97c84edc471f93f3be1fc0343a5b"
+    },
+    {
+      "path": "results/workbook_formula_scan.json",
+      "bytes": 236,
+      "sha256": "9036f760c8051504a4110284b3285bdeedeb79d9bfc42c88887cedbeaf3ecb7f"
+    },
+    {
+      "path": "results/workbook_inspection.json",
+      "bytes": 285,
+      "sha256": "ce9c70fbb436686c4c066ed674ed4c2817a60a29d2c8a9db37bf16ea5f564757"
+    },
+    {
+      "path": "results/workbook_payload.json",
+      "bytes": 173059,
+      "sha256": "9a680006801e7934b7b41f06ad5a745c64d573fa6d200413fd3158f571a2ac2b"
+    },
+    {
+      "path": "results_pages.tex",
+      "bytes": 7833,
+      "sha256": "40a87b5d542ccca1bba6f6740bb28b9decc5ad5f721d0ccbaba0068deae6f559"
+    },
+    {
+      "path": "validate_analysis.py",
+      "bytes": 4980,
+      "sha256": "6b713960792ea452d1b64e2881011fe8a6cb759d6a03190c7e0780f140f6ec2c"
+    }
+  ]
+}

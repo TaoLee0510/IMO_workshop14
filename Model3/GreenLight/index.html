@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GreenLight · MarrowTwin</title>
+<meta name="description" content="GreenLight — digital twins for CAR T recovery (Team Green, MarrowTwin). Clinician and researcher portals over one patient-specific marrow model that learns from every blood count. Authorized use only.">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app"><div class="boot">Loading GreenLight…</div></div>
+
+<!-- public part of the results bundle (step G: Model3/Code/R/an_G_export.R): digital patients and aggregate
+     model information; real patients are sealed (data/sealed, tools/seal.js) and opened per user after login -->
+<script src="data/model3_index.js"></script>
+<script src="data/users.js"></script>
+<!-- vendored, offline -->
+<script src="vendor/katex/katex.min.js"></script>
+<!-- core -->
+<script src="js/core/util.js"></script>
+<script src="js/core/i18n.js"></script>
+<script src="js/i18n/en.js"></script>
+<script src="js/i18n/ja.js"></script>
+<script src="js/i18n/de.js"></script>
+<script src="js/i18n/fr.js"></script>
+<script src="js/i18n/es.js"></script>
+<script src="js/i18n/zh-CN.js"></script>
+<script src="js/i18n/zh-TW.js"></script>
+<script src="js/core/help.js"></script>
+<script src="js/core/store.js"></script>
+<script src="js/core/crypto.js"></script>
+<script src="js/core/registry.js"></script>
+<script src="js/core/loader.js"></script>
+<script src="js/core/session.js"></script>
+<script src="js/core/audit.js"></script>
+<!-- engine + modules (each registers a model card; add new models / ML modules here) -->
+<script src="js/engine/model3_core.js"></script>
+<script src="js/modules/model3.js"></script>
+<script src="js/modules/hematotox.js"></script>
+<script src="js/modules/logistic.js"></script>
+<script src="js/modules/remote.js"></script>
+<!-- ui -->
+<script src="js/charts/charts.js"></script>
+<script src="js/ui/shell.js"></script>
+<script src="js/ui/scrubber.js"></script>
+<script src="js/ui/landing.js"></script>
+<script src="js/ui/clinician.js"></script>
+<script src="js/ui/multi.js"></script>
+<script src="js/ui/researcher.js"></script>
+<script>window.addEventListener('DOMContentLoaded', () => GL.app.init());</script>
+</body>
+</html>

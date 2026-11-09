@@ -1,0 +1,163 @@
+/* GreenLight · modules/model1.js
+ * Model1 as a registered module: the model card (equations per nested model, symbols,
+ * outputs) from which the researcher portal is generated, the precomputed as-of prediction
+ * (step G, R engine) and the in-browser what-if forecast (JS port, js/engine/model1_core.js).
+ */
+(function (root) {
+  const GL = root.GL = root.GL || {};
+  const C = GL.model1;
+  const OFF = (s) => `\\textcolor{#a3aab0}{${s}}`;
+  const on = (cond, s) => cond ? s : OFF(s);
+
+  // ---- symbols (LaTeX, unit); meaning texts are i18n keys sym.<id> ----------------------------
+  const SYM = {
+    r_s: ['r_S', '1/d'], f0: ['f_0', '–'], th_as: ['\\theta_{aS}', '1/(d·C)'], th_ap: ['\\theta_{aP}', '1/(d·C)'], th_bs: ['\\theta_{bS}', '1/(d·I)'], rho: ['\\rho_T', '1/d'],
+    r_a: ['\\rho^a_X', '–'], r_b: ['\\rho^b_X', '–'], delta: ['\\delta', '–'], eta_syn: ['\\eta', '–'], th_zs: ['\\theta_{zS}', '1/(d·Z)'],
+    k_p: ['k_P', '1/d'], sr_p: ['\\sigma_P', '1/d'], gmax: ['G_{\\max}', '–'], gamma: ['\\gamma', '–'],
+    mtt_n: ['\\mathrm{MTT}_N', 'd'], mtt_mo: ['\\mathrm{MTT}_{Mo}', 'd'], mtt_pl: ['\\mathrm{MTT}_{Pl}', 'd'],
+    c_n: ['c_N', '1/d'], c_mo: ['c_{Mo}', '1/d'], c_pl: ['c_{Pl}', '1/d'], c_l: ['c_L', '1/d'], th_al: ['\\theta_{aL}', '1/(d·C)'],
+    k_i: ['k_I', '1/d'], emax: ['E_{\\max}', '–'], ic50: ['\\mathrm{IC}_{50}', 'I'], hill: ['h', '–'],
+    k_e: ['k_e', '1/d'], beta_renal: ['\\beta_{\\mathrm{renal}}', '–'], u_br_rgo: ['u_{\\mathrm{br,RGO}}', 'C/d'], u_br_cy: ['u_{\\mathrm{br,Cy}}', 'C/d'],
+    gcsf_fold: ['u_G', '–'], gcsf_rel: ['u_R', '–'], k_g: ['k_G', '1/d'], tpo_fold: ['u_T', '–'],
+    car_t0: ['C_{T,0}', '10⁹/L'], k_ag: ['K_A', '–'], kappa: ['\\kappa', 'L/(10⁹·d)'], k_t: ['k_T', '1/d'], beta_a: ['\\beta_A', '–'],
+    k_z: ['k_Z', '1/d'], z50: ['Z_{50}', 'Z'], e_z: ['e_Z', '–']
+  };
+  const SOURCE = {
+    th_ap: 'calib', th_al: 'calib', c_l: 'calib', emax: 'calib', kappa: 'calib', rho: 'calib', z50: 'calib', th_zs: 'calib',
+    k_p: 'aim4', sr_p: 'aim4', gmax: 'aim4', gamma: 'aim4', mtt_n: 'lit', mtt_mo: 'lit', mtt_pl: 'lit', c_n: 'lit', c_mo: 'lit', c_pl: 'lit',
+    r_a: 'scenario', r_b: 'scenario', delta: 'scenario'
+  };
+
+  // ---- equations of a nested model (spec from C.spec) -------------------------------------------------
+  function equations(spec) {
+    if (spec.family === 'mf') return [
+      { id: 'mf_prol', titleKey: 'eq.mf_prol', descKey: 'eqd.mf_prol', latex: '\\frac{dP_\\ell}{dt}=k\\,P_\\ell\\,(1-\\mathrm{Slope}_\\ell\\,C)\\left(\\frac{B_0}{B_\\ell}\\right)^{\\gamma}-k\\,P_\\ell,\\quad k=\\frac{4}{\\mathrm{MTT}_\\ell\\,s_{\\mathrm{MTT}}}' },
+      { id: 'mf_chain', titleKey: 'eq.mf_chain', descKey: 'eqd.mf_chain', latex: '\\frac{dT_{\\ell j}}{dt}=k\\,(T_{\\ell,j-1}-T_{\\ell j}),\\quad \\frac{dB_\\ell}{dt}=k\\,(T_{\\ell 3}-B_\\ell)' },
+      { id: 'obs', titleKey: 'eq.obs', descKey: 'eqd.obs_mf', latex: '\\log y = \\log\\big(b_v\\,B_v(t)\\big)+\\varepsilon,\\ \\ \\varepsilon\\sim N(0,\\sigma_v^2),\\ v\\in\\{\\mathrm{ANC},\\mathrm{PLT},\\mathrm{AMC}\\}' },
+      { id: 'pheno', titleKey: 'eq.pheno', descKey: 'eqd.pheno', latex: phenoTex() }
+    ];
+    const a = ['Ma', 'Mab', 'Mabx'].includes(spec.q2), b = ['Mb', 'Mab', 'Mabx'].includes(spec.q2), x = spec.q2 === 'Mabx', cl = spec.clone !== 'none';
+    const zh = spec.z_hsc, zm = spec.z_mpp;
+    return [
+      { id: 'hsc', titleKey: 'eq.hsc', descKey: 'eqd.hsc', latex: `\\frac{dS_j}{dt}=r_S\\,S_j\\,(1-S)-\\Big[${on(cl, '\\rho^a_j')}${on(a, '\\theta_{aS}C')}+${on(cl, '\\rho^b_j')}\\big(${on(b, '\\theta_{bS}I')}+${on(zh, '\\theta_{zS}Z')}\\big)${on(x, '\\big(1+\\eta(1-S)_+\\big)')}\\Big]S_j,\\ \\ S=S_W+${on(cl, 'S_X')}` },
+      { id: 'output', titleKey: 'eq.output', descKey: 'eqd.output', latex: `F=\\frac{S_W+${on(cl, '\\delta S_X')}}{1-${on(cl, 'f_0')}+${on(cl, '\\delta f_0')}}` },
+      { id: 'mpp', titleKey: 'eq.mpp', descKey: 'eqd.mpp', latex: '\\frac{dP_\\ell}{dt}=(k_P-\\sigma_P)\\,F+(\\sigma_P\\,G_\\ell-k_P)\\,P_\\ell-\\theta_{aP}\\,C\\,P_\\ell,\\quad \\ell\\in\\{N,Mo,Pl,L\\}' },
+      { id: 'feedback', titleKey: 'eq.feedback', descKey: 'eqd.feedback', latex: `G_\\ell=\\min\\!\\big(G_{\\max},B_\\ell^{-\\gamma}\\big)\\,\\big(1-E(I)\\big)\\,${on(zm, '\\Big(1-e_Z\\frac{Z}{Z+Z_{50}}\\Big)')},\\quad G_L=\\big(1-E(I)\\big)\\,${on(zm, '\\Big(1-e_Z\\frac{Z}{Z+Z_{50}}\\Big)')}` },
+      { id: 'inflam', titleKey: 'eq.inflam', descKey: 'eqd.inflam', latex: '\\frac{dI_1}{dt}=k_I(D-I_1),\\ \\ \\frac{dI}{dt}=k_I(I_1-I),\\ \\ E(I)=\\frac{E_{\\max}I^h}{I^h+\\mathrm{IC}_{50}^h}' },
+      { id: 'exposure', titleKey: 'eq.exposure', descKey: 'eqd.exposure', latex: '\\frac{dC}{dt}=u(t)-k_e\\,C,\\quad u_{\\mathrm{LD}}=\\Big(\\frac{90}{\\mathrm{eGFR}}\\Big)^{\\beta_{\\mathrm{renal}}}' },
+      { id: 'chain', titleKey: 'eq.chain', descKey: 'eqd.chain', latex: '\\frac{dT_{\\ell1}}{dt}=\\kappa_\\ell\\big(P_\\ell\\,u_\\ell(t)-T_{\\ell1}\\big),\\ \\frac{dT_{\\ell j}}{dt}=\\kappa_\\ell(T_{\\ell,j-1}-T_{\\ell j}),\\ \\frac{dB_\\ell}{dt}=c_\\ell\\big(r_\\ell(t)T_{\\ell3}-B_\\ell\\big),\\ \\kappa_\\ell=\\frac{3}{\\mathrm{MTT}_\\ell}' },
+      { id: 'lymph', titleKey: 'eq.lymph', descKey: 'eqd.lymph', latex: '\\frac{dB_L}{dt}=c_L\\,(P_L-B_L)-\\theta_{aL}\\,C\\,B_L' },
+      { id: 'cart', titleKey: 'eq.cart', descKey: 'eqd.cart', latex: '\\frac{dC_T}{dt}=\\Big(\\rho_T\\frac{A}{A+K_A}-k_T\\Big)C_T,\\ \\frac{dA}{dt}=-\\kappa\\,C_T\\frac{A}{A+K_A},\\ \\frac{dZ_1}{dt}=k_Z\\Big(C_T\\frac{A}{A+K_A}-Z_1\\Big),\\ \\frac{dZ}{dt}=k_Z(Z_1-Z)' },
+      { id: 'gcsf', titleKey: 'eq.gcsf', descKey: 'eqd.gcsf', latex: '\\frac{dE_G}{dt}=k_G\\big(g(t)-E_G\\big),\\ \\ u_N=1+(u_G-1)E_G,\\ \\ r_N=1+u_R\\,E_G' },
+      { id: 'obs', titleKey: 'eq.obs', descKey: 'eqd.obs', latex: '\\log y=\\log Y_v(t)+\\varepsilon,\\ \\varepsilon\\sim N(0,\\sigma_v^2),\\ \\ Y_v=b_v B_v,\\ \\ Y_{\\mathrm{ALC}}=b_{\\mathrm{ALC}}B_L+C_T' },
+      { id: 'pheno', titleKey: 'eq.pheno', descKey: 'eqd.pheno', latex: phenoTex() }
+    ];
+  }
+  function phenoTex() {
+    return '-\\,w\\log P\'(c\\mid\\psi),\\ P\'=(1-3\\epsilon)P+\\epsilon,\\ P(\\mathrm{delayed})=1-\\Phi\\Big(\\frac{m_R}{s}\\Big),\\ P(\\mathrm{2nd})=\\Phi\\Big(\\frac{m_R}{s}\\Big)\\Phi\\Big(\\frac{m_D}{s}\\Big)';
+  }
+
+  // ---- what-if forecast in the browser ------------------------------------------------------------------
+  // a: as-of entry of a patient file; plan: { gcsf: {start, days} | null, reactive: bool,
+  //   anti: {from, factor} | null, tpo: {start, end} | null, cd34: {day, add} | null }
+  function drawPsi(a, n, seed) {
+    const rng = GL.util.rng(seed), k = a.names.length, Lm = [];
+    let c = 0;
+    for (let j = 0; j < k; j++) for (let i = j; i < k; i++) { (Lm[i] = Lm[i] || [])[j] = a.chol[c++]; }
+    const map = a.names.map(nm => [].concat(a.map[nm])[0]);
+    const out = [];
+    for (let d = 0; d < n; d++) {
+      const z = a.names.map(() => d === 0 ? 0 : rng.normal());
+      const psi = {};
+      a.names.forEach((nm, i) => {
+        let v = map[i]; for (let j = 0; j <= i; j++) v += (Lm[i][j] || 0) * z[j];
+        psi[nm] = Math.min(a.hi[i], Math.max(a.lo[i], v));
+      });
+      out.push(psi);
+    }
+    return out;
+  }
+  function designAsOf(p, L, plan) {
+    const d = p.design;
+    const gc = (d.gcsf || []).filter(w => w[0] < L).map(w => [w[0], Math.min(w[1], L)]);
+    const des = { t0: d.t0, egfr: d.egfr, bridging: d.bridging, apheresis_day: d.apheresis_day, gcsf: gc, tpo: [], cd34: [] };
+    const dec = Math.max(Math.floor(L) + 1, 1);
+    if (plan && plan.gcsf) des.gcsf = des.gcsf.concat([[Math.max(plan.gcsf.start, dec), Math.max(plan.gcsf.start, dec) + plan.gcsf.days]]);
+    if (plan && plan.tpo) des.tpo = [[Math.max(plan.tpo.start, dec), plan.tpo.end]];
+    if (plan && plan.cd34) des.cd34 = [{ day: Math.max(plan.cd34.day, dec), add: plan.cd34.add }];
+    return des;
+  }
+  function observedUpTo(p, L) {
+    return (p.obs.anc || []).filter(o => o[3] === 1 && o[0] >= 0 && o[0] <= L).map(o => ({ day: o[0], value: o[1], cens: o[2] === 1 }));
+  }
+  function simDraw(p, psi, spec, st, des, drv, dScale, tEnd) {
+    const ind = C.etaToIndiv(psi, spec);
+    ind.a0 = C.a0(st, p.design.ldh_c);
+    const par = C.buildPar(ind, st, spec);
+    return C.simulate(par, { design: des, struct: st, drv, tEnd, dScale });
+  }
+  function whatIf(p, a, plan, opt) {
+    const idx = GL.loader.index(), pop = idx.population;
+    const spec = C.spec(pop.model), st = Object.assign({}, pop.struct);
+    const n = (opt && opt.n) || 24, L = a.L, tEnd = 90;
+    const drv = { t0: a.drv.t0, dt: a.drv.dt, v: Float64Array.from(a.drv.v) };
+    const dScale = plan && plan.anti ? { after: Math.max(L, 0, plan.anti.from - 1e-9), factor: plan.anti.factor } : null;
+    const obs = observedUpTo(p, L), draws = drawPsi(a, n, 1009 + Math.round(L * 7));
+    const cls = [], ancs = [], plts = [];
+    let plt20 = 0;
+    for (const psi of draws) {
+      const des = designAsOf(p, L, plan);
+      const b = { anc: p.base.anc * Math.exp(psi.b_anc || 0), plt: p.base.plt * Math.exp(psi.b_plt || 0) };
+      let m = simDraw(p, psi, spec, st, des, drv, dScale, tEnd);
+      if (m && plan && plan.reactive) {
+        for (let course = 0; course < 2 && m; course++) {
+          const from = Math.max(15, Math.floor(L) + 1, ...des.gcsf.map(w => w[1]));
+          const i = m.days.findIndex((d, j) => d >= from && d <= 60 && m.anc_rel[j] * b.anc < 1.0);
+          if (i < 0) break;
+          des.gcsf.push([m.days[i], m.days[i] + 5]);
+          m = simDraw(p, psi, spec, st, des, drv, dScale, tEnd);
+        }
+      }
+      if (!m) continue;
+      const anc = m.anc_rel.map(x => x * b.anc), plt = m.plt_rel.map(x => x * b.plt);
+      const series = obs.concat(m.days.map((d, j) => ({ day: d, value: anc[j], cens: false })).filter(o => o.day > L && o.day <= 30));
+      cls.push(C.phenotype(series));
+      ancs.push({ days: m.days, v: anc }); plts.push({ days: m.days, v: plt });
+      if (m.days.some((d, j) => d >= Math.max(14, L + 1) && d <= 30 && plt[j] < 20)) plt20++;
+    }
+    const nn = cls.length || 1;
+    const med = (arr) => { const days = arr[0] ? arr[0].days : []; return { days, v: days.map((_, j) => GL.util.median(arr.map(x => x.v[j]))) }; };
+    return { n: cls.length, p: { quick: cls.filter(c => c === 'quick').length / nn, second_wave: cls.filter(c => c === 'second_wave').length / nn, delayed: cls.filter(c => c === 'delayed').length / nn },
+      plt20: plt20 / nn, anc: ancs.length ? med(ancs) : null, plt: plts.length ? med(plts) : null };
+  }
+
+  const card = {
+    equations, symbols: SYM, source: SOURCE,
+    outputs: [
+      { id: 'p_quick', labelKey: 'out.p_quick', unit: '%', direction: 'higher' },
+      { id: 'p_second_wave', labelKey: 'out.p_second_wave', unit: '%', direction: 'lower' },
+      { id: 'p_delayed', labelKey: 'out.p_delayed', unit: '%', direction: 'lower' },
+      { id: 'rec_day', labelKey: 'out.rec_day', unit: 'd', direction: 'lower' },
+      { id: 'when', labelKey: 'out.when', unit: '%', direction: 'neutral' },
+      { id: 'who', labelKey: 'out.who', unit: '%', direction: 'neutral' }],
+    models: ['M0', 'Ma', 'Mb', 'Mab', 'Mabx', 'MabC_ddr', 'MabC_dta', 'Mab_Zh', 'Mab_Zm', 'MabxC_ddr', 'MF'],
+    validation: () => (GL.loader.index() || {}).results
+  };
+  GL.registry.register({
+    id: 'model1', version: 'Model1 v1.0', type: 'mechanistic', nameKey: 'mod.model1', descKey: 'mod.model1.d',
+    source: 'Model1/Code (R/C++), GreenLight port js/engine/model1_core.js', card,
+    // precomputed as-of prediction (R engine)
+    predict(snap, p) {
+      const a = p && p.asof ? GL.model1.asofEntry(p, snap.asOf) : null;
+      return a ? { p: { quick: a.p[0], second_wave: a.p[1], delayed: a.p[2] } } : null;
+    },
+    whatIf
+  });
+  GL.model1.asofEntry = function (p, day) {
+    let best = null;
+    for (const a of p.asof) if (a.L <= day + 1e-9) best = a;
+    return best || p.asof[0];
+  };
+  GL.model1.whatIf = whatIf;
+  GL.model1.equations = equations;
+})(typeof window !== 'undefined' ? window : global);

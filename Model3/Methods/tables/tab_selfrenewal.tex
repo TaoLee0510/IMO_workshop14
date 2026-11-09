@@ -1,0 +1,18 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{The self-renewing cells of Model3 (as Model1 and Model2). $k_P$: exit rate (differentiation and death, d$^{-1}$); $\sigma_P$: self-renewal rate at steady state (d$^{-1}$, $\sigma_P<k_P$); $\sigma_P/k_P$: share of a component's production that comes from self-renewal at steady state; $1/(k_P-\sigma_P)$: effective residence time (d). The four MPP components share $k_P$ and $\sigma_P$; the three myeloid components sense the blood count of their own lineage, the lymphoid component has no count feedback. All components' self-renewal is suppressed by marrow inflammation and by the CAR T--target signal; for the megakaryocyte component the maximal suppression by the signal is $e_{Z,\mathrm{Pl}}$ (Model3 P2).}
+\label{tab:selfrenewal}
+\begin{tabular}{lllllll>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.9cm}}
+\toprule
+Cell & Self-renewal rate & $k_P$ & $\sigma_P$ & $\sigma_P/k_P$ & $1/(k_P-\sigma_P)$ & Count feedback & Suppressed by \\
+\midrule
+HSC & $r_S$ (random effect) & -- & 0.08 & -- & -- & niche $(1-S)$ & -- \\
+MPP$_{\mathrm{N}}$ (neutrophils) & $\sigma_P$ (\texttt{sr\_p}) & 0.3 & 0.21 & 0.7 & 11.1 & $B_{\mathrm{N}}$ (ANC) & $E(I)$; $Z$ ($e_Z$) \\
+MPP$_{\mathrm{Mo}}$ (monocytes) & $\sigma_P$ (\texttt{sr\_p}) & 0.3 & 0.21 & 0.7 & 11.1 & $B_{\mathrm{Mo}}$ (AMC) & $E(I)$; $Z$ ($e_Z$) \\
+MPP$_{\mathrm{Pl}}$ (megakaryocytes) & $\sigma_P$ (\texttt{sr\_p}) & 0.3 & 0.21 & 0.7 & 11.1 & $B_{\mathrm{Pl}}$ (PLT) & $E(I)$; $Z$ ($e_{Z,\mathrm{Pl}}$) \\
+MPP$_{L}$ (lymphocytes) & $\sigma_P$ (\texttt{sr\_p}) & 0.3 & 0.21 & 0.7 & 11.1 & none & $E(I)$; $Z$ ($e_Z$) \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,30 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural parameters of the inputs: chemotherapy exposure, ferritin-driven CAR T-phase inflammation and supportive care (G-CSF is an input of the fit from v1.3; TPO-RA only in what-if analyses). Values are prior centres for estimated parameters.}
+\label{tab:struct_inputs}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.5cm}}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role & Source \\
+\midrule
+$e_{\mathrm{sr}}$ & \texttt{e\_sr} & Suppression of MPP, CMP, GMP, MEP self-renewal by $E(I)$ & -- & 0.5 & estimated & prior centre \\
+$k_e$ & \texttt{k\_e} & Elimination of the chemotherapy exposure & d$^{-1}$ & 0.8 & fixed & v1.1 \\
+$\beta$ & \texttt{beta\_renal} & Exponent of the renal scaling $(90/\mathrm{eGFR})^{\beta}$ & -- & 0.7 & fixed & v1.1 \\
+$u_{\mathrm{br,RGO}}$ & \texttt{u\_br\_rgo} & Exposure rate of R-GemOx bridging & d$^{-1}$ & 0.05 & estimated & v1.1 \\
+$u_{\mathrm{br,Cy}}$ & \texttt{u\_br\_cy} & Exposure rate of other (cyclophosphamide-type) bridging & d$^{-1}$ & 0.01 & fixed & v1.1 \\
+$k_I$ & \texttt{k\_i} & Rate of each stage of the two-stage marrow lag & d$^{-1}$ & 0.2 & estimated & Aim 2 default \\
+$E_{\max}$ & \texttt{emax} & Maximal reversible suppression by marrow inflammation & -- & 0.9 & fixed & Aim 2 default \\
+$\mathrm{IC}_{50}$ & \texttt{ic50} & Lagged driver giving half-maximal suppression & -- & 0.7 & estimated & Aim 2 plan \\
+$h_E$ & \texttt{hill} & Hill coefficient of the suppression & -- & 2 & fixed & Aim 2 default \\
+$e_{\mathrm{Mo}}$ & \texttt{e\_mo} & Suppression of monocyte production relative to neutrophils & -- & 0.7 & fixed & assumption \\
+$e_{\mathrm{Pl}}$ & \texttt{e\_pl} & Suppression of megakaryocyte production relative to neutrophils & -- & 0.7 & fixed & assumption \\
+$e_{L}$ & \texttt{e\_l} & Suppression of lymphoid production relative to neutrophils & -- & 0.7 & fixed & assumption \\
+$\eta$ & \texttt{eta\_syn} & Synergy of CAR T-phase HSC injury with prior HSC loss (Mab$\times$ only) & -- & 0 ($e^{1}$ in Mab$\times$) & estimated (Mab$\times$) & prior \\
+$u_{\mathrm{G}}$ & \texttt{gcsf\_fold} & Fold increase of neutrophil chain entry at full G-CSF effect ($E_G=1$) & -- & 2.5 & estimated & v1.1 assumption (prior centre) \\
+$u_{\mathrm{R}}$ & \texttt{gcsf\_rel} & Acceleration of the release of mature neutrophils ($T_{\mathrm{N}3}\to B_{\mathrm{N}}$) at full G-CSF effect & -- & 2 & estimated & assumption (prior centre) \\
+$k_G$ & \texttt{k\_g} & Rate at which the G-CSF effect $E_G$ follows the dosing indicator & d$^{-1}$ & 1 & fixed & assumption \\
+$u_{\mathrm{T}}$ & \texttt{tpo\_fold} & Fold increase of megakaryocyte chain entry under TPO-RA & -- & 1.8 & simulation & assumption \\
+\bottomrule
+\end{tabular}
+\end{table}

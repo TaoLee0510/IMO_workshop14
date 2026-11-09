@@ -1,0 +1,22 @@
+\begin{table}[!htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\caption{Model size of Aim4 v1.3 and Model1 by level. ``Largest model'': Mab$\times$ with both routes of $Z$ and a clone.}
+\label{tab:levels}
+\begin{tabular}{>{\raggedright\arraybackslash}p{9cm}rrr}
+\toprule
+Level & Aim4 v1.3 & Model1 & Change \\
+\midrule
+Structural parameters & 64 & 37 & $-27$ \\
+\quad fixed (literature, calibration, clone type, what-if) & 49 & 22 & $-27$ \\
+\quad estimated (largest model) & 15 & 15 & 0 \\
+Individual parameters per patient (random effects + baselines) & 10 & 10 & 0 \\
+Estimated population parameters ($\mu$, $\omega$, $\beta$, structural, $\sigma$, $\tau$) & 43 & 43 & 0 \\
+Self-renewing cell types with their own rates & 7 & 2 & $-5$ \\
+ODE states (C++ engine) & 29 & 27 & $-2$ \\
+\quad additional moment states (time and divisions since MPP entry) & 38 & 0 & $-38$ \\
+Length of the C++ parameter vector & 66 & 39 & $-27$ \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,4 @@
+patient_id,sample_day,gene,protein_change,vaf,depth
+P333,75,TP53,p.R248Q,0.6022,2676
+P202,85,TET2,p.Q1034*,0.435,1571
+P247,77,TP53,p.R248Q,0.4288,2201

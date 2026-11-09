@@ -1,0 +1,131 @@
+\clearpage\section{Executed joint reference fit}
+
+The reference fixes mu=0.01 and initial D=0. Its fitted shape is 15.242771, scale 1 days, and derived mode 14.242771 days. Joint NLL is 455.808076, decomposed into VAF NLL 291.949583 and clinical-given-VAF NLL 163.858493. The preceding mu=1e-6 reference had NLL 511.718830. Parameters were re-estimated after changing mu.
+
+The lowest NLL across compatible sensitivity scenarios is 308.372238, in mu\_0\_D\_500. This is a conditional scenario comparison; the requested reference remains mu=0.01 and initial D=0.
+
+All 78 conditional optimizations ended at at least one search boundary. At the reference, the 95\% one-step observation interval covers 22/42 follow-up VAFs (52.4\%). VAF RMSE is 4.856 percentage points. These diagnostics show substantial model/data mismatch; the fitted timescale and clinical probabilities should be interpreted conditionally, rather than as validated physiological estimates.
+
+\begin{landscape}\section{Mu and initial-D sensitivity}\begin{center}\includegraphics[width=.98\linewidth,height=.78\textheight,keepaspectratio]{figures/mu_D_joint_likelihood.pdf}\end{center}
+
+Every compatible cell re-optimizes alpha and theta. The gray zero-mutation/zero-D corner is structurally incompatible with observed positive tMN. No probability floor is used.
+
+\clearpage\begin{center}\includegraphics[width=\linewidth]{figures/mu_D_fitted_parameters.pdf}\end{center}
+
+Parameter maps show conditional optima within the common bounds. A value at a search boundary is not an identified physiological timescale. At alpha=50 and theta=1460 days, the Gamma mode is 71540 days. The fraction of the normalized Gamma area occurring within the four-year observation window therefore varies across scenarios, while its full integral remains 1.
+
+\end{landscape}\clearpage\section{Turnover and double-hit fitness sensitivity}
+
+\begin{center}\includegraphics[width=\linewidth]{figures/b_sensitivity.pdf}\\[10pt]\includegraphics[width=\linewidth]{figures/s_D_sensitivity.pdf}\end{center}
+
+\clearpage\section{New-reference patient diagnostics}
+
+\begin{center}\includegraphics[width=.98\linewidth]{patient_analysis/figures/fit_diagnostics.pdf}\end{center}
+
+\clearpage\section{New-reference Gamma pulse and one-year risk}
+
+\begin{center}\includegraphics[width=\linewidth]{patient_analysis/figures/gamma_and_fitness.pdf}\\[10pt]\includegraphics[width=.88\linewidth,height=.65\textheight,keepaspectratio]{patient_analysis/figures/one_year_tMN_heatmap.pdf}\end{center}
+
+\clearpage\subsection{Reference patient risk table}
+
+\begin{center}\small\begin{tabular}{lrrrr}\toprule Patient & Year 1 & Year 2 & Year 3 & Year 4\\\midrule
+
+Patient\_25 & $2.349\times10^{-5}$ & $7.595\times10^{-1}$ & $9.989\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_44 & $8.728\times10^{-5}$ & $8.375\times10^{-1}$ & $9.996\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_102 & $1.056\times10^{-3}$ & $9.649\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_103 & $2.525\times10^{-20}$ & $6.532\times10^{-8}$ & $4.381\times10^{-4}$ & $1.918\times10^{-2}$\\
+
+Patient\_123 & $4.014\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_180 & $3.240\times10^{-14}$ & $4.256\times10^{-4}$ & $1.071\times10^{-1}$ & $5.416\times10^{-1}$\\
+
+Patient\_197 & $1.093\times10^{-11}$ & $1.253\times10^{-2}$ & $4.865\times10^{-1}$ & $9.153\times10^{-1}$\\
+
+Patient\_235 & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_238 & $5.991\times10^{-2}$ & $9.998\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_316 & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_318 & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_321 & $9.410\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_356 & $2.191\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$ & $10.000\times10^{-1}$\\
+
+Patient\_445 & $1.685\times10^{-21}$ & $6.084\times10^{-8}$ & $5.606\times10^{-4}$ & $2.487\times10^{-2}$\\
+
+\bottomrule\end{tabular}\end{center}
+
+Risk forecasts condition on each patient's measured baseline and event-free CAR day 0. They do not use the subsequent individual VAF or eventual outcome to set the forecast. The fitted common parameters were learned in this cohort, so these are in-sample conditional predictions.
+
+\subsection{Full-process simulation comparison}
+
+Across 56 patient/year comparisons at the new reference, the maximum difference between the inference approximation and 200 full Moran paths is 0.0982 percentage points for mean C and 0.0758 percentage points for mean D. The largest absolute tMN probability difference is 0.0336. All 56 model probabilities fall within pointwise exact 95\% binomial intervals for the simulated event proportions. These intervals measure Monte Carlo error at fixed parameters, not fitted-parameter uncertainty. With 200 paths, empirical event fractions have increments of 0.005 and cannot verify extremely small tail probabilities. Agreement with the simulator verifies the approximation in this reference setting; it does not establish agreement with clinical incidence.
+
+\subsection{Patient figure guide}
+
+Open diamonds are baseline VAF; black points are follow-up measurements. The blue VAF band is a 95\% observation prediction interval. Blue C and red D trajectory panels contain all 200 full Moran paths with opacity 0.035 and their arithmetic mean. Dotted lines show known diagnosis or censoring times. Process paths continue after diagnosis without modeling postdiagnosis treatment. Unknown outcomes remain unknown.
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_25_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_44_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_102_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_103_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_123_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_180_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_197_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_235_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_238_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_316_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_318_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_321_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_356_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.9\textheight,keepaspectratio]{patient_analysis/figures/patients/Patient_445_dashboard.pdf}\end{center}
+
+\clearpage\section{Patient-specific mu--D risk responses}
+
+Each patient's sensitivity panel holds the measured baseline founder burden fixed and subtracts D from that total when initializing C. Colors are probabilities on logarithmic scales. Year-one and year-four maps are supplied for every patient.
+
+\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_25_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_44_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_102_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_103_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_123_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_180_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_197_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_235_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_238_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_316_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_318_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_321_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_356_mu_D_risk.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.98\linewidth,height=.85\textheight,keepaspectratio]{figures/patients/Patient_445_mu_D_risk.pdf}\end{center}

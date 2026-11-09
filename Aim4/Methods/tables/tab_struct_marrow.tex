@@ -1,0 +1,26 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural parameters of the stem cell, progenitor feedback and lymphoid layers (self-renewal and exit rates are in Table~\ref{tab:selfrenewal}). Values are prior centres for estimated parameters.}
+\label{tab:struct_marrow}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.5cm}}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role & Source \\
+\midrule
+$\alpha$ & \texttt{alpha} & Acceleration of HSC regrowth while the MPP is depleted & -- & 1 & fixed & v1.1 \\
+$r_a$ & \texttt{r\_a} & Clone sensitivity to chemotherapy relative to normal HSC & -- & 1 (no clone) & clone type & clone scenario \\
+$r_b$ & \texttt{r\_b} & Clone sensitivity to the CAR T phase relative to normal HSC & -- & 1 (no clone) & clone type & clone scenario \\
+$\delta$ & \texttt{delta} & Output of clonal HSC relative to normal HSC & -- & 1 (no clone) & clone type & clone scenario \\
+$G_{\max}$ & \texttt{gmax} & Upper bound of the self-renewal feedback factor & -- & 3 & fixed & v1.1 \\
+$\gamma_M$ & \texttt{gamma\_m} & Exponent of the self-renewal feedback (shared by all compartments) & -- & 0.5 & estimated & v1.1 \\
+$\chi_{\mathrm{MPP}}$ & \texttt{fb\_mpp} & Feedback switch, MPP (progeny: ANC, AMC, PLT) & 0/1 & 1 & switch & design \\
+$\chi_{\mathrm{CMP}}$ & \texttt{fb\_cmp} & Feedback switch, CMP (progeny: ANC, AMC, PLT) & 0/1 & 1 & switch & design \\
+$\chi_{\mathrm{GMP}}$ & \texttt{fb\_gmp} & Feedback switch, GMP (progeny: ANC, AMC) & 0/1 & 1 & switch & design \\
+$\chi_{\mathrm{MEP}}$ & \texttt{fb\_mep} & Feedback switch, MEP (progeny: PLT) & 0/1 & 1 & switch & design \\
+$\chi_{\mathrm{CLP}}$ & \texttt{fb\_clp} & Feedback switch, CLP (progeny: ALC) & 0/1 & 1 & switch & design \\
+$\chi_{L}$ & \texttt{fb\_ly} & Feedback switch, lymphocyte pool (ALC) & 0/1 & 1 & switch & design \\
+$\theta_{aL}$ & \texttt{th\_al} & Lymphodepletion of lymphocytes per unit exposure & d$^{-1}$ & 1.05 & fixed & calibrated: real ALC \\
+\bottomrule
+\end{tabular}
+\end{table}

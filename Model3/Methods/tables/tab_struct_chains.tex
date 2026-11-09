@@ -1,0 +1,24 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural parameters of the maturation chains and blood: the two chemotherapy kill terms of Model2, the two design constants of the Model3 neutrophil chain and the screened platelet consumption term P1 (fixed at 0). $\mathrm{MTT}_\ell$ is converted to $\kappa_\ell = n_\ell/\mathrm{MTT}_\ell$ with $n_{\mathrm{N}}=7$ and $n_{\mathrm{Mo}}=n_{\mathrm{Pl}}=3$. Values are prior centres for estimated parameters.}
+\label{tab:struct_chains}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.4cm}}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role & Source \\
+\midrule
+$\mathrm{MTT}_{\mathrm{N}}$ & \texttt{mtt\_n} & Neutrophil maturation transit time (all $n_{\mathrm{N}}$ compartments) & d & 5 & estimated & 5--7 d \\
+$n_{\mathrm{N}}$ & \texttt{n\_tr\_n} & Number of compartments of the neutrophil chain (Model2: 3) & -- & 7 & design constant & N screen \\
+$k_{\mathrm{N}}$ & \texttt{nk\_n} & Of these, proliferating and killed by chemotherapy; the other $n_{\mathrm{N}}-k_{\mathrm{N}}$ form the storage pool (Model2: 2) & -- & 4 & design constant & N screen \\
+$\mathrm{MTT}_{\mathrm{Mo}}$ & \texttt{mtt\_mo} & Monocyte maturation transit time & d & 1.5 & estimated & 1--2 d \\
+$\mathrm{MTT}_{\mathrm{Pl}}$ & \texttt{mtt\_pl} & Megakaryocyte maturation time (endomitosis) & d & 5 & estimated & assumption \\
+$c_{\mathrm{N}}$ & \texttt{c\_n} & Neutrophil blood turnover & d$^{-1}$ & 2.3 & fixed & \citet{dancey1976} \\
+$c_{\mathrm{Mo}}$ & \texttt{c\_mo} & Monocyte blood turnover & d$^{-1}$ & 0.5 & fixed & Aim4 \\
+$c_{\mathrm{Pl}}$ & \texttt{c\_pl} & Platelet blood turnover & d$^{-1}$ & 0.12 & fixed & \citet{harker1969} \\
+$\kappa_c$ & \texttt{kappa\_c} & Chemotherapy kill of the proliferating chain precursors ($T_{\mathrm{N}1}$--$T_{\mathrm{N}k_{\mathrm{N}}}$; $T_{\ell1}$, $T_{\ell2}$ of Mo and Pl) relative to the patient's MPP kill rate $\theta_{aP}$ & -- & 1 & estimated & prior centre: as sensitive as the MPP \\
+$\theta_{aM}$ & \texttt{th\_am} & Chemotherapy kill of circulating monocytes per unit exposure & d$^{-1}$ & 0.384 & estimated & calibrated (K1): real AMC days $-1$..0 \\
+$\theta_{cP}$ & \texttt{th\_cp} & Consumption of circulating platelets per unit ferritin driver $D$ (P1; screened, not included) & d$^{-1}$ & 0 & fixed at 0 & P1 screen: no gain \\
+\bottomrule
+\end{tabular}
+\end{table}

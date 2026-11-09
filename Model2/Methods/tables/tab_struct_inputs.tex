@@ -1,0 +1,26 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural parameters of the inputs: chemotherapy exposure, ferritin-driven marrow inflammation and supportive care (G-CSF is an input of the fit; TPO-RA only in what-if analyses). Values are prior centres for estimated parameters.}
+\label{tab:struct_inputs}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.4cm}}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role & Source \\
+\midrule
+$k_e$ & \texttt{k\_e} & Elimination of the chemotherapy exposure & d$^{-1}$ & 0.8 & fixed & Aim4 \\
+$\beta$ & \texttt{beta\_renal} & Exponent of the renal scaling $(90/\mathrm{eGFR})^{\beta}$ & -- & 0.7 & fixed & Aim4 \\
+$u_{\mathrm{br,RGO}}$ & \texttt{u\_br\_rgo} & Exposure rate of R-GemOx bridging & d$^{-1}$ & 0.05 & estimated & Aim4 \\
+$u_{\mathrm{br,Cy}}$ & \texttt{u\_br\_cy} & Exposure rate of other (cyclophosphamide-type) bridging & d$^{-1}$ & 0.01 & fixed & Aim4 \\
+$k_I$ & \texttt{k\_i} & Rate of each stage of the two-stage marrow lag & d$^{-1}$ & 0.2 & estimated & Aim4 \\
+$E_{\max}$ & \texttt{emax} & Maximal suppression of MPP self-renewal by marrow inflammation (replaces Aim4 $e_{\mathrm{sr}}$) & -- & 0.7 & estimated & screen (K1) \\
+$\mathrm{IC}_{50}$ & \texttt{ic50} & Lagged driver giving half-maximal suppression & -- & 0.7 & estimated & Aim4 \\
+$h_E$ & \texttt{hill} & Hill coefficient of the suppression & -- & 2 & fixed & Aim4 \\
+$\eta$ & \texttt{eta\_syn} & Synergy of CAR T-phase HSC injury with prior HSC loss (Mab$\times$ only) & -- & 0 ($e^{1}$ in Mab$\times$) & estimated (Mab$\times$) & prior \\
+$u_{\mathrm{G}}$ & \texttt{gcsf\_fold} & Fold increase of neutrophil chain entry at full G-CSF effect ($E_G=1$) & -- & 2.5 & estimated & assumption (prior centre) \\
+$u_{\mathrm{R}}$ & \texttt{gcsf\_rel} & Acceleration of the release of mature neutrophils ($T_{\mathrm{N}3}\to B_{\mathrm{N}}$) at full G-CSF effect & -- & 2 & estimated & assumption (prior centre) \\
+$k_G$ & \texttt{k\_g} & Rate at which the G-CSF effect $E_G$ follows the dosing indicator & d$^{-1}$ & 1 & fixed & assumption \\
+$u_{\mathrm{T}}$ & \texttt{tpo\_fold} & Fold increase of megakaryocyte chain entry under TPO-RA & -- & 1.8 & simulation & assumption \\
+\bottomrule
+\end{tabular}
+\end{table}

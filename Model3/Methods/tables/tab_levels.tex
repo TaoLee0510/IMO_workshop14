@@ -1,0 +1,23 @@
+\begin{table}[!htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\caption{Model size of Aim4 v1.3, Model1 v1.0, Model2 v1.0 and Model3 v1.0 by level. ``Largest model'': Mab$\times$ with both routes of $Z$ and a clone. Change: Model3 minus Aim4. The Model3 engine reserves 8 neutrophil compartments; with $n_{\mathrm{N}}=7$, 1 of its 32 states stays constant.}
+\label{tab:levels}
+\begin{tabular}{>{\raggedright\arraybackslash}p{8.7cm}rrrrr}
+\toprule
+Level & Aim4 v1.3 & Model1 & Model2 & Model3 & Change \\
+\midrule
+Structural parameters & 64 & 37 & 39 & 41 & $-23$ \\
+\quad fixed (literature, calibration, clone type, what-if) & 49 & 22 & 22 & 23 & $-26$ \\
+\quad estimated (largest model) & 15 & 15 & 17 & 18 & $+3$ \\
+\quad design constants (neutrophil chain: $n_{\mathrm{N}}$, $k_{\mathrm{N}}$) & -- & -- & -- & 2 & -- \\
+Individual parameters per patient (random effects + baselines) & 10 & 10 & 10 & 10 & 0 \\
+Estimated population parameters ($\mu$, $\omega$, $\beta$, structural, $\sigma$, $\tau$) & 43 & 43 & 45 & 46 & $+3$ \\
+Self-renewing cell types with their own rates & 7 & 2 & 2 & 2 & $-5$ \\
+ODE states (C++ engine) & 29 & 27 & 27 & 32 & $+3$ \\
+\quad additional moment states (time and divisions since MPP entry) & 38 & 0 & 0 & 0 & $-38$ \\
+Length of the C++ parameter vector & 66 & 39 & 41 & 45 & $-21$ \\
+\bottomrule
+\end{tabular}
+\end{table}

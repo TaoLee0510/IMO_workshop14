@@ -1,0 +1,10 @@
+{
+  "previous_refit": "/Users/4482173/Documents/Projects/IMO_workshop_14/tMN/moran_tmn_joint_simulation_4y/refits/20261105_alpha_min_2_theta_min_1",
+  "original_hashes": {
+    "config.json": "0ad40867dc802e06184cbf396becef0d874a0c940f20e97f12399439e328993c",
+    "model.py": "04795238ce5c00a58237b1ef480700a079bb46bb2d300d1f7791c7bcfaa2db13",
+    "fitting.py": "b812ff5815b48b2d62b62bfc48afa91bba8cc2ce7886f0021e88944f7891837f",
+    "data/cohort.json": "e1487f2bd9b43ec142d280b58c08b60d660b508f685ad3bb847e49e5a3cfb87d",
+    "results/fits/reference.json": "ac48f12e7a10d70c68dcc1f04fe8356610cd1e0c4c357cc5894a6f20edf4ffc4"
+  }
+}

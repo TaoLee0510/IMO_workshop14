@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "source_endpoint_rows_reconciled": 171,
+  "gene_inventory_rows_reconciled": 12,
+  "outcome_patients_reconciled": 67,
+  "source_sheets_read": [
+    "MOESM9:Gene_Level_Expansion_Data",
+    "MOESM7:tMN_VAF",
+    "MOESM7:Auto_CAR_tMN"
+  ],
+  "longitudinal_observations_read": false,
+  "source_NA_values_preserved": 1
+}

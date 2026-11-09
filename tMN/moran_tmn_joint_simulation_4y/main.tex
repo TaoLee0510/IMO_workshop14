@@ -1,0 +1,143 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage[T1]{fontenc}\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,graphicx,xcolor}
+\usepackage[hidelinks]{hyperref}\usepackage{fancyhdr}
+\definecolor{navy}{HTML}{173957}
+\pagestyle{fancy}\fancyhf{}\lhead{Fixed-area gamma Moran study}\rhead{Four-year joint inference}\cfoot{\thepage}
+\setlength{\headheight}{14pt}\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\setlength{\emergencystretch}{2em}
+\title{\color{navy}Four-year clonal evolution after CAR-T:\\fixed-area gamma fitness, joint inference\\and stochastic Moran simulations}
+\author{Confirmed study protocol and reproducible analysis}\date{5 November 2026}
+\begin{document}\maketitle
+\textbf{Confirmed correction.} The additional mutant fitness has a \emph{fixed area}, not a fixed peak. With time in days, the reference area is 1 day, implementing the original expression $1+\mathrm{GammaPDF}(t)$ with explicit units. Shape and scale change the timing, width and height while preserving the integrated additional advantage. Peak-normalized results from the earlier study are superseded for this analysis.
+
+\textbf{Objectives.} Fit gamma shape/scale jointly to longitudinal VAF and source-supported tMN outcomes; repeat under fixed-parameter sensitivity scenarios; estimate year-1, -2, -3 and -4 cumulative model risks; and simulate 200 full stochastic Moran trajectories for each prescribed shape/scale and initial-double-hit setting. The requested execution order is code, TeX protocol, then computation.
+
+\section{Three-type Moran population}
+Let $W$, $C$ and $D$ be mutually exclusive wild-type, single-mutant and double-hit progenitor populations, with
+\[
+W+C+D=N=100000.
+\]
+$D$ aggregates descendants acquiring a second transforming alteration and retains the founder marker. Multiple independent second-hit origins can be aggregated because their fitness is identical. The effective competing population and two-hit mechanism are modeling assumptions, not universal molecular definitions of tMN.
+
+CAR infusion is day 0. Before day 0,
+\[
+f_W=f_C=f_D=1.
+\]
+This removes LD-associated selection and pre-CAR double-hit advantage. Neutral turnover and mutation can still occur. The study does not introduce a separate LD population bottleneck.
+
+Define a shape--scale gamma density
+\[
+g(t;\alpha,\theta)=\frac{t^{\alpha-1}e^{-t/\theta}}{\Gamma(\alpha)\theta^\alpha},
+\quad t>0,\quad \alpha>1,\quad\theta>0.
+\]
+Here $\alpha$ is dimensionless, $\theta$ is a scale in days, and $g$ has units day$^{-1}$. After infusion,
+\[
+f_W=1,\qquad f_C(t)=1+A_{\mathrm{area}}g(t;\alpha,\theta),\qquad f_D(t)=f_C(t)+s_D.
+\]
+Set $g(0)=0$ for $\alpha>1$. Thus $D$ inherits the same gamma pulse and adds a fixed extra advantage after day 0. The peak day is $(\alpha-1)\theta$, its height is derived, and
+\[
+\int_0^\infty[f_C(t)-1]dt=A_{\mathrm{area}}=1\ \mathrm{day}.
+\]
+No peak-height normalization is applied anywhere in the confirmed study.
+The area inside the observed four years is $A_{\mathrm{area}}\Pr\{G\le1460\}$ for $G\sim\mathrm{Gamma}(\alpha,\theta)$ and may be smaller than the full area if a pulse is placed beyond follow-up. Record this quantity separately.
+
+Replacement opportunities occur at total rate $Nb$. If $F=W+f_CC+f_DD$, newborn probabilities are
+\[
+p_W=\frac WF,\qquad p_C=\frac{(1-\mu)f_CC}{F},\qquad p_D=\frac{f_DD+\mu f_CC}{F}.
+\]
+The off-diagonal generator is $q_{n,n+e_j-e_k}=bn_kp_j$ for $j\ne k$. Mutation is a probability per $C$ division, not per day. Wild-type-to-founder mutation is not included.
+
+\section{Reference parameters and sensitivity}
+\begin{center}\begin{tabular}{@{}lp{0.49\textwidth}l@{}}\toprule
+Parameter & Definition & Reference\\\midrule
+$N$ & Effective competing population & $10^5$\\
+$b$ & Moran turnover scale, day$^{-1}$ & $1/28$\\
+$s_D$ & Extra post-CAR double-hit fitness & 0.02\\
+$A_{\mathrm{area}}$ & Integrated extra founder advantage, days & 1\\
+$\mu$ & Second transforming event per $C$ division & $10^{-6}$\\
+$D_{\mathrm{init}}$ & Clinical-fit double-hit count at baseline & 0\\
+$\kappa$ & Strict aggregate event threshold fraction & 0.01\\
+$\sigma_{\mathrm{VAF}}$ & Fixed logit observation SD & 0.25\\
+Delay & Threshold-to-diagnosis delay & 0 days\\\bottomrule
+\end{tabular}\end{center}
+The reference $b$ has precedent in a published hematopoietic Moran framework, which also discusses slower self-renewal rates; it is not a universally measured progenitor division rate. See \href{https://pubmed.ncbi.nlm.nih.gov/33636128/}{Heyde et al., Cell (2021)}. The advantage and transforming-mutation values remain sensitivity assumptions. The previous rate pair $b=1/7$, $s_D=0.021$ is retained as a rate comparator under the new fixed-area convention.
+
+Only one cohort-wide $(\alpha,\theta)$ pair is fitted in each scenario. Initially search $1.01\le\alpha\le50$, $0.25\le\theta\le1460$ days and report boundary optima. Fixed-parameter sensitivities are
+\begin{align*}
+b&\in\{1/280,1/28,1/7\}\ \mathrm{day}^{-1}, &s_D&\in\{0,0.01,0.02,0.05\},\\
+A_{\mathrm{area}}&\in\{0.3,1,3\}\ \mathrm{days}, &\mu&\in\{0,10^{-7},10^{-6},10^{-5},10^{-4}\},\\
+D_{\mathrm{init}}&\in\{0,1,10,100\}, &\kappa&\in\{0.005,0.01,0.02\},\\
+\sigma_{\mathrm{VAF}}&\in\{0.1,0.25,0.5\}.&&
+\end{align*}
+Changing $b$ holds $s_D$ fixed; derived $r_D=bs_D$ changes. Area is fixed across alpha/theta values within each scenario; area sensitivity varies that fixed assumption between scenarios. Set $K=\lfloor\kappa N\rfloor+1$. Compatible scenarios refit the complete joint likelihood. With $\mu=D_{\mathrm{init}}=0$, observed tMN is structurally impossible and no probability floor is used.
+
+\section{Clinical cohort and observation model}
+Use the supplied MOESM7/MOESM9 source workbooks and the audited exact-locus longitudinal extraction. Preserve hashes, source rows, sample identities and allele orientation. The confirmed analysis has 14 patients, 42 follow-up VAF observations and one baseline-selected index marker per patient. Sample-specific PBL/PBMC data are kept separate; cfDNA and tumor are not pooled into the blood-cell observation model. Other variants are retained as source evidence but are not treated as independent patient outcomes.
+
+The index marker is selected from a positive baseline at or before infusion using baseline information only. Condition on the measured baseline to initialize total founder burden, $C+D=2Nv_0$, and subtract $D_{\mathrm{init}}$ to initialize $C$. Baseline measurement error is not propagated in this initial observation specification. Assume a representative diploid heterozygous marker with
+\[
+E[VAF(t)\mid X(t)]=\frac{C(t)+D(t)}{2N},\qquad
+\operatorname{logit}(2VAF_{\rm obs})\sim N\!\left(\operatorname{logit}\frac{C+D}{N},\sigma_{\mathrm{VAF}}^2\right).
+\]
+Positive VAF must be below 50\%. Non-detection needs a detection model; absent filtered calls are not zero and no read counts are invented. The positive-detection restriction, near-50\% transformation, potential LOH/CNV, and unphased founder choice remain limitations. Exclude observations at or after tMN diagnosis from the prediagnosis process.
+
+\begin{center}\begin{tabular}{llp{0.47\textwidth}}\toprule
+Patient & Outcome used & Source-record assumption\\\midrule
+103 & Exact event, day 127 & Listed time is first tMN from the relevant index CAR infusion.\\
+197 & Exact event, day 589 & Same assumption; include its prediagnosis VAF.\\
+25 & Right censor, day 1460 & Listed first event at day 1561 establishes event-free status through four years.\\
+Other 11 & Unknown outcome & Contribute VAF only; not interpreted as clinical negatives.\\\bottomrule
+\end{tabular}\end{center}
+Baseline-only patients with informative outcomes are included. Do not require all patients to have complete outcome verification before a joint fit. Patients 18/69 have unresolved time origins, 127 lacks an eligible pre-CAR blood-cell initial state, and 275 lacks diagnosis timing; retain these issues explicitly outside the primary cohort.
+
+These source-record assumptions were authorized for exploratory joint analysis. Outcome-dependent ascertainment or missingness may bias an unadjusted fit; no claim of population-incidence calibration follows from using the available events. Mortality is not modeled as a competing event. The index marker need not be the actual clinical tMN founder, which is another substantive approximation.
+
+\section{Shared-state joint likelihood and numerical method}
+With $Y_i$ the longitudinal VAF and $O_i$ the clinical observation,
+\[
+L(\alpha,\theta\mid\psi)=\prod_i\int p(X_i\mid\alpha,\theta,\psi)
+\,p(Y_i\mid X_i,\psi)\,p(O_i\mid X_i,\psi)\,dX_i.
+\]
+Equivalently, $p(Y_i)\,p(O_i\mid Y_i)$; do not multiply independent VAF and clinical marginals. Apply VAF likelihood weights sequentially to the same latent-state distribution, and use boundary flux for exact tMN time or survival for censoring. Unknown outcomes have no clinical observation factor. Each patient's outcome is used once, without arbitrary VAF/event reweighting.
+
+For tractable inference, retain a deterministic background $q=C/(N-D)$,
+\[
+\dot q=bq(1-q)\frac{(1-\mu)f_C-1}{1+(f_C-1)q},
+\]
+and a stochastic $D$ chain with conditional $C=(N-D)q$, birth $b(N-d)p_D$ and death $bd(1-p_D)$. This approximates stochastic single-mutant variation and feedback. Full W/C/D stochastic simulations below assess its behavior; they are not replaced by this approximation.
+
+Known events/censoring use a killed chain below $K$. Unknown outcomes use an unrestricted physical chain with a numerical reflecting cap; compare cap refinements and, for the reference, the full $D=0,\ldots,N$ domain. Reflection at a numerical cap must not be interpreted as no tMN. Control changes in log likelihood, not only lost probability mass.
+
+To resolve tiny early-event probabilities, evolve $v_d=e^{\eta(t)d}p_d$ under the similarity-transformed generator, including the additional $\dot\eta(t)d$ diagonal term, with explicit absorbed flux and rescaling. A branching-process tilt schedule stabilizes the growing rare-event tail; this is a numerical change of variables, not a fitted biological parameter or a change to the finite-N rates. Transform back in log space for event density, survival and VAF weighting. Check against an independently exponentiated generator; do not replace small event probabilities by an epsilon. Adaptive banded LSODA and a separately solved background are tolerance-refined.
+When a narrow VAF error model can amplify extremely small D-tail errors, apply the same invertible tilt to the unrestricted unknown-outcome chain. Refine the state cap and solver tolerances before accepting those likelihoods. Limit the initial numerical tilt for large starting D populations to preserve physical mass.
+
+Optimize from multiple starting points. Report joint NLL, marginal VAF NLL and clinical-given-VAF NLL. A VAF-only fit under the same area convention is a comparator, not a replacement for joint inference. Profile alpha while optimizing theta and vice versa; report flat or boundary-limited support rather than unsupported finite intervals. Numerical bounds and fixed-parameter ranges are not confidence intervals.
+
+\section{Exact stochastic simulation experiment}
+The prescribed fractions refer to mutually exclusive $C$ and $D$ counts at day 0:
+\begin{center}\begin{tabular}{lrrr}\toprule Initial $D/N$ & $W(0)$ & $C(0)$ & $D(0)$\\\midrule
+0.01 & 97000 & 2000 & 1000\\
+0 & 98000 & 2000 & 0\\\bottomrule\end{tabular}\end{center}
+The corresponding founder VAFs are 1.5\% and 1\%, not 2\%. Simulate to day 1460, saving daily integer counts plus exact first-passage times and replicate seeds. Use
+\[
+\alpha\in\{2,4,8\},\qquad\theta\in\{2,7,21\}\ \mathrm{days}.
+\]
+Nine gamma pairs, two initial-D settings and 200 replicates yield 3600 primary trajectories. Also simulate 200 replicates per initial-D setting at the fitted reference and each compatible fitted sensitivity parameter set. The primary nine-point grid is not crossed again with every sensitivity assumption.
+
+The native C++ simulator uses exact time-inhomogeneous event thinning. It analytically skips type-preserving Moran replacements, uses a state-specific bound valid for all subsequent fitness times, and updates W/C/D jointly. For fixed state $n$, use upper bounds on newborn numerators and the lower bound $F\ge N+s_DD$ to bound the sum of off-diagonal rates. Rejected proposals do not change the state. This changes computational efficiency, not the Moran law. Continue paths after threshold crossing.
+
+The four primary figures are single-mutant C (blue) and double-hit D (red), separately for each initial-D setting. Each 3-by-3 grid panel contains 200 curves with opacity 0.035 and a bold arithmetic mean over all replicates, including zeros/extinctions. Show full four-year time and an additional early-time view. Preserve raw counts, compressed daily arrays, seeds, first-passage times, null-proposal counts and runtime metadata.
+
+\section{Risk endpoints, interpretation and validation}
+Define $T_*=\inf\{t\ge0:D(t)\ge K\}$. Evaluate cumulative probabilities at days 365, 730, 1095 and 1460, conditional on initial state and fixed parameters. When clinical baseline precedes infusion, condition on an initially event-free day-0 state. The strict 1\% rule gives $K=1001$; the simulation starting at $D=1000$ is one cell below threshold and describes existing-double-hit dynamics, not healthy-baseline incidence.
+
+Use forward first-passage probabilities for rare risks, with simulations as checks. With 200 replicates the empirical event-proportion increment is 0.005; zero events do not establish zero risk. Separate numerical error, parameter uncertainty and fixed-parameter scenario variation. Do not equate a 1\% double-hit threshold with a validated clinical diagnosis or generalize an enriched cohort's conditional fit to all CAR-T recipients.
+
+Validation includes: fixed-area quadrature across the gamma grid; pre-CAR neutrality; no second-hit events when $\mu=D_{\mathrm{init}}=0$; exact population conservation and seed uniqueness; neutral Monte Carlo moments; independent tiny-event matrix-exponential calculations; small-N full Moran versus the inference approximation; numerical cap/tolerance refinements; and observed-data residuals. A successful numerical check does not resolve clinical ascertainment, founder identity, measurement mapping or competing death.
+
+\section{Execution and deliverables}
+The code is authored first, followed by this English TeX protocol, then numerical execution. Run validation, the reference joint fit, all compatible sensitivity refits, exact Monte Carlo grids/fitted-point trajectories, first-passage risks and profile likelihoods. Checkpoints permit resumption without repeating finished work. Export the English report PDF, four primary blue/red trajectory figures, fitted-point comparisons, result workbook, CSVs, raw compressed counts and reproducible code. Record configuration, inputs, software versions, timings and seeds. Preserve previous studies separately.
+
+\IfFileExists{executed_results.tex}{\input{executed_results.tex}}{\textit{The protocol is prepared before numerical execution; the results section will be appended after the confirmed pipeline finishes.}}
+\end{document}

@@ -1,0 +1,83 @@
+{
+  "approval_status": "approved_by_user_2026-11-05",
+  "endpoint_only": true,
+  "genes": [
+    "DNMT3A",
+    "PPM1D",
+    "TP53",
+    "TET2",
+    "CBL",
+    "ASXL1"
+  ],
+  "N": 100000,
+  "threshold": 1001,
+  "double_hit_definition": "second transforming alteration; aggregate double-hit population",
+  "s2_nonnegative": true,
+  "reference": {
+    "b": 0.14285714285714285,
+    "tau": 7,
+    "Tmax": 10,
+    "rise_doubling_days": 2,
+    "decay_half_life_days": 30,
+    "s1": 0.1
+  },
+  "one_at_a_time_growth_sensitivity": {
+    "b": [
+      0.03333333333333333,
+      1.0
+    ],
+    "tau": [
+      3,
+      14
+    ],
+    "Tmax": [
+      7,
+      14
+    ],
+    "rise_doubling_days": [
+      1,
+      3
+    ],
+    "decay_half_life_days": [
+      7,
+      90,
+      365
+    ],
+    "s1": [
+      0,
+      0.5
+    ]
+  },
+  "risk_scenarios": {
+    "mu_per_single_hit_division": [
+      0,
+      1e-07,
+      1e-06,
+      1e-05,
+      0.0001
+    ],
+    "additional_rare_clone_growth_per_day": [
+      0,
+      0.001,
+      0.003,
+      0.01
+    ],
+    "initial_double_hit_cells": [
+      0,
+      1,
+      10,
+      100
+    ]
+  },
+  "notes": [
+    "Reference and sensitivity values are scenario assumptions, not measured progenitor parameters.",
+    "s_D is calculated as additional_rare_clone_growth_per_day divided by b; b*s_D is an approximate rare-clone growth scale, not an exact net growth rate in a mixed population.",
+    "Baseline D must not exceed total founder-marked burden and must be below 1001 for an initially event-free analysis.",
+    "Absence from tMN_VAF does not establish clinical event-free follow-up."
+  ],
+  "gene_filter": {
+    "eligible_patient_gene_groups_greater_than": 2,
+    "apply_once_before_fitting": true,
+    "eligibility": "first_day < last_day and both VAF percentages strictly between 0 and 50"
+  }
+}

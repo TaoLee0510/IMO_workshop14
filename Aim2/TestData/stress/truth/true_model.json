@@ -1,0 +1,54 @@
+{
+  "scenario": "stress",
+  "seed": 20261103,
+  "struct": {
+    "a": 0.15,
+    "kel_ld": 0.45,
+    "klds": 0.04,
+    "kldp": 12,
+    "r_ld": 0.3,
+    "r_inf": 0.2,
+    "delta": 0.03,
+    "q": 0.12,
+    "emax": 0.9,
+    "ic50": 0.7,
+    "hill": 2,
+    "k_out": 0.2,
+    "k_m": 0.2,
+    "t_pk": 7,
+    "h_shape": 2.5,
+    "ktr_n": 0.67,
+    "kcirc_n": 2,
+    "gamma_n": 0.5,
+    "ktr_p": 0.5,
+    "kcirc_p": 0.12,
+    "gamma_p": 0.4,
+    "e_plt": 0.7,
+    "gcsf_fold": 2.5,
+    "tpo_fold": 1.8,
+    "toci_red": 0.5,
+    "ster_red": 0.6,
+    "ster_boost": 1
+  },
+  "clone_types": {
+    "DDR": [0.3, 0.8, 0.03],
+    "DTA": [0.9, 0.2, 0.9]
+  },
+  "pop": {
+    "mu_rho": 0,
+    "sd_rho": 0.7,
+    "mu_g": -1.2,
+    "sd_g": 0.6,
+    "mu_f": -0.9,
+    "sd_f": 0.9,
+    "beta_rho": [-0.1, -0.25, -0.2, -0.008],
+    "beta_g": 0.35,
+    "ch_logit": [-0.3, 0.04, 0.25, 0.6],
+    "beta_f_lines": 0.15,
+    "f0_non_ch": 0.001
+  },
+  "calibrated": {
+    "mu_rho": -0.26625,
+    "mu_g": -0.78525
+  }
+}

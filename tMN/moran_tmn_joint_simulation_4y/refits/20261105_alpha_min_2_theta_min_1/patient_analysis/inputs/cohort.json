@@ -1,0 +1,416 @@
+[
+  {
+    "patient_id": "Patient_25",
+    "gene": "DNMT3A",
+    "variant_id": "chr2:25463586:C>T",
+    "sample_type": "PBL",
+    "baseline_day": -6.0,
+    "baseline_vaf": 0.0177353342428377,
+    "observations": [],
+    "outcome": {
+      "kind": "censor",
+      "day": 1460,
+      "first_event_record_day": 1561,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 31
+    },
+    "clinical_evidence": "source_record_assumption_confirmed"
+  },
+  {
+    "patient_id": "Patient_44",
+    "gene": "PPM1D",
+    "variant_id": "chr17:58740642:C>G",
+    "sample_type": "PBL",
+    "baseline_day": -11.0,
+    "baseline_vaf": 0.0184842883548983,
+    "observations": [
+      {
+        "day": 94.0,
+        "vaf": 0.142031379025599,
+        "source_excel_row": 92865
+      },
+      {
+        "day": 185.0,
+        "vaf": 0.193620414673046,
+        "source_excel_row": 93098
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_102",
+    "gene": "DNMT3A",
+    "variant_id": "chr2:25467436:A>T",
+    "sample_type": "PBL",
+    "baseline_day": -6.0,
+    "baseline_vaf": 0.0213135068153656,
+    "observations": [
+      {
+        "day": 772.0,
+        "vaf": 0.0292028413575375,
+        "source_excel_row": 73943
+      },
+      {
+        "day": 1043.0,
+        "vaf": 0.0203494347379239,
+        "source_excel_row": 73991
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_103",
+    "gene": "PPM1D",
+    "variant_id": "chr17:58740749:C>T",
+    "sample_type": "PBL",
+    "baseline_day": -24.0,
+    "baseline_vaf": 0.00271923861318831,
+    "observations": [],
+    "outcome": {
+      "kind": "exact",
+      "day": 127,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 33
+    },
+    "clinical_evidence": "source_record_assumption_confirmed"
+  },
+  {
+    "patient_id": "Patient_123",
+    "gene": "PPM1D",
+    "variant_id": "chr17:58740467:C>T",
+    "sample_type": "PBL",
+    "baseline_day": -6.0,
+    "baseline_vaf": 0.0326173428798727,
+    "observations": [
+      {
+        "day": 8.0,
+        "vaf": 0.0481666666666667,
+        "source_excel_row": 14876
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_180",
+    "gene": "DNMT3A",
+    "variant_id": "chr2:25471070:G>A",
+    "sample_type": "PBL",
+    "baseline_day": -21.0,
+    "baseline_vaf": 0.006542056074766361,
+    "observations": [
+      {
+        "day": 521.0,
+        "vaf": 0.00401234567901235,
+        "source_excel_row": 122692
+      },
+      {
+        "day": 546.0,
+        "vaf": 0.0045366169799092694,
+        "source_excel_row": 122990
+      },
+      {
+        "day": 714.0,
+        "vaf": 0.0023547880690737797,
+        "source_excel_row": 123288
+      },
+      {
+        "day": 896.0,
+        "vaf": 0.00179928028788485,
+        "source_excel_row": 123586
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_197",
+    "gene": "TP53",
+    "variant_id": "chr17:7578234:A>T",
+    "sample_type": "PBL",
+    "baseline_day": -7.0,
+    "baseline_vaf": 0.00938232994526974,
+    "observations": [
+      {
+        "day": 25.0,
+        "vaf": 0.0308680339755542,
+        "source_excel_row": 113073
+      }
+    ],
+    "outcome": {
+      "kind": "exact",
+      "day": 589,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 37
+    },
+    "clinical_evidence": "source_record_assumption_confirmed"
+  },
+  {
+    "patient_id": "Patient_235",
+    "gene": "TET2",
+    "variant_id": "chr4:106155902:C>T",
+    "sample_type": "PBMC",
+    "baseline_day": -5.0,
+    "baseline_vaf": 0.49093904448105397,
+    "observations": [
+      {
+        "day": 7.0,
+        "vaf": 0.476350158842217,
+        "source_excel_row": 88923
+      },
+      {
+        "day": 29.0,
+        "vaf": 0.481684981684982,
+        "source_excel_row": 88992
+      },
+      {
+        "day": 102.0,
+        "vaf": 0.467141201787783,
+        "source_excel_row": 89061
+      },
+      {
+        "day": 287.0,
+        "vaf": 0.42517854177047,
+        "source_excel_row": 89130
+      },
+      {
+        "day": 368.0,
+        "vaf": 0.40925069380203505,
+        "source_excel_row": 89199
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_238",
+    "gene": "DNMT3A",
+    "variant_id": "chr2:25466800:G>A",
+    "sample_type": "PBMC",
+    "baseline_day": -7.0,
+    "baseline_vaf": 0.0270967741935484,
+    "observations": [
+      {
+        "day": 7.0,
+        "vaf": 0.0379156134551818,
+        "source_excel_row": 129069
+      },
+      {
+        "day": 26.0,
+        "vaf": 0.040604515659140604,
+        "source_excel_row": 129155
+      },
+      {
+        "day": 61.0,
+        "vaf": 0.0344418052256532,
+        "source_excel_row": 129241
+      },
+      {
+        "day": 183.0,
+        "vaf": 0.0354858675469363,
+        "source_excel_row": 129327
+      },
+      {
+        "day": 288.0,
+        "vaf": 0.0294957183634634,
+        "source_excel_row": 129413
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_316",
+    "gene": "DNMT3A",
+    "variant_id": "chr2:25458588:G>A",
+    "sample_type": "PBL",
+    "baseline_day": -5.0,
+    "baseline_vaf": 0.0705838876570584,
+    "observations": [
+      {
+        "day": 7.0,
+        "vaf": 0.100259933160045,
+        "source_excel_row": 119619
+      },
+      {
+        "day": 11.0,
+        "vaf": 0.0948547427371369,
+        "source_excel_row": 119716
+      },
+      {
+        "day": 18.0,
+        "vaf": 0.152989904219518,
+        "source_excel_row": 119813
+      },
+      {
+        "day": 25.0,
+        "vaf": 0.153617443012884,
+        "source_excel_row": 119910
+      },
+      {
+        "day": 28.0,
+        "vaf": 0.10489678348535801,
+        "source_excel_row": 120007
+      },
+      {
+        "day": 137.0,
+        "vaf": 0.10909893992932901,
+        "source_excel_row": 120104
+      },
+      {
+        "day": 186.0,
+        "vaf": 0.096232985121874,
+        "source_excel_row": 120201
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_318",
+    "gene": "DNMT3A",
+    "variant_id": "chr2:25457243:G>A",
+    "sample_type": "PBL",
+    "baseline_day": 0.0,
+    "baseline_vaf": 0.23177024904644403,
+    "observations": [
+      {
+        "day": 7.0,
+        "vaf": 0.127898550724638,
+        "source_excel_row": 53309
+      },
+      {
+        "day": 14.0,
+        "vaf": 0.16989758595464502,
+        "source_excel_row": 53359
+      },
+      {
+        "day": 21.0,
+        "vaf": 0.178209214720371,
+        "source_excel_row": 53409
+      },
+      {
+        "day": 28.0,
+        "vaf": 0.24006155424467798,
+        "source_excel_row": 53459
+      },
+      {
+        "day": 55.0,
+        "vaf": 0.299264963248162,
+        "source_excel_row": 53509
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_321",
+    "gene": "TP53",
+    "variant_id": "chr17:7577141:C>A",
+    "sample_type": "PBL",
+    "baseline_day": 0.0,
+    "baseline_vaf": 0.0413737155219037,
+    "observations": [
+      {
+        "day": 8.0,
+        "vaf": 0.0426175419301622,
+        "source_excel_row": 96631
+      },
+      {
+        "day": 655.0,
+        "vaf": 0.0702127659574468,
+        "source_excel_row": 96743
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_356",
+    "gene": "TET2",
+    "variant_id": "chr4:106158108:G>A",
+    "sample_type": "PBMC",
+    "baseline_day": 0.0,
+    "baseline_vaf": 0.0309571144561204,
+    "observations": [
+      {
+        "day": 1.0,
+        "vaf": 0.0263210769539883,
+        "source_excel_row": 62376
+      },
+      {
+        "day": 8.0,
+        "vaf": 0.0324662996012911,
+        "source_excel_row": 62423
+      },
+      {
+        "day": 15.0,
+        "vaf": 0.0257961216865326,
+        "source_excel_row": 62470
+      },
+      {
+        "day": 20.0,
+        "vaf": 0.025240641711229903,
+        "source_excel_row": 62517
+      },
+      {
+        "day": 92.0,
+        "vaf": 0.0255176741267517,
+        "source_excel_row": 62564
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  },
+  {
+    "patient_id": "Patient_445",
+    "gene": "PPM1D",
+    "variant_id": "chr17:58740746:A>T",
+    "sample_type": "PBL",
+    "baseline_day": 0.0,
+    "baseline_vaf": 0.00298455056179775,
+    "observations": [
+      {
+        "day": 8.0,
+        "vaf": 0.00398489932885906,
+        "source_excel_row": 42695
+      },
+      {
+        "day": 21.0,
+        "vaf": 0.0056369785794813995,
+        "source_excel_row": 42733
+      },
+      {
+        "day": 28.0,
+        "vaf": 0.00598571152732188,
+        "source_excel_row": 42771
+      }
+    ],
+    "outcome": {
+      "kind": "unknown"
+    },
+    "clinical_evidence": "unknown_not_negative"
+  }
+]

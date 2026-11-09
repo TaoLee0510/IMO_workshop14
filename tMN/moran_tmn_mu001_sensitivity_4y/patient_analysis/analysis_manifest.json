@@ -1,0 +1,11 @@
+{
+  "fit_source": "/Users/4482173/Documents/Projects/IMO_workshop_14/tMN/moran_tmn_mu001_sensitivity_4y/results/fits/reference.json",
+  "fit_sha256": "2c347e2063275f549bd23c77daa997e49077b2538bdefee0439260741e3994f4",
+  "cohort_sha256": "e1487f2bd9b43ec142d280b58c08b60d660b508f685ad3bb847e49e5a3cfb87d",
+  "model_sha256": "e74ed951c987eacd9f118aa53be24c77cbc74d477c36af512a6f2123c1e4860d",
+  "replicates_per_patient": 200,
+  "horizon_days": 1460,
+  "master_seed": 2026110521,
+  "workers": 3,
+  "gamma_density_integral": 1
+}

@@ -1,0 +1,31 @@
+{
+  "previous_refit": "/Users/4482173/Documents/Projects/IMO_workshop_14/tMN/moran_tmn_joint_simulation_4y/refits/20261105_alpha_min_2",
+  "previous_bounds": {
+    "alpha": [
+      2.0,
+      50.0
+    ],
+    "theta_days": [
+      0.25,
+      1460.0
+    ]
+  },
+  "requested_bounds": {
+    "alpha": [
+      2.0,
+      50.0
+    ],
+    "theta_days": [
+      1.0,
+      1460.0
+    ]
+  },
+  "scope": "Reference joint fit only; fixed parameters and cohort unchanged; gamma PDF integrates to 1 on [0,infinity)",
+  "source_sha256": {
+    "model.py": "04795238ce5c00a58237b1ef480700a079bb46bb2d300d1f7791c7bcfaa2db13",
+    "fitting.py": "b812ff5815b48b2d62b62bfc48afa91bba8cc2ce7886f0021e88944f7891837f",
+    "config.json": "5dc9426592881b4e1293f318cda53d4f6fcd4a0b1adb094355486c3871488473",
+    "data/cohort.json": "e1487f2bd9b43ec142d280b58c08b60d660b508f685ad3bb847e49e5a3cfb87d",
+    "results/fits/reference.json": "aaf083134bf73b87f5dc867dee55ca794fb472bc300bbb903f063d0b1a8d86eb"
+  }
+}

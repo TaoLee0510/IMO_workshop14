@@ -1,0 +1,91 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,booktabs}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\title{\vspace{-1.5em}Endpoint model of clonal expansion and tMN}
+\author{}\date{}
+\begin{document}
+\maketitle\vspace{-2.8em}
+\textbf{Scope.} Screen every gene using only first/last VAF measurements; retain genes with more than two eligible patients: DNMT3A, PPM1D, TP53, TET2, CBL and ASXL1. Eligibility requires valid times and both VAFs strictly between 0 and 50\%. Fix this gene set before sensitivity analyses. Time is in days relative to CAR infusion. Each gene-pathway model describes a founder-marked population; unknown overlap prevents adding variant burdens or gene risks.
+
+\textbf{Population and fitness.} Wild-type, single-hit and double-hit counts satisfy
+\(W+M+D=N=10^5\). A double hit is a second transforming alteration, and \(D\) aggregates all such descendants. For patient \(i\), gene \(g\),
+\begin{align}
+ f_W(t)&=1, \\
+ f_{M,ig}(t)&=1+s_{1,g}e^{-(t+5)/\tau}\mathbf1_{\{t\ge-5\}}+s_{2,ig}h(t),\\
+ h(t)&=\begin{cases}
+ 0,&t<0,\\
+ e^{\alpha(t-T_{\max})},&0\le t\le T_{\max},\\
+ e^{-\beta(t-T_{\max})},&t>T_{\max},
+ \end{cases}
+ & f_{D,ig}(t)&=f_{M,ig}(t)+s_D .
+\end{align}
+Here \(s_{2,ig}\ge0\) as specified; \(s_{1,g},s_D\ge0\), \(\mu\in[0,1]\), \(\tau,\alpha,\beta,b>0\), and \(T_{\max}\ge0\).
+
+\textbf{Moran process.} Replacement events occur at rate \(Nb\). Choose a parent proportional to fitness, a replaced cell uniformly, and convert a single-hit offspring to double-hit with probability \(\mu\) per division. Writing \(w=N-m-d\), \(F=w+f_Mm+f_Dd\), newborn probabilities are
+\[
+p_W=\frac{w}{F},\qquad
+p_M=\frac{(1-\mu)f_Mm}{F},\qquad
+p_D=\frac{f_Dd+\mu f_Mm}{F}.
+\]
+For count vector \(n=(w,m,d)\), the off-diagonal generator is
+\[
+q_{n,n+e_j-e_k}(t)=b\,n_kp_j(t,n),\qquad j\ne k.
+\]
+All double-hit cells share fitness, so aggregation over their independent origins is exact.
+
+\textbf{Mean-field approximation.} For \(x=M/N\), \(y=D/N\), and
+\(\bar f=1-x-y+f_Mx+f_Dy\),
+\[
+\dot x=b\left(\frac{(1-\mu)f_Mx}{\bar f}-x\right),\qquad
+\dot y=b\left(\frac{f_Dy+\mu f_Mx}{\bar f}-y\right).
+\]
+These are not an exact closure for stochastic means. Propagate from the actual first sampling day; nonzero double-hit burden can change the state even before LD.
+
+\textbf{Observation and initial state.} Convert spreadsheet percentages to fractions. Under a representative, diploid, heterozygous founder-marker observation model,
+\[
+v(t)=\frac{M(t)+D(t)}{2N}.
+\]
+Baseline VAF constrains the total marked burden, not its single-/double-hit partition. Double hits may exist initially. For an initially event-free population, require \(0\le D_0\le\min(M_0+D_0,1000)\). Zero VAF does not establish absence: this model has no wild-type-to-single-hit mutation, so a zero baseline requires an observation/detection model before a later-positive trajectory can be fitted. Copy-number/LOH and mixed-compartment effects require alternatives to this observation equation.
+
+\newpage
+\textbf{Risk.} Define the first passage of aggregate double-hit burden:
+\[
+T_*=\inf\{t\ge t_0:D(t)\ge1001\},\qquad
+P_{\rm tMN}(t)=\Pr(T_*\le t).
+\]
+Strictly exceeding \(1\%\) means 1,001 cells. With transient generator \(Q_{\mathcal T\mathcal T}(t)\) on
+\(\mathcal T=\{(m,d):m+d\le N,\ d\le1000\}\),
+\[
+\dot{\boldsymbol p}_{\mathcal T}
+ =\boldsymbol p_{\mathcal T}Q_{\mathcal T\mathcal T},\qquad
+P_{\rm tMN}(t)=1-\sum_{(m,d)\in\mathcal T}p_{m,d}(t).
+\]
+Average over uncertain initial states. Absorption is used to tally risk only; physical trajectories may continue after crossing. This is not an individual-lineage endpoint-size probability, and the \(1\%\) threshold is an operational model definition rather than a calibrated diagnosis criterion.
+
+\textbf{Numerical risk approximation.} Avoid the large two-dimensional generator by approximating the single-hit proportion among non-double-hit cells, \(q=M/(N-D)\), deterministically:
+\[
+\dot q=bq(1-q)\frac{(1-\mu)f_M-1}{1+(f_M-1)q},\qquad
+q(t_0)=\frac{M_0}{N-D_0}.
+\]
+Conditional on this background, retain fixed-\(N\) double-hit birth and death rates \(b(N-d)p_D\) and \(bd(1-p_D)\), with \(m=(N-d)q\). Solve the killed one-dimensional forward equation through \(d=1000\) using an adaptive banded solver. This approximates stochastic single-hit dynamics and its feedback; tolerance refinement, an independent BDF solver and small-\(N\) exact Moran calculations assess errors.
+
+\textbf{Endpoint fitting.} Constrain LD and share kinetics, fitting one nonnegative \(s_{2,ig}\) per patient/gene with variant-specific initial burdens. In the initial growth fit set \(\mu=D_0=0\). For positive, diploid-compatible endpoint pairs, minimize the average pseudo-Huber loss \(\sqrt{1+r^2}-1\), where \(r=\operatorname{logit}(\hat h_1)-\operatorname{logit}(h_1)\) and \(h=2v\). These are unpooled conditional descriptive fits, not sequencing posteriors. Gene comparisons resample patients, preserving shared genes. Zero and non-diploid endpoints remain flagged; declining trajectories expose disagreement with nonnegative selection. Risk scenarios retain the reference fitted \(s_2\) without joint endpoint refitting; coupled mean-field endpoint residuals expose resulting inconsistencies. Unknown clonal overlap prevents summing gene-pathway risks.
+
+\textbf{Approved reference assumptions.}
+\[
+b=1/7,\quad \tau=7,\quad T_{\max}=10,\quad
+\alpha=\log(2)/2,\quad \beta=\log(2)/30,\quad s_{1,g}=0.1.
+\]
+These are sensitivity reference values, not measured progenitor parameters. Refit \(s_2\) when they change. Explore \(\mu\in\{0,10^{-7},10^{-6},10^{-5},10^{-4}\}\),
+\(b s_D\in\{0,0.001,0.003,0.01\}\), and compatible \(D_0\in\{0,1,10,100\}\).
+Clinical outcome likelihoods require reconciled diagnosis and censoring times and enter once per patient. Until then, report conditional scenario risks.
+
+\small
+\textbf{Kinetic context.} Circulating CAR peaks around days 7--14 support that peak window, but do not directly measure progenitor selection:
+\href{https://doi.org/10.3390/biology13050350}{Biology 13, 350 (2024)}.
+Observed CAR persistence is more complex than one exponential decay:
+\href{https://pubmed.ncbi.nlm.nih.gov/39240498/}{Chartier et al. (2024)}.
+\end{document}

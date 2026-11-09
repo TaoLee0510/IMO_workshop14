@@ -1,0 +1,118 @@
+{
+  "study": "Reference joint refit with alpha lower bound 2 and theta lower bound 1 day; normalized gamma PDF",
+  "confirmed_on": "2026-11-05",
+  "gamma_convention": "FIXED AREA: f_C=1+area_days*GammaPDF(t;alpha,theta); never peak-normalized",
+  "reference": {
+    "N": 100000,
+    "b": 0.03571428571428571,
+    "s_D": 0.02,
+    "mu": 1e-06,
+    "area_days": 1.0,
+    "D_init": 0,
+    "threshold_fraction": 0.01,
+    "sigma_vaf": 0.25
+  },
+  "old_rates_comparator": {
+    "b": 0.14285714285714285,
+    "s_D": 0.021
+  },
+  "fit_bounds": {
+    "alpha": [
+      2.0,
+      50.0
+    ],
+    "theta_days": [
+      1.0,
+      1460.0
+    ]
+  },
+  "simulation": {
+    "alpha": [
+      2.0,
+      4.0,
+      8.0
+    ],
+    "theta_days": [
+      2.0,
+      7.0,
+      21.0
+    ],
+    "replicates": 200,
+    "initial_C_fraction": 0.02,
+    "initial_D_fractions": [
+      0.01,
+      0.0
+    ],
+    "horizon_days": 1460,
+    "save_every_days": 1,
+    "master_seed": 2026110501,
+    "workers": 3,
+    "trajectory_opacity": 0.035
+  },
+  "sensitivity": {
+    "b": [
+      0.0035714285714285713,
+      0.14285714285714285
+    ],
+    "s_D": [
+      0.0,
+      0.01,
+      0.05
+    ],
+    "area_days": [
+      0.3,
+      3.0
+    ],
+    "mu": [
+      0.0,
+      1e-07,
+      1e-05,
+      0.0001
+    ],
+    "D_init": [
+      1,
+      10,
+      100
+    ],
+    "threshold_fraction": [
+      0.005,
+      0.02
+    ],
+    "sigma_vaf": [
+      0.1,
+      0.5
+    ]
+  },
+  "clinical": {
+    "source_assumptions_confirmed": true,
+    "Patient_103": {
+      "kind": "exact",
+      "day": 127,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 33
+    },
+    "Patient_197": {
+      "kind": "exact",
+      "day": 589,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 37
+    },
+    "Patient_25": {
+      "kind": "censor",
+      "day": 1460,
+      "first_event_record_day": 1561,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 31
+    }
+  },
+  "interpretation": [
+    "Source-record-based exploratory joint inference; not population incidence calibration.",
+    "Missing clinical outcomes remain unknown.",
+    "One baseline-selected founder marker per patient; D inherits the same marker.",
+    "Before day 0 all fitnesses equal 1; after day 0 D inherits gamma advantage and adds s_D.",
+    "Initial simulation C fraction excludes D; the prescribed initial fractions are at day 0.",
+    "Changing b holds s_D fixed; r_D=b*s_D is derived.",
+    "The fixed advantage area is 1 day in the main analysis; its physical unit follows the day-based gamma density.",
+    "The D=1 percent simulation starts one cell below the strict 1 percent event threshold."
+  ]
+}

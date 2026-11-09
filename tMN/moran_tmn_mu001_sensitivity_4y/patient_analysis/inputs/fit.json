@@ -1,0 +1,546 @@
+{
+  "scenario": "reference",
+  "optimizer_version": 4,
+  "fit_bounds": {
+    "alpha": [
+      2.0,
+      50.0
+    ],
+    "theta_days": [
+      1.0,
+      1460.0
+    ]
+  },
+  "fit_signature": {
+    "parameters": {
+      "N": 100000,
+      "b": 0.03571428571428571,
+      "s_D": 0.02,
+      "mu": 0.01,
+      "area_days": 1.0,
+      "D_init": 0,
+      "threshold_fraction": 0.01,
+      "sigma_vaf": 0.25
+    },
+    "fit_bounds": {
+      "alpha": [
+        2.0,
+        50.0
+      ],
+      "theta_days": [
+        1.0,
+        1460.0
+      ]
+    },
+    "cohort_sha256": "1fbcd588f0a2b2acd523f39325023b0632763e47a0b3b4bc154ad3e19eb7a6b4",
+    "model_sha256": "e74ed951c987eacd9f118aa53be24c77cbc74d477c36af512a6f2123c1e4860d"
+  },
+  "precision_version": 1,
+  "status": "fitted",
+  "parameters": {
+    "N": 100000,
+    "b": 0.03571428571428571,
+    "s_D": 0.02,
+    "mu": 0.01,
+    "area_days": 1.0,
+    "D_init": 0,
+    "threshold_fraction": 0.01,
+    "sigma_vaf": 0.25
+  },
+  "alpha": 15.24277135285479,
+  "theta_days": 1.0,
+  "peak_day": 14.24277135285479,
+  "peak_additional_fitness": 0.10509261745427079,
+  "area_days": 1.0,
+  "joint_nll": 455.8080763255657,
+  "VAF_nll": 291.9495830387804,
+  "clinical_given_VAF_nll": 163.85849328678523,
+  "clinical_events_used": 2,
+  "censor_records_used": 1,
+  "unknown_outcomes": 11,
+  "patients": 14,
+  "VAF_observations": 42,
+  "optimizer_success": true,
+  "start_nlls": [
+    455.8080763255657,
+    455.80808065940914,
+    455.82769921419725
+  ],
+  "boundary_optimum": true,
+  "cap": 512,
+  "cap_refinement_loglik_difference": 2.979732016683556e-10,
+  "tolerance_refinement_loglik_difference": 2.795447977632648e-05,
+  "full_N_loglik_difference": 3.695828354466357e-08,
+  "patient_details": [
+    {
+      "patient_id": "Patient_25",
+      "gene": "DNMT3A",
+      "outcome": "censor",
+      "joint_loglik": -12.95283184168575,
+      "nfev": 12863,
+      "cap": 1000,
+      "eta": 0.010451567354922468,
+      "max_upper_probability": 0.0,
+      "window_max_size": 1001,
+      "window_edge_probability": 0.0,
+      "negative_roundoff": -2.0875542157060725e-39,
+      "VAF_predictions": [],
+      "VAF_loglik": 0.0,
+      "clinical_given_VAF_loglik": -12.95283184168575
+    },
+    {
+      "patient_id": "Patient_44",
+      "gene": "PPM1D",
+      "outcome": "unknown",
+      "joint_loglik": -101.99490304348669,
+      "nfev": 4494,
+      "cap": 1280,
+      "eta": 0.0,
+      "max_upper_probability": 1.098356347548237e-31,
+      "window_max_size": 1281,
+      "window_edge_probability": 2.963550987841475e-53,
+      "negative_roundoff": -3.7467941944761875e-26,
+      "VAF_predictions": [
+        {
+          "day": 94.0,
+          "observed_vaf": 0.142031379025599,
+          "predicted_vaf": 0.019155085775908538
+        },
+        {
+          "day": 185.0,
+          "observed_vaf": 0.193620414673046,
+          "predicted_vaf": 0.019259739118374187
+        }
+      ],
+      "VAF_loglik": -101.99490304348669,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_102",
+      "gene": "DNMT3A",
+      "outcome": "unknown",
+      "joint_loglik": 0.086414514136953,
+      "nfev": 10983,
+      "cap": 6656,
+      "eta": 0.0,
+      "max_upper_probability": 3.383788298387013e-20,
+      "window_max_size": 6657,
+      "window_edge_probability": 8.605085076370456e-28,
+      "negative_roundoff": -8.094372911975932e-26,
+      "VAF_predictions": [
+        {
+          "day": 772.0,
+          "observed_vaf": 0.0292028413575375,
+          "predicted_vaf": 0.023860409711627607
+        },
+        {
+          "day": 1043.0,
+          "observed_vaf": 0.0203494347379239,
+          "predicted_vaf": 0.025707427851838924
+        }
+      ],
+      "VAF_loglik": 0.086414514136953,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_103",
+      "gene": "PPM1D",
+      "outcome": "exact",
+      "joint_loglik": -139.252188557029,
+      "nfev": 5834,
+      "cap": 1000,
+      "eta": 0.1585485739196692,
+      "max_upper_probability": 0.0,
+      "window_max_size": 1001,
+      "window_edge_probability": 0.0,
+      "negative_roundoff": 0.0,
+      "VAF_predictions": [],
+      "VAF_loglik": 0.0,
+      "clinical_given_VAF_loglik": -139.252188557029
+    },
+    {
+      "patient_id": "Patient_123",
+      "gene": "PPM1D",
+      "outcome": "unknown",
+      "joint_loglik": -0.9648765983033258,
+      "nfev": 1337,
+      "cap": 512,
+      "eta": 0.0,
+      "max_upper_probability": 0.0,
+      "window_max_size": 513,
+      "window_edge_probability": 0.0,
+      "negative_roundoff": -1.8368043983295043e-24,
+      "VAF_predictions": [
+        {
+          "day": 8.0,
+          "observed_vaf": 0.0481666666666667,
+          "predicted_vaf": 0.03263374143765748
+        }
+      ],
+      "VAF_loglik": -0.9648765983033258,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_180",
+      "gene": "DNMT3A",
+      "outcome": "unknown",
+      "joint_loglik": -23.34152116852335,
+      "nfev": 8516,
+      "cap": 2816,
+      "eta": 0.0,
+      "max_upper_probability": 4.827625838698781e-27,
+      "window_max_size": 2817,
+      "window_edge_probability": 1.4238818068185999e-36,
+      "negative_roundoff": -1.4992848438906234e-22,
+      "VAF_predictions": [
+        {
+          "day": 521.0,
+          "observed_vaf": 0.00401234567901235,
+          "predicted_vaf": 0.00704574477985805
+        },
+        {
+          "day": 546.0,
+          "observed_vaf": 0.0045366169799092694,
+          "predicted_vaf": 0.006862649255705611
+        },
+        {
+          "day": 714.0,
+          "observed_vaf": 0.0023547880690737797,
+          "predicted_vaf": 0.006899605214078029
+        },
+        {
+          "day": 896.0,
+          "observed_vaf": 0.00179928028788485,
+          "predicted_vaf": 0.0066205878524220945
+        }
+      ],
+      "VAF_loglik": -23.34152116852335,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_197",
+      "gene": "TP53",
+      "outcome": "exact",
+      "joint_loglik": -22.711433755982057,
+      "nfev": 7653,
+      "cap": 1000,
+      "eta": 0.036006364667330544,
+      "max_upper_probability": 0.0,
+      "window_max_size": 1001,
+      "window_edge_probability": 0.0,
+      "negative_roundoff": -6.45772140143757e-27,
+      "VAF_predictions": [
+        {
+          "day": 25.0,
+          "observed_vaf": 0.0308680339755542,
+          "predicted_vaf": 0.009712679537082233
+        }
+      ],
+      "VAF_loglik": -11.057960867911584,
+      "clinical_given_VAF_loglik": -11.653472888070473
+    },
+    {
+      "patient_id": "Patient_235",
+      "gene": "TET2",
+      "outcome": "unknown",
+      "joint_loglik": -118.9016785058737,
+      "nfev": 33350,
+      "cap": 19456,
+      "eta": 0.0,
+      "max_upper_probability": 2.140517107405146e-41,
+      "window_max_size": 19457,
+      "window_edge_probability": 2.3798001672379132e-26,
+      "negative_roundoff": -8.657400373606483e-22,
+      "VAF_predictions": [
+        {
+          "day": 7.0,
+          "observed_vaf": 0.476350158842217,
+          "predicted_vaf": 0.4909406534658492
+        },
+        {
+          "day": 29.0,
+          "observed_vaf": 0.481684981684982,
+          "predicted_vaf": 0.49123134013610326
+        },
+        {
+          "day": 102.0,
+          "observed_vaf": 0.467141201787783,
+          "predicted_vaf": 0.49124322590586156
+        },
+        {
+          "day": 287.0,
+          "observed_vaf": 0.42517854177047,
+          "predicted_vaf": 0.49132519824533305
+        },
+        {
+          "day": 368.0,
+          "observed_vaf": 0.40925069380203505,
+          "predicted_vaf": 0.49138072698826196
+        }
+      ],
+      "VAF_loglik": -118.9016785058737,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_238",
+      "gene": "DNMT3A",
+      "outcome": "unknown",
+      "joint_loglik": -0.851525366413485,
+      "nfev": 8697,
+      "cap": 2048,
+      "eta": 0.0,
+      "max_upper_probability": 2.9403453928972246e-26,
+      "window_max_size": 2049,
+      "window_edge_probability": 4.304942196066018e-36,
+      "negative_roundoff": -5.439146911600674e-25,
+      "VAF_predictions": [
+        {
+          "day": 7.0,
+          "observed_vaf": 0.0379156134551818,
+          "predicted_vaf": 0.027101518057418037
+        },
+        {
+          "day": 26.0,
+          "observed_vaf": 0.040604515659140604,
+          "predicted_vaf": 0.028018345882287736
+        },
+        {
+          "day": 61.0,
+          "observed_vaf": 0.0344418052256532,
+          "predicted_vaf": 0.02803987053364122
+        },
+        {
+          "day": 183.0,
+          "observed_vaf": 0.0354858675469363,
+          "predicted_vaf": 0.02815123227946367
+        },
+        {
+          "day": 288.0,
+          "observed_vaf": 0.0294957183634634,
+          "predicted_vaf": 0.028344016520086494
+        }
+      ],
+      "VAF_loglik": -0.851525366413485,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_316",
+      "gene": "DNMT3A",
+      "outcome": "unknown",
+      "joint_loglik": -18.2130251282319,
+      "nfev": 10653,
+      "cap": 2560,
+      "eta": 0.0,
+      "max_upper_probability": 4.1174684499803533e-26,
+      "window_max_size": 2561,
+      "window_edge_probability": 5.316281342027724e-35,
+      "negative_roundoff": -5.443984431100775e-23,
+      "VAF_predictions": [
+        {
+          "day": 7.0,
+          "observed_vaf": 0.100259933160045,
+          "predicted_vaf": 0.07059488839011359
+        },
+        {
+          "day": 11.0,
+          "observed_vaf": 0.0948547427371369,
+          "predicted_vaf": 0.07086894433070515
+        },
+        {
+          "day": 18.0,
+          "observed_vaf": 0.152989904219518,
+          "predicted_vaf": 0.07226031794385958
+        },
+        {
+          "day": 25.0,
+          "observed_vaf": 0.153617443012884,
+          "predicted_vaf": 0.07273018622283163
+        },
+        {
+          "day": 28.0,
+          "observed_vaf": 0.10489678348535801,
+          "predicted_vaf": 0.07275801160857635
+        },
+        {
+          "day": 137.0,
+          "observed_vaf": 0.10909893992932901,
+          "predicted_vaf": 0.07292155293175304
+        },
+        {
+          "day": 186.0,
+          "observed_vaf": 0.096232985121874,
+          "predicted_vaf": 0.0730674449538497
+        }
+      ],
+      "VAF_loglik": -18.2130251282319,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_318",
+      "gene": "DNMT3A",
+      "outcome": "unknown",
+      "joint_loglik": -10.639333423546415,
+      "nfev": 13956,
+      "cap": 2048,
+      "eta": 0.0,
+      "max_upper_probability": 0.0,
+      "window_max_size": 2049,
+      "window_edge_probability": 3.885900390689405e-27,
+      "negative_roundoff": -1.668317610634473e-22,
+      "VAF_predictions": [
+        {
+          "day": 7.0,
+          "observed_vaf": 0.127898550724638,
+          "predicted_vaf": 0.23179167768508757
+        },
+        {
+          "day": 14.0,
+          "observed_vaf": 0.16989758595464502,
+          "predicted_vaf": 0.23351003222986252
+        },
+        {
+          "day": 21.0,
+          "observed_vaf": 0.178209214720371,
+          "predicted_vaf": 0.235721211918369
+        },
+        {
+          "day": 28.0,
+          "observed_vaf": 0.24006155424467798,
+          "predicted_vaf": 0.23606559843081862
+        },
+        {
+          "day": 55.0,
+          "observed_vaf": 0.299264963248162,
+          "predicted_vaf": 0.23611619695462988
+        }
+      ],
+      "VAF_loglik": -10.639333423546415,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_321",
+      "gene": "TP53",
+      "outcome": "unknown",
+      "joint_loglik": -1.05589178972928,
+      "nfev": 9858,
+      "cap": 5888,
+      "eta": 0.0,
+      "max_upper_probability": 5.0255775222403785e-24,
+      "window_max_size": 5889,
+      "window_edge_probability": 1.050002740696345e-32,
+      "negative_roundoff": -1.4632925217031758e-24,
+      "VAF_predictions": [
+        {
+          "day": 8.0,
+          "observed_vaf": 0.0426175419301622,
+          "predicted_vaf": 0.04139365893591491
+        },
+        {
+          "day": 655.0,
+          "observed_vaf": 0.0702127659574468,
+          "predicted_vaf": 0.04506962525672015
+        }
+      ],
+      "VAF_loglik": -1.05589178972928,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_356",
+      "gene": "TET2",
+      "outcome": "unknown",
+      "joint_loglik": 0.7649153699391729,
+      "nfev": 5624,
+      "cap": 1024,
+      "eta": 0.0,
+      "max_upper_probability": 2.418172876702716e-35,
+      "window_max_size": 1025,
+      "window_edge_probability": 2.5740604465151465e-44,
+      "negative_roundoff": -9.138281605334849e-26,
+      "VAF_predictions": [
+        {
+          "day": 1.0,
+          "observed_vaf": 0.0263210769539883,
+          "predicted_vaf": 0.03095711815836585
+        },
+        {
+          "day": 8.0,
+          "observed_vaf": 0.0324662996012911,
+          "predicted_vaf": 0.030972373648922802
+        },
+        {
+          "day": 15.0,
+          "observed_vaf": 0.0257961216865326,
+          "predicted_vaf": 0.03148762692543848
+        },
+        {
+          "day": 20.0,
+          "observed_vaf": 0.025240641711229903,
+          "predicted_vaf": 0.03188321978425651
+        },
+        {
+          "day": 92.0,
+          "observed_vaf": 0.0255176741267517,
+          "predicted_vaf": 0.03203853160909442
+        }
+      ],
+      "VAF_loglik": 0.7649153699391729,
+      "clinical_given_VAF_loglik": 0.0
+    },
+    {
+      "patient_id": "Patient_445",
+      "gene": "PPM1D",
+      "outcome": "unknown",
+      "joint_loglik": -5.780197030836792,
+      "nfev": 1131,
+      "cap": 512,
+      "eta": 0.0,
+      "max_upper_probability": 1.7838559025260545e-41,
+      "window_max_size": 513,
+      "window_edge_probability": 0.0,
+      "negative_roundoff": -2.3965028908524878e-24,
+      "VAF_predictions": [
+        {
+          "day": 8.0,
+          "observed_vaf": 0.00398489932885906,
+          "predicted_vaf": 0.0029861106791367912
+        },
+        {
+          "day": 21.0,
+          "observed_vaf": 0.0056369785794813995,
+          "predicted_vaf": 0.003083839357583545
+        },
+        {
+          "day": 28.0,
+          "observed_vaf": 0.00598571152732188,
+          "predicted_vaf": 0.003093109348903975
+        }
+      ],
+      "VAF_loglik": -5.780197030836792,
+      "clinical_given_VAF_loglik": 0.0
+    }
+  ],
+  "evaluation_count": 59,
+  "numerical_errors": [],
+  "seconds": 574.5596978664398,
+  "inference": "shared-state hybrid joint likelihood; source-based exploratory clinical inference",
+  "source_migration": {
+    "change": "Merge adjacent numerical integration breakpoints less than 1e-8 day apart; generator and likelihood unchanged",
+    "previous_model_sha256": "82dfeefecec143b89807ea0da45de0a00ac1e640dd364050732c53395f793b2d",
+    "current_model_sha256": "e74ed951c987eacd9f118aa53be24c77cbc74d477c36af512a6f2123c1e4860d",
+    "optimum_NLL_recheck_difference": 0.0,
+    "failed_anchor_rechecks": [
+      {
+        "alpha": 49.99999999999999,
+        "theta_days": 1.0,
+        "joint_nll": 456.95152338721124,
+        "better_than_optimum": false
+      }
+    ],
+    "resolved_errors": [
+      "Unexpected istate in LSODA."
+    ]
+  },
+  "resolved_numerical_errors": [
+    "Unexpected istate in LSODA."
+  ]
+}

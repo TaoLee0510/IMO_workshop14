@@ -1,0 +1,593 @@
+% =============================================================================
+% methods.tex  -  Methods of Model1 (Aim4 v1.3 with a Friberg-like haematopoietic layer)
+% Tables and numbers come from Code/config.R via make_tables.R:
+%   Rscript Methods/make_tables.R && latexmk -pdf methods.tex   (in Methods/)
+% =============================================================================
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[round,authoryear]{natbib}
+\usepackage[hidelinks]{hyperref}
+\input{tables/values.tex}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\one}{\mathbb{1}}
+\newcommand{\pos}[1]{\left(#1\right)_{+}}
+
+\title{A Friberg-type marrow model with a stem cell layer for blood count recovery after CAR T-cell therapy\\[4pt]
+\large Model specification and statistical methods (\valVersion)}
+\author{IMO Workshop 14}
+\date{4 November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Model1 is a mechanistic model of haematopoiesis after lymphodepleting chemotherapy and CAR T-cell infusion. It answers the same two questions as its predecessor, the Aim4 model (version 1.3): \emph{who} fails to recover (low marrow reserve versus a pre-existing haematopoietic clone) and \emph{when} the stem cell pool is hit (during bridging and lymphodepleting chemotherapy, ``a'', or during the CAR T phase, ``b''). Model1 keeps the stem cell layer with its clone, the inputs, the CAR T--target interaction module, the observation model and the estimation method of Aim4 v1.3. It replaces the lineage tree of Aim4 (multipotent, common myeloid and lymphoid, granulocyte--monocyte and megakaryocyte--erythroid progenitors, each with its own self-renewal rate) by a Friberg-type layer: four multipotent progenitor (MPP) components, one per blood lineage, with shared rates, each feeding a maturation chain. This removes \valReduction{} of \valNStructAimFour{} structural parameters. The recovery phenotype (quick, second wave, delayed) is added to the likelihood. Estimation starts with independent per-patient fits (round 0), followed by the iterative two-stage differential-evolution method of Aim4. Predictive performance is assessed by five-fold cross-validation, and identifiability and the cost of the simplification by synthetic cohorts. This document gives every equation, the meaning of every term, all parameter values and their sources, the observation model, the estimation and validation procedures, the pre-registered analysis plan and the verification of the implementation.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+% -----------------------------------------------------------------------------
+\section{Overview}
+
+Time $t$ is in days relative to CAR T-cell infusion (day 0). Each patient is simulated from a pre-treatment steady state that starts at $t_0=\min(\valTmin,\ t_{\mathrm{aph}}+1,\ t_{\mathrm{first\,obs}}-1)$, where $t_{\mathrm{aph}}$ is the apheresis day. Every haematopoietic compartment is expressed relative to its own pre-treatment value, so all of them equal 1 at steady state; CAR T cells are counted in absolute units. The model has three layers (Figure~\ref{fig:model}):
+\begin{enumerate}
+\item the \textbf{inputs}: the chemotherapy exposure $C(t)$ (``a''); the CAR T phase (``b''), which acts through the lagged ferritin-driven inflammation $I(t)$ and through the signal $Z(t)$ of a CAR T--target interaction module; and G-CSF, through its effect $E_G(t)$;
+\item the \textbf{haematopoietic layer}: a two-clone stem cell (HSC) compartment; four MPP components $P_\ell$, $\ell\in\{\mathrm{N},\mathrm{Mo},\mathrm{Pl},L\}$; three maturation chains (neutrophil, monocyte, megakaryocyte);
+\item the \textbf{blood}: absolute neutrophil, monocyte and lymphocyte counts (ANC, AMC, ALC) and platelets (PLT); the observed ALC is the sum of lymphocytes and CAR T cells.
+\end{enumerate}
+Model1 has \valNStates{} state variables and \valNPar{} entries in its parameter vector (\valNStruct{} structural parameters plus the individual ones). The original Friberg myelosuppression model \citep{friberg2002} is implemented separately as the reference model MF (Section~\ref{sec:mf}).
+
+\subsection{Relation to Aim4 v1.3}\label{sec:changes}
+Model1 was built from a copy of the Aim4 v1.3 code; the SHA-256 of every copied file is recorded. Aim4 files are not changed. Model1 differs from Aim4 v1.3 as follows:
+\begin{enumerate}
+\item \textbf{Haematopoietic layer} (Section~\ref{sec:haem}). The MPP, CMP, GMP, MEP and CLP compartments and the self-renewing lymphocyte pool are replaced by four MPP components with a shared exit rate $k_P$ and a shared self-renewal rate $\sigma_P$ (the Aim4 MPP values). Each myeloid component carries one count feedback, on its self-renewal, from the blood count of its own lineage, as in the proliferating compartment of \citet{friberg2002}. The production feedback at the chain entry is removed. Marrow inflammation acts at one place only, MPP self-renewal; its maximal effect $E_{\max}$ is estimated and replaces $e_{\mathrm{sr}}$ of Aim4, because with one site of action $E_{\max}$ and $e_{\mathrm{sr}}$ enter only as a product. The acceleration of HSC regrowth during MPP depletion ($\alpha$) is removed. Lymphocytes have no maturation chain.
+\item \textbf{Phenotype term} (Section~\ref{sec:pheno}): the observed recovery phenotype enters the likelihood.
+\item \textbf{Round 0} (Section~\ref{sec:its}): the estimation starts from independent per-patient fits.
+\item \textbf{Validation} (Section~\ref{sec:validation}): five-fold cross-validation on the real data and five designs on synthetic cohorts, one of them generated with the Aim4 v1.3 engine.
+\item \textbf{Output}: the time and the number of divisions since MPP entry are no longer tracked.
+\end{enumerate}
+Unchanged: the inputs and their calibrations, the CAR T--target module, the HSC equations apart from $\alpha$, the clone types, the individual baselines, the observation model for the counts, the phenotype rule, the nested model set, the selection rules, the DE-ITS controls and the numerical settings.
+
+Tables~\ref{tab:reduction} and \ref{tab:levels} count the parameters. The structural parameters fall from \valNStructAimFour{} to \valNStruct{} ($-$\valReductionPct\%). All removed parameters were fixed in Aim4. The number of estimated parameters is therefore unchanged; the number of fixed values that need a source or a calibration falls from \valNFixedAimFour{} to \valNFixed.
+
+\input{tables/tab_reduction.tex}
+\input{tables/tab_levels.tex}
+
+\begin{figure}[!htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=Stealth,
+  box/.style={draw=black!55, rounded corners=3pt, fill=black!5, minimum height=0.95cm, minimum width=1.7cm, align=center, font=\small},
+  blood/.style={box, fill=green!8, draw=green!40!black, minimum width=1.5cm},
+  chain/.style={box, minimum width=3.1cm},
+  arr/.style={->, thick, draw=black!60},
+  sr/.style={->, thick, draw=black!60, looseness=5},
+  fb/.style={->, dashed, draw=blue!60!black},
+  inj/.style={->, draw=red!60!black},
+  injl/.style={font=\scriptsize, text=red!60!black, align=center},
+  zarr/.style={->, thick, draw=orange!70!black},
+  zl/.style={font=\scriptsize, text=orange!70!black, align=center}]
+\node[box] (HSC) at (0,0) {HSC\\[-1pt]\scriptsize $S_W+S_X$};
+\node[box] (PN) at (4.2,2.4) {MPP$_{\mathrm{N}}$};
+\node[box] (PM) at (4.2,0.8) {MPP$_{\mathrm{Mo}}$};
+\node[box] (PP) at (4.2,-0.8) {MPP$_{\mathrm{Pl}}$};
+\node[box] (PL) at (4.2,-2.4) {MPP$_{L}$};
+\node[chain] (TN) at (8.6,2.4) {Neutrophil transit\\[-1pt]\scriptsize $T_{\mathrm{N}1}\!\to\!T_{\mathrm{N}3}$};
+\node[chain] (TM) at (8.6,0.8) {Monocyte transit\\[-1pt]\scriptsize $T_{\mathrm{Mo}1}\!\to\!T_{\mathrm{Mo}3}$};
+\node[chain] (TP) at (8.6,-0.8) {Megakaryocyte\\[-1pt]\scriptsize $T_{\mathrm{Pl}1}\!\to\!T_{\mathrm{Pl}3}$};
+\node[blood] (ANC) at (12.6,2.4) {ANC\\[-1pt]\scriptsize $B_{\mathrm{N}}$};
+\node[blood] (AMC) at (12.6,0.8) {AMC\\[-1pt]\scriptsize $B_{\mathrm{Mo}}$};
+\node[blood] (PLT) at (12.6,-0.8) {PLT\\[-1pt]\scriptsize $B_{\mathrm{Pl}}$};
+\node[blood] (ALC) at (12.6,-2.4) {ALC\\[-1pt]\scriptsize $b_{\mathrm{ALC}}B_L+C_T$};
+\node[box, fill=orange!8, draw=orange!70!black, minimum width=4.2cm] (CART) at (8.6,5.0) {CAR T cells $C_T$ (expansion $\rho_T$)\\[-1pt]\scriptsize $\times$ CD19$^+$ targets $A$ (killing $k_A$)};
+\node[zl] (Z) at (1.6,4.2) {signal $Z$\\(two-stage lag)};
+\foreach \p in {PN,PM,PP,PL} \draw[arr] (HSC.east) -- (\p.west);
+\node[font=\scriptsize] at (1.25,0.75) {$F$};
+\draw[arr] (PN) -- (TN); \draw[arr] (PM) -- (TM); \draw[arr] (PP) -- (TP);
+\draw[arr] (TN) -- (ANC); \draw[arr] (TM) -- (AMC); \draw[arr] (TP) -- (PLT);
+\draw[arr] (PL) -- node[below, font=\scriptsize]{$c_L$; long-lived blood pool, no chain} (ALC);
+\path (HSC) edge[sr, out=200, in=160, looseness=4] node[left, font=\scriptsize]{$r_S$} (HSC);
+\foreach \p in {PN,PM,PP,PL} \path (\p) edge[sr, out=200, in=160, looseness=4] node[left, font=\scriptsize]{$\sigma_P$} (\p);
+\foreach \b/\p in {ANC/PN,AMC/PM,PLT/PP} \draw[fb] (\b.north) -- ++(0,0.32) -| ([xshift=3pt]\p.north);
+\node[font=\scriptsize, text=blue!60!black, fill=white, inner sep=1pt] at (10.6,2.97) {$\min(G_{\max},B_{\mathrm{N}}^{-\gamma})$};
+\node[injl] (ia) at (0,-1.9) {a: $\theta_{aS}C$\\ b: $\theta_{bS}I+\theta_{zS}Z$};
+\draw[inj] (ia) -- (HSC);
+\node[injl] at (4.2,-3.55) {all four MPP components: $-\theta_{aP}C$;\\ self-renewal $\times\,(1-E(I))(1-e_Z\,Z/(Z+Z_{50}))$};
+\node[injl] at (12.6,-3.3) {$-\theta_{aL}C$};
+\draw[zarr] (CART.west) -- node[above, sloped, font=\scriptsize, text=orange!70!black]{$C_T A/(A+A_{50})$} (Z.east);
+\draw[zarr] ([xshift=-0.35cm]Z.south) -- node[left, zl]{$\theta_{zS}$} (HSC.north);
+\draw[zarr] ([xshift=0.35cm]Z.south) -- node[right, zl, pos=0.4]{$e_Z$ (all MPP)} (PN.north west);
+\draw[zarr, dashed] (CART.east) -- node[pos=0.6, above, zl]{adds to the observed ALC} (15.2,5.0) -- (15.2,-2.4) -- (ALC.east);
+\node[font=\scriptsize, text=green!40!black, align=center] at (10.6,3.6) {G-CSF $E_G$: entry $u_{\mathrm{G}}$, release $u_{\mathrm{R}}$};
+\end{tikzpicture}}
+\caption{Model1. Loops mark self-renewal: $r_S$ for the HSC, the shared rate $\sigma_P$ for the four MPP components. Dashed blue: count feedback $\min(G_{\max},B_\ell^{-\gamma})$ on MPP self-renewal from the blood count of the same lineage (the lymphoid component has none). Red: injuries. Chemotherapy exposure $C$ injures the HSC ($\theta_{aS}$), all four MPP components ($\theta_{aP}$) and blood lymphocytes ($\theta_{aL}$). In the CAR T phase, the lagged ferritin driver $I$ injures the HSC ($\theta_{bS}$) and, through $E(I)$, suppresses MPP self-renewal. Orange: the CAR T--target module; the interaction of CAR T cells with their targets produces the lagged signal $Z$, which injures the HSC ($\theta_{zS}$) and suppresses MPP self-renewal ($e_Z$); CAR T cells add to the observed ALC. Green: G-CSF raises neutrophil chain entry and accelerates the release of mature neutrophils.}
+\label{fig:model}
+\end{figure}
+
+% -----------------------------------------------------------------------------
+\section{Inputs}
+The inputs and their calibrations are those of Aim4 v1.3.
+
+\subsection{Chemotherapy exposure (``a'')}
+No drug concentrations are measured. A unitless exposure $C(t)$ summarises bridging and lymphodepleting chemotherapy:
+\begin{align}
+\frac{\dd C}{\dd t} &= u_a(t) - k_e C, \label{eq:C}\\
+u_a(t) &= \lambda_{\mathrm{LD}}\left(\frac{90}{\mathrm{eGFR}}\right)^{\beta}\one[-5\le t<-2]
+ \;+\; u_{\mathrm{br}}\,\one[t_{\mathrm{aph}}+\valBrFrom \le t < \valBrTo]. \label{eq:ua}
+\end{align}
+The first term is fludarabine--cyclophosphamide on days $-5$ to $-3$. It is scaled by renal function, because fludarabine is cleared by the kidney; eGFR is estimated with the race-free CKD-EPI 2021 equation from creatinine at lymphodepletion \citep{inker2021}. $\lambda_{\mathrm{LD}}$ is the dose fraction (1; 0.75 in the dose-reduction what-if). The second term is bridging chemotherapy, with rate $u_{\mathrm{br,RGO}}$ for R-GemOx and $u_{\mathrm{br,Cy}}$ for other regimens; it is zero without bridging chemotherapy. Bridging dates are not recorded, so the bridging window is assumed to run from two days after apheresis to day $-7$. $k_e$ is the elimination rate of the exposure.
+
+\subsection{CAR T phase, ferritin route \texorpdfstring{(``b$_I$'')}{(b-I)}}
+The ferritin driver $D(t)\geq 0$ is the patient's own inflammatory course, measured by ferritin $F$ relative to its value at lymphodepletion, $F_{\mathrm{LD}}$.
+\begin{itemize}
+\item \textbf{Fitting.} A cubic smoothing spline $\hat s(t)$ is fitted to $\log(F_i/F_{\mathrm{LD}})$ on days $\valFerFrom$ to $\valFerTo$, with degrees of freedom $\min(\max(4,\lfloor n/3\rfloor),8)$ for $n$ ferritin values ($n\geq4$; otherwise $D\equiv0$). Then $D(t)=0$ for $t<0$; $D(t)=\pos{\hat s(t)}$ up to the last ferritin day $t_F$; and after it $D(t)=\pos{\hat s(t_F)}\,e^{-\lambda_F(t-t_F)}$ with $\lambda_F=\valFerDecay$~d$^{-1}$. $D$ is stored on a \valDrvDt-day grid up to day \valDrvEnd{} and interpolated linearly.
+\item \textbf{Prediction and simulation.} A gamma-shaped kernel is used:
+\begin{equation}
+D(t) = A_D\left(\frac{t}{t_p}\right)^{h}\exp\!\left[h\left(1-\frac{t}{t_p}\right)\right],\quad t>0;\qquad h=\valKernelH, \label{eq:kernel}
+\end{equation}
+with peak height $A_D$ on day $t_p$.
+\end{itemize}
+The driver reaches the marrow through a two-stage delay and acts there through a saturating effect:
+\begin{align}
+\frac{\dd I_1}{\dd t} &= k_I\,(D - I_1), \qquad \frac{\dd I}{\dd t} = k_I\,(I_1 - I), \label{eq:lag}\\
+E(I) &= \frac{E_{\max} I^{h_E}}{I^{h_E} + \mathrm{IC}_{50}^{h_E}} \in [0, E_{\max}). \label{eq:E}
+\end{align}
+$I$ carries the irreversible HSC injury $\theta_{bS}$ (Eq.~\ref{eq:hsc}). $E(I)$ carries the reversible suppression of MPP self-renewal (Eq.~\ref{eq:G}); in Model1 this is its only site of action.
+
+\subsection{CAR T phase, CAR T--target route \texorpdfstring{(``b$_Z$'')}{(b-Z)}}\label{sec:cart}
+All patients in the extract received the same CD19-directed product (axicabtagene ciloleucel) after fludarabine--cyclophosphamide. CAR T cells in blood, $C_T$ ($10^9$/L, absolute), expand on CD19 antigen and contract; the antigen load $A$ (relative units; normal B cells and lymphoma together) is consumed by the CAR T cells; their interaction produces a signal that reaches the marrow through a two-stage lag:
+\begin{align}
+o(t) &= \frac{A}{A + A_{50}}, \label{eq:occ}\\
+\frac{\dd C_T}{\dd t} &= \bigl(\rho_{T,i}\, o(t) - k_T\bigr)\, C_T, \label{eq:cart}\\
+\frac{\dd A}{\dd t} &= -k_A\, C_T\, o(t), \label{eq:antigen}\\
+\frac{\dd Z_1}{\dd t} &= k_Z\,\bigl(C_T\,o(t) - Z_1\bigr), \qquad \frac{\dd Z}{\dd t} = k_Z\,(Z_1 - Z). \label{eq:zlag}
+\end{align}
+\begin{itemize}
+\item $o(t)$ is the antigen occupancy; $A_{50}$ is the antigen load at half-maximal occupancy.
+\item $\rho_{T,i}$ is the patient's antigen-driven expansion rate (random effect) and $k_T$ the contraction rate.
+\item $k_A$ is the rate at which CAR T cells clear their targets; the interaction term $C_T\,o(t)$ also drives the signal.
+\item $Z$ is the lagged interaction signal (for example interferon-$\gamma$-type cytokines); $k_Z$ is the rate of each lag stage.
+\item \textbf{Infusion.} $C_T=Z_1=Z=0$ before day 0. At day 0, $C_T(0^+)=C_T(0^-)+C_{T,0}$.
+\item \textbf{Antigen load.} $A(t)=A_i(0)$ until the infusion, with $A_i(0)=\exp(\beta_A\,\mathrm{ldh}_{c,i})$ and $\mathrm{ldh}_{c,i}$ the patient's log LDH at lymphodepletion minus the cohort median; the median patient has $A(0)=1$.
+\end{itemize}
+$Z$ acts on the HSC as a second route of CAR T-phase injury ($\theta_{zS}$, Eq.~\ref{eq:hsc}) and on MPP self-renewal ($e_Z$, Eq.~\ref{eq:G}). The route variants of Section~\ref{sec:nested} switch one of the two effects off.
+
+\subsection{G-CSF}\label{sec:gcsf}
+G-CSF is given in windows $\mathcal W_i$; its effect $E_G\in[0,1)$ follows the dosing indicator,
+\begin{equation}
+\frac{\dd E_G}{\dd t} = k_G\,\bigl(\one[t\in\mathcal W_i] - E_G\bigr), \label{eq:gcsf}
+\end{equation}
+and acts on the neutrophil chain in two ways (Section~\ref{sec:chains}): entry is multiplied by $u_{\mathrm{N}}(t)=1+(u_{\mathrm{G}}-1)E_G(t)$, and the release of mature neutrophils into blood by $r_{\mathrm{N}}(t)=1+u_{\mathrm{R}}E_G(t)$. The release term produces the rapid ANC rise within a day of dosing; the entry term the slower increase of production.
+
+\textbf{Imputed windows.} The extract records only whether G-CSF was needed after day 14, not dates or doses. The windows are therefore imputed by a fixed rule:
+\begin{enumerate}
+\item every patient: one dose on the day before each isolated ANC spike (Section~\ref{sec:obs}), window $[t_{\mathrm{spike}}-1,\,t_{\mathrm{spike}})$;
+\item patients with G-CSF after day 14: a course of \valGcsfDays{} days from the first day $\geq\valGcsfFrom$ with an observed ANC $<\valGcsfThr$ (censored values count as low), repeated from the next such day after the end of a course, up to day \valGcsfUntil;
+\end{enumerate}
+overlapping windows are merged. Only ANC values that enter the likelihood are used. In the real cohort this gives \valGcsfWin{} windows in \valGcsfPts{} patients; \valGcsfNoWin{} of the \valGcsfFlagged{} flagged patients had no ANC $<\valGcsfThr$ after day \valGcsfFrom{} and receive no window. Landmark forecasts use only the windows up to the landmark (Section~\ref{sec:landmark}). TPO receptor agonists are used only in what-if analyses (entry factor $u_{\mathrm{T}}$ of the megakaryocyte chain while given).
+
+% -----------------------------------------------------------------------------
+\section{Haematopoietic model}\label{sec:haem}
+
+\subsection{Stem cells with a pre-existing clone}
+The HSC compartment contains normal ($S_W$) and clonal ($S_X$) cells that share one niche, $S=S_W+S_X$:
+\begin{equation}
+\frac{\dd S_j}{\dd t} = r_S\,S_j\,(1-S) - \left[\rho^a_j\,\theta_{aS}\,C + \rho^b_j\,\bigl(\theta_{bS}\,I+\theta_{zS}\,Z\bigr)\left(1+\eta\,\pos{1-S}\right)\right] S_j,\qquad j\in\{W,X\}.
+\label{eq:hsc}
+\end{equation}
+\begin{itemize}
+\item $r_S$ is the HSC self-renewal (regrowth) rate and measures marrow reserve; it is a random effect. Regrowth is limited by the niche: it is zero at the steady state $S=1$ and maximal when the pool is empty. Unlike Aim4, regrowth does not accelerate while the MPP is depleted (no $\alpha$; decision D1 of the plan).
+\item $\theta_{aS}$ is the HSC injury rate per unit chemotherapy exposure. CAR T-phase injury has two routes: $\theta_{bS}$ per unit lagged ferritin driver (individual) and $\theta_{zS}$ per unit CAR T--target signal (population).
+\item $\eta\geq0$ makes CAR T-phase injury stronger when the pool has already been depleted (synergy of ``a'' and ``b''; model Mab$\times$ only).
+\item The relative sensitivities are $\rho^a_W=\rho^b_W=1$, $\rho^a_X=r_a$ and $\rho^b_X=r_b$.
+\item Initial values are $S_W=1-f_0$ and $S_X=f_0$, with $f_0$ the pre-treatment clone fraction.
+\end{itemize}
+The stem cell output into the MPP components is
+\begin{equation}
+F = \frac{S_W + \delta\,S_X}{1-f_0+\delta f_0}, \label{eq:F}
+\end{equation}
+where $\delta$ is the output of a clonal relative to a normal HSC. The denominator makes $F=1$ at steady state for any $f_0$.
+
+\subsection{MPP components}\label{sec:mpp}
+The MPP layer has four components, one per blood lineage, $\ell\in\{\mathrm{N},\mathrm{Mo},\mathrm{Pl},L\}$. All four have the same form and the same rates:
+\begin{equation}
+\frac{\dd P_\ell}{\dd t} = (k_P-\sigma_P)\,F \;+\; \left(\sigma_P\,G_\ell - k_P\right) P_\ell \;-\; \theta_{aP}\,C\,P_\ell, \label{eq:mpp}
+\end{equation}
+\begin{equation}
+G_\ell = \Phi_\ell\cdot\bigl(1-E(I)\bigr)\cdot\Bigl(1-e_Z\,\frac{Z}{Z+Z_{50}}\Bigr),\qquad
+\Phi_\ell=\min\bigl(G_{\max},\,B_\ell^{-\gamma}\bigr)\ \ (\ell\in\{\mathrm{N},\mathrm{Mo},\mathrm{Pl}\}),\qquad \Phi_L=1. \label{eq:G}
+\end{equation}
+\begin{itemize}
+\item \textbf{Input from the stem cells:} $(k_P-\sigma_P)F$; all four components receive the same stem cell output.
+\item \textbf{Exit rate $k_P$} (differentiation and death) and \textbf{self-renewal rate $\sigma_P<k_P$} at steady state. Both are shared by the four components and fixed at the Aim4 MPP values ($k_P=\valKp$, $\sigma_P=\valSrp$~d$^{-1}$; effective residence time $1/(k_P-\sigma_P)=\valResP$~d; Table~\ref{tab:selfrenewal}).
+\item \textbf{Count feedback $\Phi_\ell$.} Each myeloid component senses only the blood count of its own lineage, $B_\ell$, as the proliferating compartment of \citet{friberg2002}. The exponent $\gamma$ is shared by the three myeloid components and estimated; the cap $G_{\max}$ is fixed. Lineages are therefore coupled only through the stem cell output and the shared inputs, and ANC and PLT can recover at different times.
+\item \textbf{No feedback for lymphocytes} ($\Phi_L=1$). The plan had the same feedback for all four components. In K1 a feedback on $P_L$ made the typical ALC overshoot to about 1.3 times baseline by day 30, because lymphodepletion keeps $B_L$ low for weeks while $P_L$ expands; it was therefore removed before any fit (Section~\ref{sec:deviations}).
+\item \textbf{Suppression.} Marrow inflammation, $E(I)$, and the CAR T--target signal, $e_Z Z/(Z+Z_{50})$, reduce the self-renewal of all four components.
+\item \textbf{Injury.} $\theta_{aP}$ is the individual MPP injury rate per unit chemotherapy exposure, the same for all four components.
+\end{itemize}
+Table~\ref{tab:selfrenewal} lists the self-renewing cells. Branch fractions and division amplification do not appear in Eq.~\ref{eq:mpp}: under normalisation they set only absolute compartment sizes and cancel.
+
+\input{tables/tab_selfrenewal.tex}
+
+\subsection{Maturation chains and blood}\label{sec:chains}
+Each myeloid MPP component feeds a chain with three transit compartments and a blood compartment, $\ell\in\{\mathrm{N},\mathrm{Mo},\mathrm{Pl}\}$:
+\begin{align}
+\frac{\dd T_{\ell1}}{\dd t} &= \kappa_\ell\left[P_\ell\,u_\ell(t) - T_{\ell1}\right], \label{eq:chain1}\\
+\frac{\dd T_{\ell2}}{\dd t} &= \kappa_\ell\left(T_{\ell1}-T_{\ell2}\right), \qquad
+\frac{\dd T_{\ell3}}{\dd t} = \kappa_\ell\left(T_{\ell2}-r_\ell(t)\,T_{\ell3}\right), \label{eq:chain2}\\
+\frac{\dd B_\ell}{\dd t} &= c_\ell\left(r_\ell(t)\,T_{\ell3}-B_\ell\right). \label{eq:blood}
+\end{align}
+\begin{itemize}
+\item $\kappa_\ell=3/\mathrm{MTT}_\ell$, where $\mathrm{MTT}_\ell$ is the mean maturation transit time; for megakaryocytes it is the maturation time, during which the cell undergoes endomitosis.
+\item $c_\ell$ is the blood turnover rate.
+\item The chains are pure delays: the feedback and all suppression act in the MPP layer, as in the Friberg model. The production feedback at the chain entry ($B_\ell^{-\gamma_\ell}$) and the inflammation factor at the chain entry of Aim4 are removed.
+\item $u_\ell(t)$ is the effect of supportive care on entry: $u_{\mathrm{N}}=1+(u_{\mathrm{G}}-1)E_G$ (G-CSF, Eq.~\ref{eq:gcsf}), $u_{\mathrm{Pl}}=u_{\mathrm{T}}$ while a TPO receptor agonist is given (what-if only), and 1 otherwise.
+\item $r_\ell(t)$ is the release factor of mature cells into blood: $r_{\mathrm{N}}=1+u_{\mathrm{R}}E_G$ and $r_{\mathrm{Mo}}=r_{\mathrm{Pl}}=1$.
+\end{itemize}
+
+\subsection{Lymphocytes}
+The lymphoid component feeds a long-lived blood pool directly, without a maturation chain:
+\begin{equation}
+\frac{\dd B_L}{\dd t} = c_L\,(P_L-B_L) - \theta_{aL}\,C\,B_L. \label{eq:bl}
+\end{equation}
+$c_L$ is the turnover of blood lymphocytes and $\theta_{aL}$ the direct lymphodepletion. Both are calibrated (Section~\ref{sec:calibration}). CAR T cells are a separate compartment (Section~\ref{sec:cart}); they are added to $B_L$ only on the observed scale.
+
+\subsection{Observed scale and interventions}
+A model count is $Y_v(t)=b_{iv}\,B_v(t)$ for $v\in\{\mathrm{ANC},\mathrm{PLT},\mathrm{AMC}\}$, and
+\begin{equation}
+Y_{\mathrm{ALC}}(t)=b_{i,\mathrm{ALC}}\,B_L(t)+C_T(t), \label{eq:alc}
+\end{equation}
+where $b_{iv}$ is the patient's set point, an individual parameter (Section~\ref{sec:baseline}). A CD34$^+$ boost of size $\Delta S$ on day $t_c$ sets $S_W(t_c^+)=S_W(t_c^-)+\Delta S$.
+
+\subsection{Steady state, Friberg limit and one-way coupling}\label{sec:steady}
+\textbf{Steady state.} With $C=I_1=I=D=0$, $C_T=Z_1=Z=E_G=0$ and $A=A_i(0)$, the state ``all haematopoietic compartments $=1$, $S_W=1-f_0$, $S_X=f_0$'' is a steady state: $1-S=0$ and $F=1$; every $B_\ell=1$, so $G_\ell=1$ and Eq.~\ref{eq:mpp} gives $(k_P-\sigma_P)+(\sigma_P-k_P)=0$; the chains and blood are linear relaxations onto their inputs; without CAR T cells the antigen load does not change. The directions $S_X/S$ and $A$ are neutral.
+
+\textbf{Friberg limit.} If $\sigma_P\to k_P$, the stem cell input vanishes and Eq.~\ref{eq:mpp} becomes
+\begin{equation*}
+\frac{\dd P_\ell}{\dd t} = k_P\,P_\ell\,\bigl(\Phi_\ell-1\bigr) - \theta_{aP}\,C\,P_\ell
+\end{equation*}
+(without inflammation and $Z$): the proliferating compartment of \citet{friberg2002} with $k_{\mathrm{prol}}=k_P$, the feedback $\min(G_{\max},B_\ell^{-\gamma})$, and the drug effect as a kill term rather than a factor $(1-E)$ on proliferation. Model1 is thus a Friberg-type chain with a stem cell layer on top. The unit tests compare this limit with an independent deSolve implementation (Section~\ref{sec:calibration}).
+
+\textbf{One-way lymphoid branch.} No equation of the myeloid lineages, the stem cells, the CAR T--target module or the inputs contains $P_L$ or $B_L$. The fitted ANC, PLT and AMC are therefore independent of $c_L$ and $\theta_{aL}$. The CAR T--target module acts on ANC, PLT and AMC through $Z$ and is informed by ALC through $C_T$ (Eq.~\ref{eq:alc}).
+
+\textbf{Stability.} The steady state is linearly stable for all $\gamma$ in its search box at the configured $\sigma_P$ (Table~\ref{tab:stability}). At $\sigma_P=\valSrp$ it loses stability (Hopf bifurcation) at $\gamma=\valHopf$; the upper limit of the $\gamma$ search box is therefore \valGammaHi{} (Section~\ref{sec:deviations}). With $\sigma_P$ scaled by 1.2 stability is lost from $\gamma\approx1.5$; $\sigma_P$ is fixed in the fits.
+
+\subsection{Reachable phenotypes}\label{sec:reachable}
+The count feedback lets an MPP component sustain itself without stem cell output. Without suppression and with $F\approx0$, the quasi-steady level of a myeloid component solves $\sigma_P\,\Phi_\ell(P^\ast)=k_P$ with $B_\ell\approx P^\ast$, that is $P^\ast=(k_P/\sigma_P)^{-1/\gamma}=\valPstar$ at the prior centre of $\gamma$. A screen in K1 (Table~\ref{tab:screen}) gives the following structural property:
+\begin{itemize}
+\item \textbf{A chemotherapy hit alone gives quick or delayed recovery, never a second wave.} Over the screened reserves and HSC injuries, for $\gamma$ from 0.5 to 3, a single hit by bridging and lymphodepleting chemotherapy produced one nadir followed by recovery, early or late. This also held with the CAR T phase present but without CAR T-phase HSC injury (model Ma, $E_{\max}$ from 0.5 to 0.9). Aim4 could produce a ``pseudo second wave'' from one hit, through the oscillation of its several self-renewing progenitor layers; Model1 did not in any screened setting.
+\item \textbf{A second wave needs the CAR T phase.} It arises when CAR T-phase HSC injury ($\theta_{bS}$ or $\theta_{zS}$) coincides with suppression of MPP self-renewal by $E(I)$ and $Z$; in the screen this required $E_{\max}\geq0.5$ with a strong driver. Suppression without HSC injury gave a second wave only in an edge case (low ANC set point and $E_{\max}$ near 1).
+\end{itemize}
+In M0 and Ma, which have no CAR T-phase HSC injury, a second wave is therefore almost unreachable. The comparison of the Q2 models is partly determined by this structure. The synthetic design S4 (Section~\ref{sec:validation}), in which the data are generated by the Aim4 engine and fitted with Model1, quantifies the consequence for the ``when'' readout.
+
+\input{tables/tab_screen.tex}
+
+% -----------------------------------------------------------------------------
+\section{Reference model MF}\label{sec:mf}
+MF is the original Friberg model \citep{friberg2002}, with one independent chain per lineage $\ell\in\{\mathrm{N},\mathrm{Pl},\mathrm{Mo}\}$:
+\begin{align}
+\frac{\dd \mathrm{Prol}_\ell}{\dd t} &= k_\ell\,\mathrm{Prol}_\ell\,(1-E_\ell)\,B_\ell^{-\gamma^{\mathrm{MF}}} - k_\ell\,\mathrm{Prol}_\ell,\qquad
+\frac{\dd T_{\ell j}}{\dd t} = k_\ell(T_{\ell,j-1}-T_{\ell j}),\qquad
+\frac{\dd B_\ell}{\dd t} = k_\ell(T_{\ell3}-B_\ell),
+\end{align}
+\begin{itemize}
+\item $k_{\mathrm{prol}}=k_{\mathrm{tr}}=k_{\mathrm{circ}}=k_\ell=4/(\mathrm{MTT}^{\mathrm{MF}}_\ell\,s_{\mathrm{MTT},i})$;
+\item drug effect $E_{\mathrm{N}}=\mathrm{Slope}_i\,C$ and $E_\ell=\rho_\ell\,\mathrm{Slope}_i\,C$ for the other lineages;
+\item the exposure $C$ is the same as in Eq.~\ref{eq:C};
+\item there is no stem cell layer, no CAR T-phase input, no CAR T compartment, no G-CSF effect and no ALC;
+\item two random effects, $\mathrm{Slope}$ and $s_{\mathrm{MTT}}$ (Table~\ref{tab:re}), and individual baselines for ANC, PLT and AMC; population parameters in Table~\ref{tab:mf}.
+\end{itemize}
+MF serves as the benchmark in the model comparison, on the ANC, PLT and AMC part of the likelihood with the same phenotype term (Section~\ref{sec:pheno}).
+
+% -----------------------------------------------------------------------------
+\section{Data and observation model}\label{sec:obs}
+
+\subsection{Data handling}
+Daily ANC, PLT, AMC and ALC ($\times10^9$/L) come from the de-identified extract (35 patients). The source file is read-only, and its SHA-256 is checked at every conversion. The following rules apply:
+\begin{enumerate}
+\item \textbf{Blank differential.} If the differential is blank and WBC $<\valWbcNoDiff$, ANC, AMC and ALC are left-censored at WBC.
+\item \textbf{Zero on a manual differential.} The value is left-censored at WBC$/\valManualCells$.
+\item \textbf{G-CSF.} An isolated G-CSF spike is a value $\geq1.5$ that is at least twice the previous value, with the previous and the next value $<1.0$. Spikes anchor the imputed G-CSF windows (Section~\ref{sec:gcsf}); ANC values under G-CSF, spikes included, are ordinary observations.
+\item \textbf{Platelet transfusion.} Platelet type is not recorded, so a transfusion is inferred when PLT $<\valPltBelow$ on a transfusion day, or when PLT rises by more than \valPltRise{} on the next day without a haemoglobin rise above \valHgbRise. The next \valPltDrop{} days of PLT are excluded.
+\item \textbf{Follow-up.} Values after progression or after day \valObsMax{} are excluded.
+\item \textbf{Set points.} The set point median $m_{iv}$ is the median of the uncensored values on days $\valSetFrom$ to $\valSetTo$ (with bridging chemotherapy: up to the apheresis day). The rows that define it enter the fit only through the baseline prior (Section~\ref{sec:baseline}).
+\item \textbf{Covariates of the CAR T module.} LDH at lymphodepletion (all 35 patients) sets the initial antigen load. The measured peak CAR T expansion is available for 16 patients, without recorded units; it is not fitted and serves only as an external check (test T8).
+\end{enumerate}
+
+\subsection{Individual baselines}\label{sec:baseline}
+Each patient has one baseline per lineage $v\in\{\mathrm{ANC},\mathrm{PLT},\mathrm{AMC},\mathrm{ALC}\}$ (MF: the first three),
+\begin{equation}
+\log b_{iv} = \log m_{iv} + d_{iv},\qquad d_{iv}\sim N\Bigl(0,\ \frac{s_v^2}{n_{iv}}+\tau_v^2\Bigr), \label{eq:baseprior}
+\end{equation}
+where $n_{iv}$ is the number of set-point values of patient $i$, $s_v$ the pooled within-patient SD of the log set-point values (fixed from the data) and $\tau_v$ the set-point drift (population parameter, estimated). Table~\ref{tab:baseline} gives $s_v$ and $n_{iv}$.
+
+\input{tables/tab_baseline.tex}
+
+\subsection{Likelihood of the counts}
+For $v\in\{\mathrm{ANC},\mathrm{PLT},\mathrm{AMC},\mathrm{ALC}\}$, an observation $y$ on day $t$ has
+\begin{equation}
+\log y = \log Y_v(t;\psi_i) + \epsilon,\qquad \epsilon\sim N(0,\sigma_v^2). \label{eq:obs}
+\end{equation}
+A left-censored value contributes $\Phi\bigl((\log y-\log Y_v(t))/\sigma_v\bigr)$. The ANC, PLT and AMC part is also computed on its own, for the comparison with MF. In simulation designs with measured variant allele fractions, a positive clone fraction $f_{\mathrm{obs}}$ adds $\log N(\log f_{\mathrm{obs}};\log f_0,s^2)$ and a negative result at detection limit $\ell_d$ adds $\log\Phi((\log 2\ell_d-\log f_0)/s)$.
+
+\subsection{Recovery phenotypes}\label{sec:phenotypes}
+The same rule \citep[thresholds of][]{rejeski2021} classifies observed series and model trajectories:
+\begin{enumerate}
+\item Use ANC on days 0 to \valPhWin. Set left-censored values to \valCensVal{} and remove isolated G-CSF spikes.
+\item The nadir is the minimum on days \valNadFrom--\valNadTo.
+\item Recovery is the first value $\geq\valRec$ after the nadir. Without recovery the class is \emph{delayed}.
+\item A value $<\valDip$ after recovery makes the class \emph{second wave}; otherwise it is \emph{quick}.
+\end{enumerate}
+In the real cohort the rule gives \valNQuick{} quick, \valNSecond{} second-wave and \valNDelayed{} delayed patients. In simulations with follow-up to day 75, \emph{persistent} (a median ANC on days \valPersFrom--\valPersTo{} below \valPersThr) is assessed first. Five pre-specified variants serve as sensitivity analyses: window to day 35; second-wave dip counted only after day 21; two consecutive values required for recovery and for the dip; recovery threshold 1.0; dip threshold 0.5.
+
+\subsection{Phenotype term}\label{sec:pheno}
+The observed phenotype $c_i$ of patient $i$ (primary rule) enters the likelihood through the model probability of that class. The probability is computed from the model ANC $\mu(t)=b_{i,\mathrm{ANC}}B_{\mathrm{N}}(t)$ on the patient's \emph{label days}: the days the rule used for the observed label (days 0--\valPhWin, isolated G-CSF spikes removed). On the log scale, with $x(t)=\log\mu(t)$:
+\begin{enumerate}
+\item \textbf{Nadir.} $j^\ast$ is the label day with the smallest $x$ on days \valNadFrom--\valNadTo.
+\item \textbf{Recovery margin.} $m_R=\max_{t>j^\ast}\,\bigl[x(t)-\log\valRec\bigr]$, the largest excess over the recovery threshold after the nadir (for a rule with $n$ consecutive values: the minimum of $n$ consecutive values).
+\item \textbf{Recovery day.} $r^\ast$ is the first label day after $j^\ast$ with a positive recovery margin; if there is none, the day with the largest margin. In this way $r^\ast$ moves continuously when the model ANC just reaches the threshold.
+\item \textbf{Dip margin.} $m_D=\max_{t>r^\ast}\,\bigl[\log\valDip-x(t)\bigr]$, over days at or after the dip start of the rule (for $n$ consecutive values: the maximum of $n$ consecutive values).
+\item \textbf{Soft classification} with smoothing scale $s$:
+\begin{equation}
+\begin{aligned}
+P(\mathrm{delayed}) &= 1-\Phi\!\Bigl(\frac{m_R}{s}\Bigr),\\
+P(\mathrm{second\ wave}) &= \Phi\!\Bigl(\frac{m_R}{s}\Bigr)\,\Phi\!\Bigl(\frac{m_D}{s}\Bigr),\\
+P(\mathrm{quick}) &= \Phi\!\Bigl(\frac{m_R}{s}\Bigr)\Bigl[1-\Phi\!\Bigl(\frac{m_D}{s}\Bigr)\Bigr].
+\end{aligned} \label{eq:psoft}
+\end{equation}
+\item \textbf{Label error.} $P'(c)=(1-3\varepsilon)\,P(c)+\varepsilon$.
+\end{enumerate}
+The term added to the log-likelihood of patient $i$ is $w\log P'(c_i\mid\psi_i)$, with $w=\valPhW$, $s=\valPhS$ and $\varepsilon=\valPhEps$.
+\begin{itemize}
+\item As $s\to0$ the classification equals the rule applied to the model series on the label days (checked in K1). With $s=\valPhS$, a model maximum of 2.0 after the nadir (that is, $1.5e^{0.3}$) gives $P(\text{recovered})=\Phi(1)=0.84$.
+\item $\varepsilon$ bounds the term of one patient by $-w\log\varepsilon=\valPhFloor$, so a single patient cannot dominate the fit.
+\item The term uses only existing model output; it adds no state.
+\item \textbf{Composite likelihood.} The phenotype is a function of the same day 0--\valPhWin{} ANC values that enter Eq.~\ref{eq:obs}. Adding the term uses these data twice. The objective is therefore a composite (weighted) likelihood, not the likelihood of a probability model; $w$ sets the weight, and $w=0$ gives the count likelihood alone. Posterior intervals are expected to be too narrow. BIC values are compared only between models with the same term; MF receives the same term, computed from its ANC.
+\item The term is not used at landmarks (Section~\ref{sec:landmark}), because the phenotype is the quantity that is predicted there.
+\end{itemize}
+Sensitivity analyses: $s=\valPhSensS$, and $w=\valPhSensW$.
+
+% -----------------------------------------------------------------------------
+\section{Statistical model and estimation}\label{sec:stat}
+
+\subsection{Individual parameters}
+Each patient has up to six random effects $\psi_{ik}=g_k^{-1}(\eta_{ik})$, with
+\begin{equation}
+\eta_{ik} = \mu_k + \boldsymbol\beta_k^\top \mathbf{x}_{ik} + \omega_k z_{ik},\qquad z_{ik}\sim N(0,1),
+\end{equation}
+and the baseline deviations $d_{iv}$ of Eq.~\ref{eq:baseprior}; together they form the individual vector $\psi_i$ (ten components in the largest model). The link $g_k$ is the log for rates and the logit for $f_0$. The covariates $\mathbf{x}$ are listed in Table~\ref{tab:re}. Each patient's parameters are restricted to a physiological box (Table~\ref{tab:box}), which acts as the support of a truncated prior.
+
+All other parameters are population parameters (Tables~\ref{tab:struct_marrow}--\ref{tab:struct_cart}). Of these, the following are estimated:
+\begin{itemize}
+\item in every Model1 model: $\mathrm{MTT}_{\mathrm{N}}$, $\mathrm{MTT}_{\mathrm{Pl}}$, $\mathrm{MTT}_{\mathrm{Mo}}$, $\mathrm{IC}_{50}$, $k_I$, $\gamma$, $u_{\mathrm{br,RGO}}$, $E_{\max}$, $k_T$, $\beta_A$, $u_{\mathrm{G}}$, $u_{\mathrm{R}}$ (Aim4: $\gamma_M$ in place of $\gamma$ and $e_{\mathrm{sr}}$ in place of $E_{\max}$);
+\item $\theta_{zS}$ in the models with CAR T-phase HSC injury (Mb, Mab, Mab$\times$) unless the HSC route is switched off; $e_Z$ in every model unless the MPP route is switched off;
+\item $\eta$ in Mab$\times$.
+\end{itemize}
+Each has a normal prior on the working scale (log; logit for $E_{\max}$ and $e_Z$) centred at its default: SD \valStructSd{} in general; SD \valEmaxSd{} for $\mathrm{logit}\,E_{\max}$, SD \valThzsSd{} for $\log\theta_{zS}$ and SD \valEzSd{} for $\mathrm{logit}\,e_Z$; $\log\eta\sim N(\valEtaCentre,\valEtaSd^2)$. The search box is the prior centre $\pm4$ prior SD on the working scale, with $u_{\mathrm{G}}\in[\valGcsfFoldLo,\valGcsfFoldHi]$ and $\gamma\in[\valGammaLo,\valGammaHi]$. The remaining parameters are fixed.
+
+\input{tables/tab_re.tex}
+\input{tables/tab_box.tex}
+\input{tables/tab_struct_marrow.tex}
+\input{tables/tab_struct_chains.tex}
+\input{tables/tab_struct_inputs.tex}
+\input{tables/tab_struct_cart.tex}
+\input{tables/tab_clone.tex}
+\input{tables/tab_mf.tex}
+
+\subsection{Nested models}\label{sec:nested}
+Two axes define the nested models (Table~\ref{tab:models}). On the Q2 axis (``when''), the HSC injury terms are switched on or off; the CAR T--target route of HSC injury, $\theta_{zS}$, belongs to ``b'' and is present exactly when $\theta_{bS}$ is. On the Q1 axis (``who''), the clone layer is added with one of two fixed clone types (Table~\ref{tab:clone}). Route variants switch one effect of the CAR T--target signal off: suffix \texttt{\_Zh} keeps only the HSC route ($e_Z=0$), suffix \texttt{\_Zm} only the MPP route ($\theta_{zS}=0$). A parameter that a model does not contain is set to zero.
+
+\begin{table}[!htbp]
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Nested models. Every Model1 model has the individual parameters $r_S$, $\theta_{aP}$ and $\rho_T$, the baselines and the CAR T--target module; the table lists what differs.}\label{tab:models}
+\begin{tabular}{lllll}
+\toprule
+Q2 model & HSC injury & Signal $Z$ acts on & Without clone & With clone (DDR or DTA type)\\
+\midrule
+M0 & none & MPP ($e_Z$) & -- & $+f_0$\\
+Ma & $\theta_{aS}$ & MPP & $+\theta_{aS}$ & $+\theta_{aS},f_0$\\
+Mb & $\theta_{bS}$, $\theta_{zS}$ & HSC, MPP & $+\theta_{bS}$ & $+\theta_{bS},f_0$\\
+Mab & $\theta_{aS},\theta_{bS},\theta_{zS}$; $\eta=0$ & HSC, MPP & $+\theta_{aS},\theta_{bS}$ & $+\theta_{aS},\theta_{bS},f_0$\\
+Mab$\times$ & as Mab; $\eta>0$ estimated & HSC, MPP & $+\theta_{aS},\theta_{bS}$ & $+\theta_{aS},\theta_{bS},f_0$\\
+MF & -- & -- & Slope, $s_{\mathrm{MTT}}$ & --\\
+\midrule
+\multicolumn{5}{l}{Route variants of a model $q$: $q$\texttt{\_Zh} (HSC route only), $q$\texttt{\_Zm} (MPP route only).}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Waves.} Wave 1: \valWaveOne. Wave 2, for the Q2 model $q$ selected in wave 1: $q$C\_ddr, $q$C\_dta, $q$\_Zh, $q$\_Zm, $q$C\_ddr\_Zh and $q$C\_ddr\_Zm (the \texttt{\_Zh} variants only for models with ``b''). Wave-2 fits start from the population and the individual modes of $q$ (warm start): shared components are copied, and the components a variant adds start at their priors. Wave 2, the V1 refits and the sensitivity fits are launched automatically on the cluster when the fits they depend on are assembled.
+
+\subsection{Population estimation (round 0 and DE-ITS)}\label{sec:its}
+Population parameters are estimated by an iterative two-stage method \citep{steimer1984} in which every optimisation is a differential-evolution search (R package DEoptim, version \valDEoptim) with self-detected convergence. The controls are listed in Table~\ref{tab:de}. The individual objective is the negative log posterior
+\begin{equation}
+\ell_i(\psi) = -\log p(\mathbf y_i\mid\psi)-w\log P'(c_i\mid\psi)-\sum_k\log N(\eta_{k};\,\mu_k+\boldsymbol\beta_k^\top\mathbf x_{ik},\,\omega_k^2)-\sum_v\log N\Bigl(d_{v};\,0,\,\frac{s_v^2}{n_{iv}}+\tau_v^2\Bigr), \label{eq:nlp}
+\end{equation}
+within the box $\mathcal B_i$ (Table~\ref{tab:box}); $p(\mathbf y_i\mid\psi)$ is the count likelihood of Eq.~\ref{eq:obs} and $P'$ the phenotype term of Section~\ref{sec:pheno}.
+
+\textbf{Round 0.} Every patient is first fitted on its own: the prior SDs of the random effects and of the baseline deviations are multiplied by \valRoundZeroMult, the search box is that of the unwidened prior, and the structural parameters stay at their prior centres. From these modes and their Hessians, $\mu$, $\boldsymbol\beta$, $\omega$, $\tau$ and $\sigma$ are initialised by the M-step formulas below (without the structural search). Round 1 starts from this population and from the round-0 modes. Round 0 changes only the starting point: the converged result should not depend on it, but the starting population is closer to the data than the prior centres. Fits that are warm-started from another fit (wave 2, V1 refits, sensitivity fits, S2 and S3) skip round 0. The round-0 fits are stored, and the number of parameters on a bound of the box is reported.
+
+\textbf{E step.} For each patient, find the posterior mode $\hat\psi_i$ of Eq.~\ref{eq:nlp}:
+\begin{enumerate}
+\item \textbf{Search.} Differential evolution with strategy \valDeStrategy{} (local-to-best), population size \valDeNp, differential weight \valDeF{} and crossover rate \valDeCR. The initial population is uniform in the box and contains the patient's mode from the previous round (round 1: from round 0) and the prior mean.
+\item \textbf{Convergence.} The search runs in chunks of \valDeChunk{} generations. It stops when the best value $f$ improved by less than $\valDeTolBest\,(|f|+1)$ over the last \valDeWindow{} generations and the objective values of the population lie within $\valDeTolSpread$ of the best (90\% quantile minus minimum). A safety cap of \valDeMaxGen{} generations flags a patient as not converged.
+\item \textbf{Polish and curvature.} L-BFGS-B within the box (at most \valDePolish{} iterations) starts from the best member and is kept if it improves. The numerical Hessian $H_i$ at $\hat\psi_i$ is made positive definite with eigenvalues at least the smallest prior precision.
+\end{enumerate}
+
+\textbf{M step.} With $\hat\psi_i$ fixed:
+\begin{enumerate}
+\item \textbf{Random effects.} $\mu_k$ and $\boldsymbol\beta_k$ come from the least-squares regression of $\hat\eta_{ik}$ on $\mathbf x_{ik}$, and
+\[
+\omega_k^2=\frac{\sum_i(r_{ik}^2+[H_i^{-1}]_{kk})+\nu\,\omega_{0k}^2}{N+\nu},
+\]
+where $r_{ik}$ are the regression residuals and $\nu=\valOmegaNu$ pseudo-observations shrink $\omega_k$ towards the prior spread $\omega_{0k}$; $\omega_k$ is bounded to $[0.05,\valOmegaMax]$.
+\item \textbf{Set-point drift.} $\tau_v^2=\max\bigl\{\bigl[\sum_i(\hat d_{iv}^2+[H_i^{-1}]_{vv}-s_v^2/n_{iv})+\nu\,\tau_0^2\bigr]/(N+\nu),\ \tau_{\min}^2\bigr\}$, with $\tau_0=\valTauInit$ and $\tau_{\min}=\valTauMin$.
+\item \textbf{Residual SD.} $\sigma_v$ is the root mean square of the uncensored log-residuals at $\hat\psi_i$, for all four lineages; the phenotype term does not enter it.
+\item \textbf{Structural parameters.} The estimated structural parameters maximise $\sum_i\bigl[\log p(\mathbf y_i\mid\hat\psi_i)+w\log P'(c_i\mid\hat\psi_i)\bigr]$ plus their log prior, by differential evolution (population $\max(\valDeStructNpMin,\ \valDeStructNpDim\times$ dimension$)$), then L-BFGS-B.
+\end{enumerate}
+
+\textbf{Convergence of the rounds.} Let $\boldsymbol\pi$ collect $\mu$, $\log\omega$, $\beta$, $\log\tau$, $\log\sigma$ and the structural working values, and $\Delta_k$ the change proposed by the M step of round $k$. The update is $\boldsymbol\pi_{k+1}=\boldsymbol\pi_k+\boldsymbol\lambda\odot\Delta_k$, clipped to the legal range of each component (the search boxes, the bounds of $\omega$, $\tau$ and $\sigma$, and for a covariate effect the value at which the effect across the observed covariate range spans the whole individual box):
+\begin{itemize}
+\item \emph{damping}: a component whose change flips sign relative to the previous round (and exceeds \valOutTolPar) has $\lambda_j$ halved (minimum \valOutDampMin);
+\item \emph{over-relaxation}: a component whose change exceeds \valOutRelaxMin{} and keeps its direction for \valOutRelaxAfter{} consecutive rounds has $\lambda_j$ multiplied by \valOutRelaxGrow{} per round, up to \valOutLamMax{} \citep{salakhutdinov2003}; the extrapolated part of a step is at most \valOutMaxExtra{} per component, and when $\sum_i\ell_i(\hat\psi_i)$ rose by more than \valOutResetRise{} over the last round, every $\lambda_j>1$ is set back to 1;
+\item otherwise $\lambda_j$ is doubled back towards 1.
+\end{itemize}
+The fit has converged when, on \valOutNok{} consecutive rounds, $\max_j|\Delta_{kj}|<\valOutTolPar$ and the relative change of $\sum_i\ell_i(\hat\psi_i)$ is below $\valOutTolObj$. Because the E step is a stochastic search, a fit also converges through an averaging phase: when no component shows a material (slope times window $>\valOutTolDrift$) and significant ($>2$ SE) trend over the last \valOutWindow{} rounds, the population is set to the window mean and then updated by stochastic approximation with step $1/n$ \citep{delyon1999}; it has converged when the mean changes by less than \valOutTolPar{} on \valOutNok{} consecutive rounds. A safety cap of \valOutMax{} rounds flags the fit as not converged. These rules are those of Aim4 v1.3, including its two revisions of 4 November 2026.
+
+\textbf{Marginal likelihood and BIC.} After convergence, one more E step is followed by two-stage adaptive importance sampling of each patient's marginal likelihood $L_i=\int_{\mathcal B_i}p(\mathbf y_i\mid\psi)\,P'(c_i\mid\psi)^w\,p(\psi)\,\dd\psi/P(\mathcal B_i)$: stage 1 with \valIsN{} draws from a multivariate $t$ (\valIsDf{} df) at $\hat\psi_i$ with covariance $\valIsScale\,H_i^{-1}$, stage 2 with \valIsNtwo{} draws from a $t$ with the weighted moments of stage 1, and deterministic-mixture weights. $\log L_i$ is the importance-sampling value when its effective sample size is at least \valIsEss, otherwise the Laplace value. Then $\mathrm{BIC}=-2\sum_i\log L_i+p\log N$ \citep{schwarz1978}, $N=35$, with $p$ counting $\mu$, $\omega$, $\beta$, $\tau$, $\sigma$ and the estimated structural parameters.
+
+\textbf{Computation.} Each E step runs as one Slurm array task per patient with \valEcores{} cores, the M step as one job with \valMcores{} cores, which submits the next round itself.
+
+\input{tables/tab_de.tex}
+
+\textbf{Model selection} (pre-registered, Section~\ref{sec:prereg}).
+\begin{itemize}
+\item Q2: the lowest BIC among M0, Ma, Mb, Mab and Mab$\times$; supported when the runner-up is at least 2 BIC units worse.
+\item Q1: within the selected Q2 model, the better of the two clone types (penalised as one extra parameter) is compared with the model without a clone; the clone layer is supported when the BIC decreases by at least 2.
+\item Route of $Z$: both routes, HSC only or MPP only, on the Q1-selected model, by lowest BIC; a route is supported when dropping it raises the BIC by at least 2.
+\item MF is compared on the ANC/PLT/AMC part of the marginal likelihood (both with the phenotype term).
+\item A fit that reaches the safety cap is reported as not converged and is not used for selection unless no converged alternative exists.
+\item The final model is the Q1- and route-selected model; it is used for attribution, forecasts and V1.
+\end{itemize}
+
+\subsection{Individual posteriors}
+Given the population parameters, each patient's posterior (restricted to the box, with the phenotype term) is sampled by adaptive Metropolis \citep{haario2001}: \valChains{} chains of \valIter{} iterations, burn-in \valBurn, thinning \valThin; proposal $N\bigl(0,(\valScale^2/K)(\Sigma+10^{-6}I)\bigr)$ with $\Sigma$ starting at the Laplace covariance and re-estimated during burn-in; chains are extended until $\max\hat R<\valRhatTol$ \citep{gelman1992}.
+
+% -----------------------------------------------------------------------------
+\section{Counterfactual attribution}
+For each of \valAttrib{} posterior draws per patient, the model is simulated under the following settings, and each daily trajectory (days 0--30) is classified by the phenotype rule: the actual parameters; $\theta_{aS}=0$ (no ``a''); $\theta_{bS}=0$ (no ferritin route); $\theta_{zS}=0$ (no CAR T--target route); $\theta_{bS}=\theta_{zS}=0$ (no ``b'' at HSC level); $\theta_{aS}=\theta_{bS}=\theta_{zS}=0$; no CAR T phase at all ($D\equiv0$ and no infusion, which also removes the suppression by $E(I)$ and $Z$), with and without $\theta_{aS}=0$; $f_0=0$ (no clone); $r_S=e^{\mu_{r_S}}$ (population reserve). A counterfactual \emph{improves} the outcome if it lowers the phenotype rank (quick $<$ second wave $<$ delayed $<$ persistent).
+
+\textbf{When (Q2).} The primary readout uses the HSC-level counterfactuals, with ``b'' comprising both routes: \emph{none} (quick); \emph{a} (only removing ``a'' improves); \emph{b} (only removing ``b'' improves); \emph{a+b joint} (each removal alone improves); \emph{a+b redundant} (only removing both improves); \emph{other} (no removal improves). A second readout uses the whole-CAR T-phase counterfactuals. Because a second wave in Model1 needs the CAR T phase (Section~\ref{sec:reachable}), the ``when'' readout of second-wave patients is constrained by the model structure; S4 measures this.
+
+\textbf{Route of ``b''.} For draws classified \emph{b} or \emph{a+b joint}: \emph{ferritin route} (only $\theta_{bS}=0$ improves), \emph{CAR T--target route} (only $\theta_{zS}=0$ improves), \emph{both}, or \emph{joint} (only removing both improves).
+
+\textbf{Who (Q1).} For non-quick patients: \emph{clone} (only $f_0=0$ improves), \emph{reserve} (only the population reserve improves), \emph{both}, or \emph{other}.
+
+\textbf{Continuous readouts.} The HSC loss attributable to each phase and route,
+\begin{equation}
+f_a = 1-\exp\Bigl(-\theta_{aS}\!\int C\,\dd t\Bigr),\qquad f_{b_I} = 1-\exp\Bigl(-\theta_{bS}\!\int_0 I\,\dd t\Bigr),\qquad f_{b_Z} = 1-\exp\Bigl(-\theta_{zS}\!\int_0 Z\,\dd t\Bigr),
+\end{equation}
+and the clone fraction on day 30.
+
+% -----------------------------------------------------------------------------
+\section{Landmark prediction}\label{sec:landmark}
+At landmarks $L\in\{\valLandmarks\}$ days, each patient is predicted from the data up to $L$, out of sample through the V1 folds (Section~\ref{sec:validation}): the population parameters are those of the refit of the final model without the patient's fold. The steps are:
+\begin{enumerate}
+\item The ferritin kernel population (log-normal $A_D$ and $t_p$, Eq.~\ref{eq:kernel}) is fitted to the drivers of the training patients by least squares on days 0--35.
+\item \valFKernel{} kernels are drawn conditional on the patient's ferritin up to $L$, by importance resampling with SD 0.3 on the log ferritin ratio.
+\item The individual mode is found from the counts up to $L$, \emph{without the phenotype term}, by L-BFGS-B within the box from the prior mean and four prior draws (not from the full-data mode), and the individual posterior is sampled by one adaptive Metropolis chain of 600 iterations (300 burn-in).
+\item For \valFDraws{} draws, the model is simulated with a drawn ferritin kernel after $L$; the CAR T module predicts its own course; G-CSF windows are used only up to $L$. The observed ANC up to $L$ is joined with the model ANC after $L$, and the joined series is classified.
+\end{enumerate}
+If the fold refits are missing, the full-data population is used and the predictions are flagged as approximate; such predictions are not reported as validation.
+
+\textbf{Metrics:} AUROC for non-quick recovery with a bootstrap 95\% CI, and the three-class Brier score, for all patients and for patients without G-CSF. Phenotype calibration, Brier score and AUROC are reported only from these out-of-sample predictions, because the full-data fit is fitted to the labels.
+
+\textbf{Comparators:} CAR-HEMATOTOX at lymphodepletion \citep{rejeski2021} (PLT $<75$: 2, 75--175: 1; ANC $<1.2$; Hb $<9$; CRP $\geq3$~mg/dL; ferritin $>2000$: 2, 650--2000: 1), and a ridge logistic regression on log ANC and log PLT at $L$ and their slopes over the preceding six days, trained on the other folds.
+
+\section{What-if interventions}
+Interventions are applied to each patient's posterior draws, with the intervention day noted: no bridging chemotherapy ($u_{\mathrm{br}}=0$, decided at day $-6$); 75\% lymphodepletion dose ($\lambda_{\mathrm{LD}}=0.75$, decided at day $-6$); anti-inflammatory treatment ($D\times0.5$ after day 7; acts on the ferritin route only); CD34$^+$ boost ($\Delta S=0.3$ on day 14); TPO receptor agonist ($u_{\mathrm{Pl}}=u_{\mathrm{T}}$ from day 14); G-CSF (window on days 14--21, on top of the imputed windows). G-CSF acts on neutrophil production and release only and does not repair the stem cell compartment.
+
+% -----------------------------------------------------------------------------
+\section{Validation}\label{sec:validation}
+All 35 patients enter the final model; no fixed hold-out set is used. Predictive performance on real patients is assessed by cross-validation (V1). What the real data cannot show, because the truth is unknown, is assessed on synthetic cohorts (S1--S5). Results of S1--S5 are reported as ``if the model (S4: the Aim4 model) is correct'' and kept apart from V1.
+
+\textbf{V1: five-fold cross-validation (real data).} The patients are split into \valVk{} folds of \valVper{} patients, stratified by the observed phenotype: within each class the patients are shuffled with a fixed seed (\valVseed) and dealt round-robin, continuing across classes (Table~\ref{tab:folds}). The assignment is part of the pre-registration. The final model is refitted on the 28 patients of each training set, warm-started from the full-data fit and without round 0. Each held-out patient is predicted with its fold's population (Section~\ref{sec:landmark}).
+
+\input{tables/tab_folds.tex}
+
+\textbf{Synthetic cohorts.} All synthetic cohorts use the designs of the 35 real patients: their sampling days (including the set-point rows), ferritin drivers, eGFR, bridging, LDH and covariates; their counts are not used. Individual parameters are drawn from the design population and kept inside the search box; true baselines deviate from the observed set points by the design drift; observations carry log-normal noise, censoring and transfusion exclusions; G-CSF is given by the course rule applied to the latent ANC, and the fit re-imputes the windows from the synthetic observations with the same function as for real data.
+\begin{itemize}
+\item \textbf{S1, recovery} (\valSone{} cohorts): generated with Model1, structure \texttt{\valSoneModel}, structural truth at the prior centres except \valSoneTruth. Reported: estimated versus true structural and individual parameters and baselines, the HSC losses $f_a$, $f_{b_I}$, $f_{b_Z}$, and the attribution classes.
+\item \textbf{S2, bias of the phenotype term}: the S1 cohorts refitted with $w=\valStwoW$ (warm start). Reported: the parameter differences between $w=\valPhW$ and $w=\valStwoW$ and the coverage of the 90\% posterior intervals of the individual parameters.
+\item \textbf{S3, prediction ceiling}: V1 (fold refits and landmark predictions) on the first \valSthree{} S1 cohorts: the predictive performance when the model is correct. The gap to V1 on the real data indicates missing structure.
+\item \textbf{S4, cost of the simplification} (\valSfour{} cohorts): generated with the frozen Aim4 v1.3 engine (lineage tree, structure \texttt{\valSfourModel}, Aim4 prior centres, $\theta_{aP}$ centre \valThapAimFour) and fitted with Model1. Reported: whether Model1 recovers the a/b and clone conclusions of the generating model. Because Aim4 can produce a second wave from chemotherapy alone and Model1 cannot (Section~\ref{sec:reachable}), S4 shows how often such patients are attributed to ``b''.
+\item \textbf{S5, visual predictive check}: \valSfive{} replicate cohorts simulated from the fitted population on the real designs, compared with the observed phenotype counts and the distributions of nadir day, recovery day and second-wave day.
+\end{itemize}
+
+\textbf{Sensitivity analyses} (final model): phenotype term with $s=\valPhSensS$ and with $w=\valPhSensW$ (warm-started refits); the five phenotype rule variants (observed label and model probability with the same variant); the Aim4 v1.2 handling of G-CSF rows (upper bounds) instead of the imputed windows; the subgroup without G-CSF.
+
+% -----------------------------------------------------------------------------
+\section{Numerical solution and software}
+The equations are integrated by an adaptive Dormand--Prince 5(4) Runge--Kutta method \citep{dormand1980}, with relative tolerance $\valRtol$, absolute tolerance $\valAtol$ and maximal step \valHmax{} d. Integration is piecewise between the breakpoints of the piecewise-constant inputs (lymphodepletion, bridging, the CAR T infusion on day 0, G-CSF and TPO-RA windows, CD34$^+$ boosts); events are applied at the start of their segment. A failed integration returns missing values and the objective $10^{10}$. The model is written in C++ (Rcpp), and the analysis in R \valRVersion{} (data.table, deSolve, glmnet, MASS, DEoptim \valDEoptim, parallel). All parameter values in this document are generated from the single configuration file by \texttt{Methods/make\_tables.R}.
+
+% -----------------------------------------------------------------------------
+\section{Verification and calibration}\label{sec:calibration}
+
+\subsection{Checks}
+The unit tests of step K1 (21 tests, all passed before the pre-registration) check:
+\begin{enumerate}
+\item the parameter vector matches the C++ layout, and $\sigma_P<k_P$ is enforced;
+\item without treatment the system stays at its steady state, also with a clone;
+\item with $f_0=0$ the clone models equal the models without a clone; Mab without HSC injury equals M0; Mab$\times$ with $\eta=0$ equals Mab;
+\item ANC, PLT and AMC are unchanged (to $10^{-7}$) when $c_L$ and $\theta_{aL}$ change, while ALC changes;
+\item the integrator agrees with deSolve (LSODA) to $10^{-4}$ for all four blood counts;
+\item \textbf{Friberg limit}: with $\sigma_P\to k_P$ the neutrophil lineage agrees with an independent deSolve implementation of a Friberg proliferating compartment with feedback $\min(G_{\max},B^{-\gamma})$ to $10^{-4}$;
+\item the steady state is stable for $\gamma$ up to its box limit at $\sigma_P$ not above its value (Table~\ref{tab:stability});
+\item the calibrated values in the configuration agree with the calibrations below within 2\%;
+\item reachable phenotypes: the CAR T phase can give a second wave (Mb, $A_D=2.5$, $\theta_{bS}=0.06$) and the same patient is quick with $E_{\max}=e_Z=0$; a chemotherapy hit alone gives no second wave over $\theta_{aS}\in\{0.4,\dots,2.5\}$, and the deepest hit gives delayed recovery;
+\item MF agrees with a deSolve implementation of the original Friberg model;
+\item the CAR T compartments stay empty without the infusion, and the typical design peaks on day \valCartPeakDay{} at \valCartPeak{} $\times10^9$/L;
+\item the CAR T--target signal acts on the marrow only through $\theta_{zS}$ and $e_Z$, and the route variants switch the right parameter off;
+\item G-CSF raises the ANC within a day and switches off completely;
+\item set-point rows enter only through the baseline prior, and the observed ALC is $b_{\mathrm{ALC}}B_L+C_T$;
+\item the phenotype probabilities sum to one, equal the rule on the model series as $s\to0$, and are continuous at the thresholds;
+\item the phenotype term enters the objective with weight $w$ and is absent at landmarks and for $w=0$;
+\item differential evolution with the chunked convergence rule finds the minimum of a quadratic and stops by itself;
+\item round 0 widens the prior, keeps the box, and initialises the population of round 1 by the M-step formulas; round 1 is seeded by the round-0 modes.
+\end{enumerate}
+A complete local run of the cycle (round 0, two rounds, final E step, assembly) on six patients with reduced controls, for MabC\_ddr and MF, and a warm-started fold refit, was run before the cluster fits.
+
+\subsection{Calibrations}
+Four values are calibrated in Model1; the CAR T constants keep their Aim4 v1.3 calibrations, which do not involve the haematopoietic layer (they are rechecked on the Model1 engine).
+\begin{enumerate}
+\item \textbf{MPP injury centre.} The prior centre of $\theta_{aP}$ (\valThapCentre; calibration \valThapCal) is set so that the typical patient's early ANC nadir (M0, no CAR T phase) equals that of the Aim4 v1.3 engine at its prior centre \valThapAimFour{} (relative nadir \valAncNadirAimFour; Table~\ref{tab:aim4}). The typical ANC recovery (relative count $\geq0.8$) is on day \valAncRecModel{} in Model1 and day \valAncRecAimFour{} in Aim4.
+\item \textbf{Lymphocytes.} $\theta_{aL}=\valThal$ and $c_L=\valCl$~d$^{-1}$ (calibration \valThalCal{} and \valClCal) make the typical model ALC on days $-2$ to 0 equal the observed median per-patient ratio to baseline, \valAlcTarget{} (35 patients), and the typical ALC on day 30 equal that of Aim4 v1.3 (\valAlcDayThirty).
+\item \textbf{Inflammation centre.} The prior centre $E_{\max}=\valEmax$ is the smallest value of the screen in Table~\ref{tab:screen} at which the CAR T phase alone (driver $A_D=2.5$, $\theta_{bS}=0.06$) gives a second wave. Its prior SD on the logit scale is \valEmaxSd.
+\item \textbf{CAR T kinetics} (unchanged): $k_A=\valKappa$ and the centre of $\rho_T$ (\valRhoCentre~d$^{-1}$) give a typical peak on day \valCartPeakDay{} at \valCartPeak{} $\times10^9$/L (Model1 engine: day \valCartPeakDayModel{} at \valCartPeakModel); $Z_{50}=\valZfifty$ is the typical peak of $Z$ (\valZfiftyModel); the centre of $\theta_{zS}$ (\valThzs; \valThzsModel) makes the typical HSC loss through $Z$ equal that through the ferritin route at the $\theta_{bS}$ centre, both \valRouteLoss\%.
+\end{enumerate}
+Table~\ref{tab:alc} compares the observed ALC with the calibrated typical patient.
+
+\input{tables/tab_aim4.tex}
+\input{tables/tab_alc.tex}
+\input{tables/tab_stability.tex}
+
+% -----------------------------------------------------------------------------
+\section{Pre-registration}\label{sec:prereg}
+The Model1 analysis plan was archived before any Model1 fit to real counts (4 November 2026, 14:58), with the SHA-256 of the model, likelihood, estimation, data-handling and synthetic-cohort code, of the frozen Aim4 engine and of the derived data tables; the cluster refuses to start a real-data fit unless the archive verifies. It fixes the phenotype rule and the phenotype term, the G-CSF imputation rule, the baseline model, round 0 and the estimation controls, the model set and waves, the selection rules of Section~\ref{sec:its}, the V1 folds, the synthetic designs S1--S5, the readouts and the tests:
+\begin{itemize}
+\item T1: second-wave nadir day versus ferritin-driver peak day (descriptive);
+\item T2: Q2 model comparison (primary);
+\item T3: Q1 model comparison (secondary);
+\item T4: landmark prediction out of sample through the V1 folds, versus CAR-HEMATOTOX and the counts-only logistic model (same folds);
+\item T5: dose--response of $\theta_{aS}$ (bridging) and $\theta_{bS}$ (ferritin AUC, CRS grade);
+\item T6: $f_0$ versus risk factors, from the clone model fitted without covariates on $f_0$ (descriptive);
+\item T7: multi-lineage hit time;
+\item T8: Spearman correlation of the model's CAR T peak with the measured peak expansion (16 patients; external check).
+\end{itemize}
+Looked at before this pre-registration: all Aim4 real-data results (v1.2 complete; v1.3 fits in progress), which motivated Model1; the Model1 K1 results (prior-centre simulations, calibrations to Aim4 v1.3 and to the median observed ALC at lymphodepletion); and the phenotype mix of two synthetic test cohorts. Not looked at: any Model1 fit to real counts.
+
+\subsection{Deviations}\label{sec:deviations}
+Two changes to the confirmed plan were made in K1, before any fit, and are recorded in the pre-registration:
+\begin{enumerate}
+\item \textbf{No count feedback on the lymphoid MPP component.} The plan applied the same feedback to all four components. With it, lymphodepletion kept $B_L$ low for weeks, $P_L$ expanded several-fold, and the typical ALC overshot to about 1.3 times baseline by day 30 (Aim4: 0.85). Without the feedback, $\theta_{aL}$ and $c_L$ match both calibration targets exactly. No parameter is added or removed.
+\item \textbf{Upper limit of the $\gamma$ search box.} The default box (prior centre $\pm4$ SD) reached $\gamma\approx3.7$, beyond the Hopf bifurcation at $\gamma=\valHopf$. The box is limited to $[\valGammaLo,\valGammaHi]$.
+\end{enumerate}
+Later changes are logged with their effect.
+
+\bibliographystyle{plainnat}
+\bibliography{methods}
+\end{document}

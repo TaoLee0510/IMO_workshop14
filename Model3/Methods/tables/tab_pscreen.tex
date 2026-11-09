@@ -1,0 +1,27 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Screen of platelet terms (pre-registration, 5 November 2026; \texttt{P\_screen.csv}), with the Model3 neutrophil chain. The individual modes of the converged Model2 Mb fit are held; $\mathrm{MTT}_{\mathrm{N}}$, $\kappa_c$, the $\theta_{aP}$ factor, $\mathrm{MTT}_{\mathrm{Pl}}$ (floor 0.3~d) and the screened parameters are re-optimised. $\Delta p$: added parameters; $\Delta$nll: change of the negative log-likelihood relative to the reference of the same screen; PLT: its platelet part. In every variant $\mathrm{MTT}_{\mathrm{Pl}}$ stayed at 0.3~d. $^{\ast}$: included in Model3.}
+\label{tab:pscreen}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{4.4cm}rrr}
+\toprule
+Screen & Variant & Re-optimised values & $\Delta p$ & $\Delta$nll & $\Delta$nll (PLT) \\
+\midrule
+P1 / P2 & reference (Model2 platelet lineage) & $\theta_{cP}$ 0, $d_{Z\mathrm{Pl}}$ 0 & 0 & 0 & 0 \\
+ & P1: consumption $\theta_{cP}D\,B_{\mathrm{Pl}}$ & $\theta_{cP}$ $9.83\times10^{-7}$, $d_{Z\mathrm{Pl}}$ 0 & 1 & 0 & $+0.1$ \\
+ & P2: offset $d_{Z\mathrm{Pl}}$$^{\ast}$ & $\theta_{cP}$ 0, $d_{Z\mathrm{Pl}}$ 7.54 & 1 & $-5.9$ & $-6.3$ \\
+ & P1 + P2 & $\theta_{cP}$ $8.57\times10^{-6}$, $d_{Z\mathrm{Pl}}$ 5.01 & 2 & $-5.8$ & $-6.5$ \\
+\midrule
+Chemotherapy-timed & reference (Model2 platelet lineage) & $\theta$ 0, $k_{T3}$ 0 & 0 & 0 & 0 \\
+ & loss of blood platelets $\theta C\,B_{\mathrm{Pl}}$ & $\theta$ $2.05\times10^{-5}$, $k_{T3}$ 0 & 1 & 0 & 0 \\
+ & kill of $T_{\mathrm{Pl}3}$ (factor $k_{T3}$) & $\theta$ 0, $k_{T3}$ 0 & 1 & 0 & $-0.1$ \\
+ & both & $\theta$ $1.29\times10^{-5}$, $k_{T3}$ 3 & 2 & $+4.2$ & $+3.2$ \\
+\midrule
+Platelet feedback & reference (Model2 platelet lineage) & $d_{Z\mathrm{Pl}}$ 0 & 0 & 0 & 0 \\
+ & own exponent and cap of the platelet feedback & $\gamma_{\mathrm{Pl}}$ 0.19, $G_{\max,\mathrm{Pl}}$ 16.1, $d_{Z\mathrm{Pl}}$ 0 & 2 & $-6.5$ & $-9.3$ \\
+ & P2: offset $d_{Z\mathrm{Pl}}$$^{\ast}$ & $d_{Z\mathrm{Pl}}$ 6.24 & 1 & $-5.9$ & $-6.1$ \\
+ & platelet feedback + P2 & $\gamma_{\mathrm{Pl}}$ 0.21, $G_{\max,\mathrm{Pl}}$ 5.54, $d_{Z\mathrm{Pl}}$ 2.32 & 3 & $-9.1$ & $-11.1$ \\
+\bottomrule
+\end{tabular}
+\end{table}

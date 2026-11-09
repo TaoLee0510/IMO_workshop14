@@ -1,0 +1,73 @@
+\documentclass[11pt]{article}
+\usepackage[margin=.72in]{geometry}
+\usepackage[T1]{fontenc}\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,booktabs,longtable,graphicx,xcolor}
+\usepackage[hidelinks]{hyperref}\usepackage{fancyhdr}
+\pagestyle{fancy}\fancyhf{}\lhead{Patient-specific Moran analysis}\rhead{Frozen joint fit}\cfoot{\thepage}
+\setlength{\headheight}{14pt}\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{2em}
+\title{Patient-specific clonal trajectories, VAF diagnostics\\and tMN predictions after CAR-T}
+\author{Four-year fixed-area Gamma Moran model}\date{5 November 2026}
+\begin{document}\maketitle
+\section{Scope and frozen fit}
+This analysis uses the latest joint fit without changing its parameters:
+\[
+\widehat\alpha=15.8479717593,\qquad \widehat\theta=1\ {\rm day}.
+\]
+The confirmed search bounds were $\alpha\in[2,50]$ and $\theta\in[1,1460]$ days.
+The cohort comprises 14 patients and 42 follow-up VAF observations, two exact tMN events, one four-year censor record and 11 unknown clinical outcomes.
+Each patient has one baseline-selected founder marker. Patients 25 and 103 have no follow-up VAF.
+
+Use the normalized Gamma density
+\[
+g(t;\alpha,\theta)=
+\frac{t^{\alpha-1}e^{-t/\theta}}{\Gamma(\alpha)\theta^\alpha},
+\qquad \int_0^\infty g(t;\alpha,\theta)\,dt=1.
+\]
+The peak height changes with shape and scale. Relative fitnesses are all 1 before day 0. After CAR infusion the numerical fitness convention remains $f_C=1+g(t)$ and $f_D=f_C+s_D$, with $f_W=1$. The existing code's legacy amplitude key is numerically 1; this analysis consistently labels the Gamma density's integral as the dimensionless value 1.
+
+\begin{center}\begin{tabular}{lll}\toprule
+Parameter & Definition & Frozen value\\\midrule
+$N$ & Competing population & 100000 cells\\
+$b$ & Moran turnover scale & $1/28$ per day\\
+$s_D$ & Extra post-CAR double-hit fitness & 0.02\\
+$\mu$ & C-to-D probability per C division & $10^{-6}$\\
+$D_{\rm init}$ & D count at measured baseline & 0\\
+$\sigma_{\rm VAF}$ & SD on logit($2VAF$) scale & 0.25\\
+$K$ & Strict aggregate tMN threshold & 1001 D cells\\\bottomrule
+\end{tabular}\end{center}
+
+\section{Patient-specific initialization and simulation}
+At each patient's own measured baseline,
+\[
+C_i=\operatorname{round}(2N\,VAF_{i,0}),\quad D_i=0,\quad W_i=N-C_i-D_i.
+\]
+Integer rounding is retained in the output table. The likelihood's deterministic C background retains the original continuous baseline fraction.
+For negative baseline days, simulate neutral W/C/D turnover and C-to-D mutation up to CAR day 0. Condition on being event-free at day 0. Continue with the time-dependent post-CAR fitness for 1460 days.
+
+Generate 200 independent full stochastic Moran paths per patient (2800 total). A native exact event algorithm skips type-preserving replacements and uses state-specific thinning after CAR; its bound tightens after the Gamma mode. Save daily W/C/D integer counts, per-replicate seeds and first-hit times. The pre-CAR interval uses homogeneous exact event sampling with all fitnesses equal to 1.
+All paths, including zeros and extinctions, enter arithmetic means. Curves continue after crossing the threshold. Postdiagnosis therapy and clinical changes are not modeled.
+
+\section{VAF and clinical prediction definitions}
+The founder marker is inherited by D, giving $VAF=(C+D)/(2N)$ under a representative diploid heterozygous-marker assumption.
+The fitted inference method uses the original deterministic $q=C/(N-D)$ background with a stochastic finite-N D chain. Sequential one-step predictions are recorded before the corresponding VAF update. Observation prediction intervals include the fixed logit-scale observation error and latent-state uncertainty, conditional on fixed fitted parameters.
+Predictions for known event patients end at diagnosis. No absent follow-up call is imputed as zero.
+
+Patient risk forecasts use the same baseline initialization and forward model:
+\[
+F_i(t)=P(T_*\le t\mid {\rm baseline}_i,\ T_*>0\ {\rm at\ CAR},\widehat\alpha,\widehat\theta,\psi).
+\]
+Follow-up VAF and eventual outcome are not used to set the individual baseline-initialized risk curve.
+Calculate first passage at a prespecified grid containing days 365, 730, 1095, 1460 and the observed event days 127 and 589. Apply invertible exponential tilting to resolve rare probabilities. Check one-year probabilities for every patient at a tighter numerical tolerance. Unknown outcomes remain unknown.
+
+\section{Diagnostics and presentation}
+The requested figures are: observed versus predicted VAF, predictive quantile residuals and Q-Q diagnostics, patient-level likelihood contributions, an alpha--theta likelihood surface and nuisance-optimized profiles, individual VAF fits, blue C/red D trajectories, patient tMN curves, the normalized Gamma density and fitness functions, and a one-year tMN probability heatmap.
+Heatmap rows are ordered by initial founder fraction, with actual probability annotations and logarithmic color. Exact simulations check process behavior but cannot resolve extremely rare events from only 200 paths.
+
+The cohort is selected and clinical information is incomplete. The marker may not be the causal tMN founder. A 1\% aggregate double-hit threshold is a model endpoint; its connection to clinical diagnosis and competing mortality is not calibrated. The baseline near 49\% VAF is retained under the same marker-to-clone mapping and is visible in the diagnostics.
+
+\section{Reproducibility and execution}
+Code is written first, followed by this English TeX protocol, then computation and figure generation. The input fit, cohort and inference source are frozen by SHA256. Results include independent seeds, initial states, raw trajectories, conditional risk tables, observation diagnostics and source metadata.
+The report and workbook separate model predictions from original observations. Numerical checks cover population conservation, clinical inclusion, saved-likelihood reconciliation, probability monotonicity, risk precision, the normalized density integral and neutral pre-CAR behavior.
+\IfFileExists{results_pages.tex}{\input{results_pages.tex}}{\textit{Protocol prepared before numerical execution. Executed figures and results will be appended.}}
+\end{document}

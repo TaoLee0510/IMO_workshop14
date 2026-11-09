@@ -1,0 +1,64 @@
+{
+  "study_id": "moran_tmn_gamma_4y",
+  "authorization": "User requested the proposed protocol as TeX/PDF and instructed implementation to begin on 2026-11-05.",
+  "parameter_status": "Proposed reference assumptions adopted for initial implementation; not empirically established biological values.",
+  "genes": ["DNMT3A", "PPM1D", "TP53", "TET2", "CBL", "ASXL1"],
+  "horizon_days": 1460,
+  "risk_days": [365, 730, 1095, 1460],
+  "reference": {
+    "N": 100000,
+    "b": 0.14285714285714285,
+    "amplitude": 0.1,
+    "gamma_normalization": "peak",
+    "mu": 0.000001,
+    "r_D": 0.003,
+    "D_init": 0,
+    "threshold_fraction": 0.01,
+    "sigma_vaf": 0.25,
+    "diagnosis_delay_days": 0
+  },
+  "fitness": {
+    "before_day_zero": "f_W=f_M=f_D=1; neutral turnover and mutation retained",
+    "after_day_zero": "f_W=1; f_M=1+amplitude*gamma_pdf(t)/gamma_pdf(mode); f_D=f_M+r_D/b",
+    "alpha_definition": "dimensionless gamma shape, greater than 1",
+    "theta_definition": "gamma scale in days, greater than 0",
+    "sharing": "one cohort-wide alpha/theta pair",
+    "fit_bounds": {"alpha": [1.01, 50], "theta": [0.25, 1460]}
+  },
+  "observation": {
+    "primary_sample_types": ["PBL", "PBMC"],
+    "do_not_pool_sample_types": true,
+    "index_marker": "largest positive baseline VAF at or before day 0 within one sample type; ties resolved by gene and variant, without using future expansion or outcome",
+    "baseline_conditioning": "condition on the measured initial positive VAF; baseline measurement uncertainty is not propagated in the initial implementation",
+    "mapping": "VAF=(M+D)/(2N), diploid heterozygous representative blood-cell sample",
+    "measurement": "normal logit(2*VAF), fixed sigma_vaf; no invented read counts",
+    "zeros": "excluded and flagged until a detection model is available; fitted data are positive-detection conditional",
+    "other_values": "VAF >= 50 percent excluded from this observation mapping",
+    "clinical_label": "one outcome per patient; missing outcome remains missing"
+  },
+  "clinical_data_gate": {
+    "require_reconciled_index_infusion": true,
+    "require_verified_event_or_event_free_censor_date": true,
+    "do_not_use_last_vaf_day_as_censor": true,
+    "do_not_infer_negative_from_absent_tmn_record": true,
+    "not_population_incidence_without_ascertainment_and_death_handling": true
+  },
+  "one_at_a_time": {
+    "N": [10000, 100000, 1000000],
+    "b": [0.03333333333333333, 0.14285714285714285, 1.0],
+    "amplitude": [0.03, 0.1, 0.3],
+    "mu": [0, 1e-7, 1e-6, 1e-5, 0.0001],
+    "r_D": [0, 0.001, 0.003, 0.01],
+    "D_init": [0, 1, 10, 100],
+    "threshold_fraction": [0.005, 0.01, 0.02],
+    "sigma_vaf": [0.1, 0.25, 0.5]
+  },
+  "implementation": {
+    "joint_engine": "hybrid deterministic M/(N-D) background and stochastic D forward filter; VAF weights and clinical event act on the same D distribution",
+    "unknown_clinical_outcome": "use unrestricted D=0..N, not a killed distribution that implicitly declares no event",
+    "exact_event": "killed D=0..K-1 chain with boundary flux at diagnosis time",
+    "interval_event": "survival difference after the last VAF observation; post-event observations require a different model",
+    "clinical_full_fit": "run only after source reconciliation; initial VAF-only fit is explicitly diagnostic",
+    "preliminary_vaf_fit": "coupled mean-field approximation including mu and D_init; not the clinical joint likelihood"
+  }
+}

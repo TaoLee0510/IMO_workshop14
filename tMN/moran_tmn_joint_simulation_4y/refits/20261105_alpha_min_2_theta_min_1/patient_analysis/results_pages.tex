@@ -1,0 +1,121 @@
+\clearpage\section{Executed diagnostics}
+
+The frozen joint NLL is 511.718830, comprising VAF NLL 293.660937 and clinical-given-VAF NLL 218.057893. The observed one-step VAF RMSE is 4.859 percentage points. The empirical coverage of the 95\% observation prediction intervals is 52.4\% across 42 observations. These are training-cohort diagnostics at fixed fitted parameters, not held-out validation.
+
+\begin{center}\includegraphics[width=.98\linewidth]{figures/fit_diagnostics.pdf}\end{center}
+
+Quantile residuals use stable log-CDF/log-survival inversion of the predictive mixture, preserving extreme normal scores without probability clipping. Raw PIT values, stable log tails and approximate standardized residuals are retained.
+
+\clearpage\subsection{Residuals by patient}\begin{center}\includegraphics[width=\linewidth]{figures/residuals_by_patient.pdf}\end{center}
+
+\clearpage\subsection{Likelihood support}
+
+\begin{center}\includegraphics[width=.91\linewidth]{figures/likelihood_surface.pdf}\\[8pt]\includegraphics[width=.98\linewidth]{figures/likelihood_profiles.pdf}\end{center}
+
+The profile searches optimize the other parameter within the confirmed bounds and evaluate explicit boundary/anchor candidates. A boundary-limited or flat curve does not establish a finite confidence interval.
+
+\clearpage\section{Gamma pulse and fitness functions}
+
+\begin{center}\includegraphics[width=\linewidth]{figures/gamma_and_fitness.pdf}\end{center}
+
+The normalized density has shape 15.847972, scale 1 day and mode 14.847972 days. Its integral on zero to infinity is 1. Peak height is derived.
+
+\clearpage\section{Patient one-year tMN probability}
+
+\begin{center}\includegraphics[width=\linewidth,height=.77\textheight,keepaspectratio]{figures/one_year_tMN_heatmap.pdf}\end{center}
+
+Rows are ordered by baseline founder fraction. The heatmap uses a logarithmic color scale and annotates actual probabilities. Each forecast conditions on the patient's baseline state and event-free CAR day 0; subsequent VAF and eventual clinical outcome are not used to set that patient's risk.
+
+\clearpage\subsection{Year 1--4 probability table}
+
+\begin{center}\small\begin{tabular}{lrrrrr}\toprule Patient & Baseline VAF (\%) & Year 1 & Year 2 & Year 3 & Year 4\\\midrule
+
+Patient\_25 & 1.774 & $6.291\times10^{-32}$ & $1.336\times10^{-16}$ & $2.500\times10^{-11}$ & $1.087\times10^{-8}$\\
+
+Patient\_44 & 1.848 & $1.677\times10^{-31}$ & $1.786\times10^{-16}$ & $2.913\times10^{-11}$ & $1.206\times10^{-8}$\\
+
+Patient\_102 & 2.131 & $7.565\times10^{-32}$ & $1.609\times10^{-16}$ & $3.011\times10^{-11}$ & $1.309\times10^{-8}$\\
+
+Patient\_103 & 0.272 & $2.486\times10^{-31}$ & $4.878\times10^{-17}$ & $5.636\times10^{-12}$ & $2.061\times10^{-9}$\\
+
+Patient\_123 & 3.262 & $1.160\times10^{-31}$ & $2.478\times10^{-16}$ & $4.636\times10^{-11}$ & $2.014\times10^{-8}$\\
+
+Patient\_180 & 0.654 & $3.563\times10^{-31}$ & $1.020\times10^{-16}$ & $1.274\times10^{-11}$ & $4.792\times10^{-9}$\\
+
+Patient\_197 & 0.938 & $4.019\times10^{-32}$ & $7.395\times10^{-17}$ & $1.346\times10^{-11}$ & $5.798\times10^{-9}$\\
+
+Patient\_235 & 49.094 & $1.608\times10^{-30}$ & $4.569\times10^{-15}$ & $8.692\times10^{-10}$ & $3.717\times10^{-7}$\\
+
+Patient\_238 & 2.710 & $1.165\times10^{-31}$ & $2.157\times10^{-16}$ & $3.927\times10^{-11}$ & $1.689\times10^{-8}$\\
+
+Patient\_316 & 7.058 & $2.090\times10^{-31}$ & $5.210\times10^{-16}$ & $1.002\times10^{-10}$ & $4.386\times10^{-8}$\\
+
+Patient\_318 & 23.177 & $2.700\times10^{-31}$ & $1.456\times10^{-15}$ & $3.208\times10^{-10}$ & $1.463\times10^{-7}$\\
+
+Patient\_321 & 4.137 & $4.572\times10^{-32}$ & $2.330\times10^{-16}$ & $5.163\times10^{-11}$ & $2.380\times10^{-8}$\\
+
+Patient\_356 & 3.096 & $3.412\times10^{-32}$ & $1.733\times10^{-16}$ & $3.841\times10^{-11}$ & $1.772\times10^{-8}$\\
+
+Patient\_445 & 0.298 & $3.265\times10^{-33}$ & $1.644\times10^{-17}$ & $3.646\times10^{-12}$ & $1.684\times10^{-9}$\\
+
+\bottomrule\end{tabular}\end{center}
+
+Probabilities refer to first crossing of the aggregate double-hit threshold, not a clinically calibrated incidence model. With 200 simulations, an empirical event fraction has increments of 0.005. Rare risks therefore come from the shared-state forward model, with exact simulations used for checks.
+
+\clearpage\section{Patient overview figures}
+
+\begin{center}\includegraphics[width=.99\linewidth]{figures/overview_VAF.pdf}\end{center}
+
+VAF observation and sequential prediction
+
+\clearpage
+
+\begin{center}\includegraphics[width=.99\linewidth]{figures/overview_C.pdf}\end{center}
+
+Single-mutant C: 200 trajectories and their arithmetic mean
+
+\clearpage
+
+\begin{center}\includegraphics[width=.99\linewidth]{figures/overview_D.pdf}\end{center}
+
+Double-hit D: 200 trajectories and their arithmetic mean
+
+\clearpage
+
+\begin{center}\includegraphics[width=.99\linewidth]{figures/overview_tMN.pdf}\end{center}
+
+Baseline-initialized cumulative tMN probability on a log10 scale
+
+\clearpage
+
+\section{Individual patient dashboards}
+
+Black points are follow-up VAF observations; open diamonds are baseline values. Blue VAF bands are 95\% observation prediction intervals. The VAF curve is a sequential predictive mean and ends at diagnosis for known events. C and D panels show 200 independent full Moran paths (opacity 0.035) and their arithmetic mean, including zero/extinct paths. Trajectories continue as an idealized process after an observed diagnosis; postdiagnosis treatment is not modeled. Red dotted lines mark observed tMN and gray dotted lines mark censoring. Unknown outcomes are not negatives. The 14 individual VAF, trajectory and tMN figures are also supplied separately.
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_25_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_44_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_102_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_103_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_123_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_180_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_197_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_235_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_238_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_316_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_318_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_321_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_356_dashboard.pdf}\end{center}
+
+\clearpage\begin{center}\includegraphics[width=.97\linewidth,height=.90\textheight,keepaspectratio]{figures/patients/Patient_445_dashboard.pdf}\end{center}

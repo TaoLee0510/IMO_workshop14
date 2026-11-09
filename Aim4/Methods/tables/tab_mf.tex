@@ -1,0 +1,23 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Population parameters of the Friberg reference model MF (prior centres).}
+\label{tab:mf}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{6cm}lll}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role \\
+\midrule
+$\mathrm{MTT}^{\mathrm{MF}}_{\mathrm{N}}$ & \texttt{mtt\_n} & Neutrophil mean transit time ($=4/k_{\mathrm{tr}}$) & d & 5 & estimated \\
+$\mathrm{MTT}^{\mathrm{MF}}_{\mathrm{Pl}}$ & \texttt{mtt\_pl} & Platelet mean transit time & d & 6 & estimated \\
+$\mathrm{MTT}^{\mathrm{MF}}_{\mathrm{Mo}}$ & \texttt{mtt\_mo} & Monocyte mean transit time & d & 3.5 & estimated \\
+$\gamma^{\mathrm{MF}}$ & \texttt{gam\_mf} & Feedback exponent (all lineages) & -- & 0.2 & estimated \\
+$\rho_{\mathrm{Pl}}$ & \texttt{slope\_pl} & Drug effect on platelets relative to neutrophils & -- & 1 & estimated \\
+$\rho_{\mathrm{Mo}}$ & \texttt{slope\_mo} & Drug effect on monocytes relative to neutrophils & -- & 1 & estimated \\
+$k_e$ & \texttt{k\_e} & Exposure elimination (as parent model) & d$^{-1}$ & 0.8 & fixed \\
+$\beta$ & \texttt{beta\_renal} & Renal scaling exponent (as parent model) & -- & 0.7 & fixed \\
+$u_{\mathrm{br,RGO}}$ & \texttt{u\_br\_rgo} & R-GemOx bridging exposure rate & d$^{-1}$ & 0.05 & estimated \\
+$u_{\mathrm{br,Cy}}$ & \texttt{u\_br\_cy} & Other bridging exposure rate & d$^{-1}$ & 0.01 & fixed \\
+\bottomrule
+\end{tabular}
+\end{table}

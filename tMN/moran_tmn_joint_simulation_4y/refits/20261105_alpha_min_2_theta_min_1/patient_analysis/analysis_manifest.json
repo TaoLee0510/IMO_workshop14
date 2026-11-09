@@ -1,0 +1,13 @@
+{
+  "fit_source": "/Users/4482173/Documents/Projects/IMO_workshop_14/tMN/moran_tmn_joint_simulation_4y/refits/20261105_alpha_min_2_theta_min_1/results/fits/reference.json",
+  "fit_sha256": "ac48f12e7a10d70c68dcc1f04fe8356610cd1e0c4c357cc5894a6f20edf4ffc4",
+  "cohort_sha256": "e1487f2bd9b43ec142d280b58c08b60d660b508f685ad3bb847e49e5a3cfb87d",
+  "model_sha256": "04795238ce5c00a58237b1ef480700a079bb46bb2d300d1f7791c7bcfaa2db13",
+  "replicates_per_patient": 200,
+  "horizon_days": 1460,
+  "master_seed": 2026110507,
+  "workers": 3,
+  "gamma_density_integral": 1,
+  "initial_status": "code_and_protocol_preparation",
+  "purpose": "Frozen inputs and sampling settings; final execution status is recorded in results/completion.json."
+}

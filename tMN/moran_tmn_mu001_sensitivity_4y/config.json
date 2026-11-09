@@ -1,0 +1,117 @@
+{
+  "study": "Joint refit and 79 fixed-parameter sensitivity scenarios, reference mu=0.01",
+  "confirmed_on": "2026-11-05",
+  "gamma_convention": "Normalized Gamma PDF: integral on [0,infinity) = 1 for every alpha/theta; multiplier=1; peak is derived",
+  "reference": {
+    "N": 100000,
+    "b": 0.03571428571428571,
+    "s_D": 0.02,
+    "mu": 0.01,
+    "area_days": 1.0,
+    "D_init": 0,
+    "threshold_fraction": 0.01,
+    "sigma_vaf": 0.25
+  },
+  "old_rates_comparator": {
+    "b": 0.14285714285714285,
+    "s_D": 0.021
+  },
+  "fit_bounds": {
+    "alpha": [
+      2.0,
+      50.0
+    ],
+    "theta_days": [
+      1.0,
+      1460.0
+    ]
+  },
+  "simulation": {
+    "alpha": [
+      2.0,
+      4.0,
+      8.0
+    ],
+    "theta_days": [
+      2.0,
+      7.0,
+      21.0
+    ],
+    "replicates": 200,
+    "initial_C_fraction": 0.02,
+    "initial_D_fractions": [
+      0.01,
+      0.0
+    ],
+    "horizon_days": 1460,
+    "save_every_days": 1,
+    "master_seed": 2026110501,
+    "workers": 3,
+    "trajectory_opacity": 0.035
+  },
+  "sensitivity": {
+    "mu": [
+      0.0,
+      1e-06,
+      1e-05,
+      0.0001,
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ],
+    "D_init": [
+      0,
+      1,
+      3,
+      10,
+      30,
+      100,
+      300,
+      500
+    ],
+    "b": [
+      0.0035714285714285713,
+      0.011904761904761904,
+      0.03571428571428571,
+      0.14285714285714285
+    ],
+    "s_D": [
+      0.0,
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ]
+  },
+  "clinical": {
+    "source_assumptions_confirmed": true,
+    "Patient_103": {
+      "kind": "exact",
+      "day": 127,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 33
+    },
+    "Patient_197": {
+      "kind": "exact",
+      "day": 589,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 37
+    },
+    "Patient_25": {
+      "kind": "censor",
+      "day": 1460,
+      "first_event_record_day": 1561,
+      "source_sheet": "MOESM7:Auto_CAR_tMN",
+      "source_excel_row": 31
+    }
+  },
+  "interpretation": [
+    "mu is effective C-to-D probability per C division, before and after CAR.",
+    "D_init is measured-baseline D count, subtracted from 2*N*baseline_VAF to preserve total founder burden.",
+    "No pre-CAR fitness advantage.",
+    "Unknown clinical outcomes are not negatives.",
+    "Inference is the original deterministic-q/stochastic-D hybrid, with adaptive state caps and numerical validation."
+  ]
+}

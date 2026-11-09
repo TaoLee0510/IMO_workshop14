@@ -1,0 +1,12 @@
+{
+  "updated_at": "2026-11-05T15:28:39.892226-05:00",
+  "run": "20261105_alpha_min_2_theta_min_1",
+  "scope": "reference joint refit",
+  "reference_fit": "20261105_alpha_min_2_theta_min_1/results/fits/reference.json",
+  "configuration": "20261105_alpha_min_2_theta_min_1/config.json",
+  "alpha": 15.847971759301144,
+  "theta_days": 1.0,
+  "joint_nll": 511.718829859915,
+  "patient_analysis_completed_at": "2026-11-05T16:12:00.378438-05:00",
+  "patient_analysis_report": "20261105_alpha_min_2_theta_min_1/patient_analysis/output/pdf/Patient_specific_Moran_analysis.pdf"
+}

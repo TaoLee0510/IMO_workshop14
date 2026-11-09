@@ -1,0 +1,13 @@
+{
+  "fit_tables_passed": true,
+  "reference_groups": 108,
+  "fitted_groups": 83,
+  "fitted_unique_patients": 57,
+  "eligible_variants": 110,
+  "contrasts": 15,
+  "all_scenario_rows": 1616,
+  "risk_tables_checked": true,
+  "patient_risk_rows": 26560,
+  "standardized_risk_rows": 1440,
+  "patient_risk_scenarios": 6640
+}

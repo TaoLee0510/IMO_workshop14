@@ -1,0 +1,25 @@
+\begin{table}[!htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\caption{Screen of the neutrophil chain (pre-registration, 5 November 2026; \texttt{N\_screen.csv}): 12 variants with $n_{\mathrm{N}}$ compartments, the first $k_{\mathrm{N}}$ killed by chemotherapy. The individual modes of the converged Model2 Mb fit are held; $\mathrm{MTT}_{\mathrm{N}}$, $\kappa_c$ and a common factor on $\theta_{aP}$ are re-optimised (Nelder--Mead). $\Delta$nll: change of the negative log-likelihood (counts and phenotype term, 35 patients) relative to the Model2 chain (3, 2); ANC: its ANC part. Nadir: model ANC nadir relative to baseline (median over patients) and its day (observed: 0.06 on day 7). In the screen G-CSF accelerated only the last compartment. Bold: the Model3 choice.}
+\label{tab:nscreen}
+\begin{tabular}{rrrrrrrrr}
+\toprule
+$n_{\mathrm{N}}$ & $k_{\mathrm{N}}$ & $\Delta$nll & $\Delta$nll (ANC) & $\mathrm{MTT}_{\mathrm{N}}$ (d) & $\kappa_c$ & $\theta_{aP}$ factor & Nadir & Nadir day \\
+\midrule
+3 & 1 & $+95.0$ & $+85.4$ & 6.15 & 0.56 & 1.09 & 0.43 & 5 \\
+3 & 2 & 0 & 0 & 9.2 & 0.58 & 1 & 0.28 & 5 \\
+4 & 2 & $-23.8$ & $-26.4$ & 7.75 & 0.68 & 1 & 0.28 & 6 \\
+5 & 1 & $+53.6$ & $+40.3$ & 5.72 & 0.53 & 1.12 & 0.34 & 5 \\
+5 & 2 & $-29.5$ & $-35.2$ & 6.98 & 0.65 & 1.03 & 0.26 & 6 \\
+5 & 3 & $-74.6$ & $-72.9$ & 8.62 & 0.58 & 0.99 & 0.18 & 6 \\
+5 & 4 & $+18.1$ & $+2.5$ & 10.6 & 0.35 & 1.03 & 0.13 & 6 \\
+6 & 4 & $-68.5$ & $-68.6$ & 9.36 & 0.54 & 0.94 & 0.13 & 6 \\
+\textbf{7} & \textbf{4} & $-95.0$ & $-93.0$ & 8.47 & 0.55 & 0.98 & 0.13 & 6 \\
+7 & 5 & $-26.6$ & $-36.2$ & 9.71 & 0.4 & 1 & 0.11 & 6 \\
+8 & 5 & $-72.7$ & $-76.6$ & 8.77 & 0.44 & 1 & 0.11 & 6 \\
+8 & 6 & $+24.2$ & $-9.2$ & 9.42 & 0.27 & 1.09 & 0.12 & 6 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,21 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural parameters of the maturation chains and blood, including the two chemotherapy kill terms of Model2. $\mathrm{MTT}_\ell$ is converted to $\kappa_\ell = 3/\mathrm{MTT}_\ell$. Values are prior centres for estimated parameters.}
+\label{tab:struct_chains}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.4cm}}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role & Source \\
+\midrule
+$\mathrm{MTT}_{\mathrm{N}}$ & \texttt{mtt\_n} & Neutrophil maturation transit time (3 compartments) & d & 5 & estimated & 5--7 d \\
+$\mathrm{MTT}_{\mathrm{Mo}}$ & \texttt{mtt\_mo} & Monocyte maturation transit time & d & 1.5 & estimated & 1--2 d \\
+$\mathrm{MTT}_{\mathrm{Pl}}$ & \texttt{mtt\_pl} & Megakaryocyte maturation time (endomitosis) & d & 5 & estimated & assumption \\
+$c_{\mathrm{N}}$ & \texttt{c\_n} & Neutrophil blood turnover & d$^{-1}$ & 2.3 & fixed & \citet{dancey1976} \\
+$c_{\mathrm{Mo}}$ & \texttt{c\_mo} & Monocyte blood turnover & d$^{-1}$ & 0.5 & fixed & Aim4 \\
+$c_{\mathrm{Pl}}$ & \texttt{c\_pl} & Platelet blood turnover & d$^{-1}$ & 0.12 & fixed & \citet{harker1969} \\
+$\kappa_c$ & \texttt{kappa\_c} & Chemotherapy kill of the proliferating chain precursors ($T_{\ell1}$, $T_{\ell2}$) relative to the patient's MPP kill rate $\theta_{aP}$ & -- & 1 & estimated & prior centre: as sensitive as the MPP \\
+$\theta_{aM}$ & \texttt{th\_am} & Chemotherapy kill of circulating monocytes per unit exposure & d$^{-1}$ & 0.384 & estimated & calibrated (K1): real AMC days $-1$..0 \\
+\bottomrule
+\end{tabular}
+\end{table}

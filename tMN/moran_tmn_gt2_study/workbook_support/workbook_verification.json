@@ -1,0 +1,149 @@
+{
+  "passed": true,
+  "sheet_row_counts": {
+    "Summary": 6,
+    "Patient Gene Fits": 108,
+    "Gene Contrasts": 15,
+    "Sensitivity Summary": 90,
+    "Sensitivity Fits": 1616,
+    "Patient Risk Scenarios": 26560,
+    "Standardized Risk": 1440,
+    "Variant Predictions": 110,
+    "Gene Eligibility": 12,
+    "Endpoints": 171,
+    "Outcome Evidence": 69,
+    "Model Settings": 35
+  },
+  "numeric_cells_checked": 567344,
+  "other_cells_checked": 328915,
+  "max_absolute_numeric_difference": 0,
+  "max_relative_numeric_difference": 0,
+  "differences": [],
+  "difference_count": 0,
+  "summary_formulas_verified": [
+    171,
+    108,
+    83,
+    110,
+    28,
+    31
+  ],
+  "tables_with_autofilters": 12,
+  "frozen_panes": [
+    {
+      "sheet": "Summary",
+      "pane": null
+    },
+    {
+      "sheet": "Patient Gene Fits",
+      "pane": {
+        "xSplit": "2",
+        "ySplit": "1",
+        "topLeftCell": "C2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Gene Contrasts",
+      "pane": {
+        "xSplit": "1",
+        "ySplit": "1",
+        "topLeftCell": "B2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Sensitivity Summary",
+      "pane": {
+        "xSplit": "2",
+        "ySplit": "1",
+        "topLeftCell": "C2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Sensitivity Fits",
+      "pane": {
+        "xSplit": "2",
+        "ySplit": "1",
+        "topLeftCell": "C2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Patient Risk Scenarios",
+      "pane": {
+        "xSplit": "2",
+        "ySplit": "1",
+        "topLeftCell": "C2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Standardized Risk",
+      "pane": {
+        "xSplit": "1",
+        "ySplit": "1",
+        "topLeftCell": "B2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Variant Predictions",
+      "pane": {
+        "xSplit": "2",
+        "ySplit": "1",
+        "topLeftCell": "C2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Gene Eligibility",
+      "pane": {
+        "xSplit": "1",
+        "ySplit": "1",
+        "topLeftCell": "B2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Endpoints",
+      "pane": {
+        "xSplit": "2",
+        "ySplit": "1",
+        "topLeftCell": "C2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Outcome Evidence",
+      "pane": {
+        "xSplit": "2",
+        "ySplit": "1",
+        "topLeftCell": "C2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    {
+      "sheet": "Model Settings",
+      "pane": {
+        "xSplit": "1",
+        "ySplit": "1",
+        "topLeftCell": "B2",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    }
+  ],
+  "NA_and_zero_preserved": true
+}

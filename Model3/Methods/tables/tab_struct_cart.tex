@@ -1,0 +1,23 @@
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Structural parameters of the CAR T--target interaction module (Aim4 v1.3) and the platelet offset $d_{Z\mathrm{Pl}}$ of Model3 (P2, working scale: identity). Values are prior centres for estimated parameters; the antigen load is relative (median patient $A(0)=1$).}
+\label{tab:struct_cart}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.2cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.4cm}}
+\toprule
+Symbol & Code & Meaning & Unit & Value & Role & Source \\
+\midrule
+$C_{T,0}$ & \texttt{car\_t0} & CAR T cells in blood right after the infusion (day 0) & $10^9$/L & 0.001 & fixed & assumption ($\approx1$ cell/$\mu$L) \\
+$A_{50}$ & \texttt{k\_ag} & Antigen load giving half-maximal occupancy (expansion and killing; relative load) & -- & 0.1 & fixed & assumption \\
+$k_A$ & \texttt{kappa} & Killing of CD19$^+$ targets per CAR T cell & (10$^9$/L)$^{-1}$ d$^{-1}$ & 10.65 & fixed & calibrated (Aim4 K1): typical peak on day 8 \\
+$k_T$ & \texttt{k\_t} & Contraction rate of CAR T cells in blood & d$^{-1}$ & 0.2 & estimated & assumption (prior centre) \\
+$\beta_A$ & \texttt{beta\_a} & Initial antigen load per unit centred log LDH, $A_i(0)=e^{\beta_A\,\mathrm{ldh}_{c,i}}$ & -- & 1 & estimated & assumption (prior centre) \\
+$k_Z$ & \texttt{k\_z} & Rate of each stage of the two-stage lag of the interaction signal $Z$ & d$^{-1}$ & 0.5 & fixed & assumption \\
+$Z_{50}$ & \texttt{z50} & Signal $Z$ giving half-maximal suppression of MPP self-renewal & $10^9$/L & 0.014 & fixed & calibrated (Aim4 K1): typical peak of $Z$ \\
+$\theta_{zS}$ & \texttt{th\_zs} & HSC injury per unit signal $Z$ (CAR T--target route of ``b'') & (10$^9$/L)$^{-1}$ d$^{-1}$ & 2.64 & estimated (b models; not \_Zm) & centre calibrated (Aim4 K1) \\
+$e_Z$ & \texttt{e\_z} & Maximal suppression of MPP self-renewal by $Z$ (neutrophil, monocyte and lymphoid components) & -- & 0.5 & estimated (not \_Zh) & assumption (prior centre) \\
+$d_{Z\mathrm{Pl}}$ & \texttt{d\_zpl} & Logit offset of the maximal suppression of megakaryocyte MPP self-renewal by $Z$, $e_{Z,\mathrm{Pl}}=\mathrm{logit}^{-1}(\mathrm{logit}\,e_Z+d_{Z\mathrm{Pl}})$ (P2) & -- & 0 & estimated (not \_Zh) & prior centre: $e_{Z,\mathrm{Pl}}=e_Z$ \\
+\bottomrule
+\end{tabular}
+\end{table}
